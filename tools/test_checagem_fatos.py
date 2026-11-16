@@ -10,6 +10,7 @@ de verdade não entra no teste.
 from __future__ import annotations
 
 import importlib.util
+import json
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -131,3 +132,25 @@ def test_as_marcadas_saem_em_lista_para_julgar_o_falso_alarme_uma_a_uma():
     linhas = [revisao(700), revisao(701, "violated", turno="b"), revisao(700, "violated", turno="a")]
     m = cf.marcadas(linhas, conversas={700, 701})
     assert [(x["conversa"], x["turno"], x["afirmacoes"]) for x in m] == [(700, "a", 2), (701, "b", 2)]
+
+
+def test_a_bateria_conta_so_as_conversas_que_comecaram_dentro_da_janela_da_rodada(tmp_path):
+    # o e2e.py copia a pasta conversas/ inteira: cenário que não rodou (C22-1 sem
+    # --com-escrita, ou fora do --so) entra na cópia com o conversa_id de uma rodada antiga
+    (tmp_path / "janelas-b.txt").write_text(
+        "b rodada1 inicio 2026-11-16T05:00:00Z\n"
+        "b rodada1 fim 2026-11-16T06:00:00Z placar 1/1\n"
+        "b rodada2 inicio 2026-11-16T07:00:00Z\n"
+        "b rodada2 fim 2026-11-16T08:00:00Z placar 1/1\n")
+    pastas = {"rodada1": {"C01-1": (700, "2026-11-16T05:10:00+00:00"),
+                          "C22-1": (606, "2026-11-16T02:17:56+00:00")},  # de outra bateria
+              "rodada2": {"C01-1": (710, "2026-11-16T07:10:00+00:00"),
+                          "C02-1": (701, "2026-11-16T05:20:00+00:00")}}  # não rodou na 2
+    for rodada, conversas in pastas.items():
+        pasta = tmp_path / f"conversas-b-{rodada}"
+        pasta.mkdir()
+        for nome, (cid, inicio) in conversas.items():
+            (pasta / f"{nome}.json").write_text(json.dumps({"conversa_id": cid, "inicio": inicio}))
+    conversas, desde = cf.conversas_da_bateria("b", tmp_path)
+    assert conversas == {700, 710}
+    assert desde == "2026-11-16T05:00:00Z"

@@ -16,6 +16,7 @@ import json
 import sys
 import urllib.parse
 import urllib.request
+from datetime import datetime
 from pathlib import Path
 
 # As fontes que a issue pede: preço, exame, agenda e protocolo, mais a base de conhecimento.
@@ -173,16 +174,25 @@ def aplicar(env: dict) -> int:
     return 0 if ok else 1
 
 
-def conversas_da_bateria(bateria: str) -> tuple[set[int], str]:
-    """Os ids no Chatwoot das conversas gravadas pela bancada e o início da bateria."""
+def conversas_da_bateria(bateria: str, resultados: Path = RESULTADOS) -> tuple[set[int], str]:
+    """Os ids no Chatwoot das conversas que rodaram na bateria e o início dela.
+
+    O e2e.py copia a pasta conversas/ inteira para cada rodada, com os cenários que não
+    rodaram (fora do --so, ou de escrita sem --com-escrita) guardando o conversa_id de uma
+    rodada antiga. Só conta a conversa que começou depois do início da sua rodada.
+    """
+    inicio_da_rodada = {}  # rodada repetida: a cópia é da última, então vale o último início
+    for l in (resultados / f"janelas-{bateria}.txt").read_text().splitlines():
+        if l.split()[2:3] == ["inicio"]:
+            inicio_da_rodada[l.split()[1]] = l.split()[3]
     conversas = set()
-    for arquivo in RESULTADOS.glob(f"conversas-{bateria}-rodada*/*.json"):
-        cid = json.loads(arquivo.read_text()).get("conversa_id")
-        if cid:
-            conversas.add(int(cid))
-    inicios = [l.split()[3] for l in (RESULTADOS / f"janelas-{bateria}.txt").read_text().splitlines()
-               if l.split()[2:3] == ["inicio"]]
-    return conversas, min(inicios)
+    for arquivo in resultados.glob(f"conversas-{bateria}-rodada*/*.json"):
+        rodada = arquivo.parent.name.removeprefix(f"conversas-{bateria}-")
+        d = json.loads(arquivo.read_text())
+        if (d.get("conversa_id") and d.get("inicio") and rodada in inicio_da_rodada
+                and datetime.fromisoformat(d["inicio"]) >= datetime.fromisoformat(inicio_da_rodada[rodada])):
+            conversas.add(int(d["conversa_id"]))
+    return conversas, min(inicio_da_rodada.values())
 
 
 def linhas_de_guardrail(env: dict, desde: str) -> list[dict]:
