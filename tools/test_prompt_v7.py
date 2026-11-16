@@ -222,3 +222,11 @@ def test_voltar_devolve_a_v71_que_estava_no_ar_antes_da_v72():
     # issue #19: a v7.2 subiu por cima da v7.1 (sha d76d3785c5d6); o `voltar` devolve ela
     assert sha(pp.EXPORT_PROMPT.read_text(encoding="utf-8")).startswith("d76d3785c5d6")
     assert pp.EXPORT_AGENTE.name == "export-ana-pre-prompt-v72.json"
+
+
+def test_horario_unico_tambem_vira_lista_e_espera_o_numero_do_paciente():
+    # bateria v72, rodada 3, C14-1: a GH devolveu um horário só e a Ana anotou a
+    # preferência por ele ("Anotei sua preferência para 26/11, às 9h15") sem perguntar
+    passo_3 = re.search(r"^- PASSO 3 → .*", V7, re.MULTILINE).group(0)
+    assert "Vieram horários, mesmo um só: a lista numerada e a pergunta" in passo_3
+    assert "nunca anotar a preferência sem o número do paciente" in passo_3
