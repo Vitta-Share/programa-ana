@@ -280,19 +280,24 @@ def l_especialidades(gh, ctx):
 def l_prestadores(gh, ctx):
     if not ctx.get("especialidades"):
         return bloqueado("sem especialidade publicada")
-    medicos, escolhida, ultimo = {}, None, None
+    medicos, escolhida, nomes, ms = {}, None, [], 0
     for esp in ctx["especialidades"][:10]:
         res = resumir(gh.chamar("GET", "/prestadores", {"idItemAgendamento": esp["id"], "size": 100}),
                       vazio="nenhum médico publicado")
         if res["estado"] in ("erro", "fora_do_ar"):
             return res
+        ms += res["tempo_ms"]
         medicos[esp["nome"]] = res["contagem"]
         if escolhida is None and res["contagem"]:
-            escolhida, ultimo = esp, res
-        ultimo = ultimo or res
-    ctx["medicos_por_especialidade"] = medicos
-    ctx["idItemAgendamento"] = (escolhida or ctx["especialidades"][0])["id"]
-    return {**ultimo, "por_especialidade": medicos}
+            escolhida, nomes = esp, res["nomes"]
+    # a cadeia segue pela primeira especialidade que tem medico publicado
+    escolhida = escolhida or ctx["especialidades"][0]
+    ctx.update(medicos_por_especialidade=medicos, idItemAgendamento=escolhida["id"],
+               especialidade_da_cadeia=escolhida["nome"])
+    total = sum(medicos.values())
+    return resultado("ok" if total else "vazio", 200, ms, total, nomes,
+                     None if total else "nenhum médico publicado", por_especialidade=medicos,
+                     especialidade_da_cadeia=escolhida["nome"])
 
 
 def escolher_convenio(convenios):
@@ -531,6 +536,7 @@ def cmd_rodada(quem):
             "especialidades_publicadas": contagem(resultados, "especialidades"),
             "exames_publicados": contagem(resultados, "exames"),
             "medicos_por_especialidade": ctx.get("medicos_por_especialidade", {}),
+            "especialidade_da_cadeia": ctx.get("especialidade_da_cadeia"),
             "convenios": contagem(resultados, "convenios"),
             "planos": contagem(resultados, "planos"),
             "horarios_14_dias": contagem(resultados, "horarios"),

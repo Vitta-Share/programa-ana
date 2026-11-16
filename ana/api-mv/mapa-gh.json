@@ -531,6 +531,7 @@
         "medicos_por_especialidade": {
           "Consulta Cardiologica": 4
         },
+        "especialidade_da_cadeia": "Consulta Cardiologica",
         "convenios": 33,
         "planos": 2,
         "horarios_14_dias": 3,
@@ -658,6 +659,7 @@
         "especialidades_publicadas": null,
         "exames_publicados": null,
         "medicos_por_especialidade": {},
+        "especialidade_da_cadeia": "Consulta Cardiologica",
         "convenios": null,
         "planos": null,
         "horarios_14_dias": null,
@@ -697,6 +699,7 @@
         "medicos_por_especialidade": {
           "Consulta Cardiologica": 4
         },
+        "especialidade_da_cadeia": "Consulta Cardiologica",
         "convenios": 25,
         "planos": null,
         "horarios_14_dias": 1,

@@ -43,10 +43,14 @@ CHAMADAS_DO_CONTRATO = {
 
 
 class GHFalsa:
-    """Global Health falsa: cada rota responde (status, corpo, demora em segundos)."""
+    """Global Health falsa: cada rota responde (status, corpo, demora em segundos).
+
+    `rotas_por_query` responde diferente por item de agendamento: (rota, idItemAgendamento).
+    """
 
     def __init__(self, rotas):
         self.rotas = dict(rotas)
+        self.rotas_por_query = {}
         self.pedidos = []
         gh = self
 
@@ -57,9 +61,11 @@ class GHFalsa:
             def _responder(self):
                 url = urllib.parse.urlparse(self.path)
                 caminho = url.path.removeprefix("/rest/whatsapp")
-                gh.pedidos.append((self.command, caminho, urllib.parse.parse_qs(url.query),
-                                   self.headers.get("Token")))
-                resposta = gh.rotas.get(f"{self.command} {caminho}", (404, {"erro": "rota"}, 0))
+                query = urllib.parse.parse_qs(url.query)
+                gh.pedidos.append((self.command, caminho, query, self.headers.get("Token")))
+                rota = f"{self.command} {caminho}"
+                item = (query.get("idItemAgendamento") or [None])[0]
+                resposta = gh.rotas_por_query.get((rota, item)) or gh.rotas.get(rota, (404, {"erro": "rota"}, 0))
                 status, corpo, demora = resposta
                 if demora:
                     time.sleep(demora)
@@ -291,8 +297,14 @@ def pedidos_de(gh, caminho):
 
 def test_rodada_monta_os_ids_ao_vivo_e_nao_de_memoria(gh, historico):
     rotas = gh.rotas
-    rotas["GET /consultas"] = (200, lista({"id": 2001, "nome": "Consulta Dermatologica", "bloqueado": False,
-                                           "ordem": 1}), 0)
+    # a primeira especialidade não tem médico publicado: a cadeia segue pela que tem
+    rotas["GET /consultas"] = (200, lista({"id": 1999, "nome": "Consulta Alergologista", "bloqueado": False,
+                                           "ordem": 1},
+                                          {"id": 2001, "nome": "Consulta Dermatologica", "bloqueado": False,
+                                           "ordem": 2}), 0)
+    prestadores = rotas.pop("GET /prestadores")
+    gh.rotas_por_query = {("GET /prestadores", "1999"): (200, lista(), 0),
+                          ("GET /prestadores", "2001"): prestadores}
     rotas["GET /convenios"] = (200, lista({"id": 8, "nome": "Unimed Do Brasil", "particular": False, "ordem": 1},
                                           {"id": 7, "nome": "Particular", "particular": True, "ordem": 2}), 0)
     rotas["GET /convenios/7/planos"] = (200, lista({"id": 9, "nome": "Particular Unico", "ordem": 1}), 0)
@@ -303,7 +315,7 @@ def test_rodada_monta_os_ids_ao_vivo_e_nao_de_memoria(gh, historico):
     r = rodar("rodada", base=gh.base, historico=historico)
     assert r.returncode == 0, r.stderr
 
-    assert pedidos_de(gh, "/prestadores")[0][2]["idItemAgendamento"] == ["2001"]
+    assert [p[2]["idItemAgendamento"] for p in pedidos_de(gh, "/prestadores")] == [["1999"], ["2001"]]
     agenda = pedidos_de(gh, "/agendas/v2")[0][2]
     assert (agenda["idItemAgendamento"], agenda["idConvenio"], agenda["idPlano"]) == (["2001"], ["7"], ["9"])
     assert pedidos_de(gh, "/consultas/tipos")[0][2]["idAgenda"] == ["55"]
@@ -323,6 +335,7 @@ def test_rodada_grava_uma_execucao_com_os_numeros_e_nao_escreve_nada(gh, histori
     assert n["especialidades_publicadas"] == 1
     assert n["exames_publicados"] == 0
     assert n["medicos_por_especialidade"] == {"Consulta Cardiologica": 4}
+    assert n["especialidade_da_cadeia"] == "Consulta Cardiologica"
     assert n["convenios"] == 2
     assert n["planos"] == 2
     assert n["horarios_14_dias"] == 1
