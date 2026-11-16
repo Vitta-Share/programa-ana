@@ -52,8 +52,10 @@ def mudou_desde_o_export(export: dict, atual: dict) -> list[str]:
     """Blocos de settings que outra sessão mudou desde o export, em ordem.
 
     Só as settings contam: o prompt publicado por outra sessão não é a mesma coisa.
+    A regra da própria ouvidoria também não conta, porque é este script que a
+    liga e desliga: sem isso o desligar nunca passaria depois do ligar.
     """
-    antes, agora = export["settings"], atual["settings"]
+    antes, agora = (corpo_desligar(a)["settings"] for a in (export, atual))
     return sorted(k for k in set(antes) | set(agora) if antes.get(k) != agora.get(k))
 
 

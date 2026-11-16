@@ -62,6 +62,18 @@ def test_regra_mexida_por_outra_sessao_desde_o_export_para_a_escrita():
     assert po.mudou_desde_o_export(export, publicado) == []
 
 
+def test_a_propria_trava_da_ouvidoria_nao_conta_como_mudanca_de_outra_sessao():
+    # depois do ligar, o desligar compara com o mesmo export: a regra da ouvidoria é deste script
+    export = agente()
+    ligado = agente(toolPreconditions={"registrar_ouvidoria": {"kind": "customer_choice"}})
+    assert po.mudou_desde_o_export(export, ligado) == []
+    outra = agente(toolPreconditions={
+        "registrar_ouvidoria": {"kind": "customer_choice"},
+        "handoff_to_human": {"kind": "customer_choice"},
+    })
+    assert po.mudou_desde_o_export(export, outra) == ["toolPreconditions"]
+
+
 def test_desligar_tira_so_a_trava_da_ouvidoria():
     outra = {"kind": "attribute", "scope": "contact", "key": "cpf"}
     ligado = agente(toolPreconditions={"buscar_paciente_por_cpf": outra, "registrar_ouvidoria": {"kind": "customer_choice"}})
