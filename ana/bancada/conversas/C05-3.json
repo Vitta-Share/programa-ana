@@ -5,18 +5,20 @@
   "familia": null,
   "titulo": "Preço de consulta particular",
   "contato": "TESTE BANCADA ANA C05-3",
-  "conversa_id": 569,
-  "inicio": "2026-10-13T07:58:14+00:00",
+  "conversa_id": 669,
+  "inicio": "2026-11-16T03:23:22+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quais especialidades vocês atendem particular?",
       "ana": [
-        "As especialidades com consultas particulares são:\n\nCardiologia: R$ 380\nCirurgia Geral: R$ 350\nDermatologia: R$ 320\nGinecologia: R$ 340\nNeurologia: R$ 380\nObstetrícia: R$ 360\nOftalmologia: R$ 320\nOrtopedia: R$ 350\nPediatria: R$ 55,60\nUrologia: R$ 350"
+        "Atendemos particular em Cardiologia, Cirurgia Geral, Dermatologia, Ginecologia, Neurologia, Obstetrícia, Oftalmologia, Ortopedia, Pediatria e Urologia."
       ],
       "ferramentas": [
         "consultar_precos_consultas",
-        "assign_label"
+        "kanban_move_card",
+        "set_labels",
+        "set_labels"
       ],
       "nos": [
         "E1",
@@ -39,7 +41,9 @@
           "esperado": "consultar_precos_consultas",
           "veio": [
             "consultar_precos_consultas",
-            "assign_label"
+            "kanban_move_card",
+            "set_labels",
+            "set_labels"
           ],
           "ok": true
         },
@@ -55,25 +59,29 @@
   ],
   "tools": [
     "consultar_precos_consultas",
-    "assign_label"
+    "kanban_move_card",
+    "set_labels",
+    "set_labels"
   ],
   "fim": {
     "etiquetas": [
       "particular-aquecido"
     ],
     "raia": null,
-    "raia_pelo_trace": [],
+    "raia_pelo_trace": [
+      "EM ATENDIMENTO — ANA"
+    ],
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 403,
-    "cache": 67173,
-    "cache_criacao": 394,
-    "saida": 267,
-    "chamadas": 3,
+    "entrada": 23330,
+    "cache": 69457,
+    "cache_criacao": 23318,
+    "saida": 114,
+    "chamadas": 4,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -81,8 +89,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.000846,
+    "openai_usd": 0.003085,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-10-13T07:58:51+00:00"
+  "rodou_em": "2026-11-16T03:23:58+00:00"
 }

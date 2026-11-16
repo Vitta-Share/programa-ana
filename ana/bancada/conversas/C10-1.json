@@ -5,18 +5,18 @@
   "familia": null,
   "titulo": "Item fora da tabela não vira negativa",
   "contato": "TESTE BANCADA ANA C10-1",
-  "conversa_id": 578,
-  "inicio": "2026-10-13T08:04:19+00:00",
+  "conversa_id": 678,
+  "inicio": "2026-11-16T03:29:53+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quanto custa a consulta de reumatologia?",
       "ana": [
-        "Não encontrei o valor da consulta de reumatologia na tabela oficial. Posso encaminhar sua solicitação para a equipe confirmar o valor e a disponibilidade. Quer que eu encaminhe?"
+        "Não encontrei o valor da consulta de reumatologia. Posso encaminhar sua solicitação à equipe para confirmar?"
       ],
       "ferramentas": [
         "consultar_precos_consultas",
-        "assign_label"
+        "kanban_move_card"
       ],
       "nos": [
         "E1",
@@ -60,7 +60,7 @@
           "esperado": "consultar_precos_consultas",
           "veio": [
             "consultar_precos_consultas",
-            "assign_label"
+            "kanban_move_card"
           ],
           "ok": true
         },
@@ -76,25 +76,25 @@
   ],
   "tools": [
     "consultar_precos_consultas",
-    "assign_label"
+    "kanban_move_card"
   ],
   "fim": {
-    "etiquetas": [
-      "em atendimento"
-    ],
+    "etiquetas": [],
     "raia": null,
-    "raia_pelo_trace": [],
+    "raia_pelo_trace": [
+      "EM ATENDIMENTO — ANA"
+    ],
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 199,
-    "cache": 67069,
-    "cache_criacao": 190,
-    "saida": 87,
-    "chamadas": 3,
+    "entrada": 23800,
+    "cache": 46107,
+    "cache_criacao": 23171,
+    "saida": 122,
+    "chamadas": 4,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -102,8 +102,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.000734,
+    "openai_usd": 0.002902,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-10-13T08:04:53+00:00"
+  "rodou_em": "2026-11-16T03:30:28+00:00"
 }

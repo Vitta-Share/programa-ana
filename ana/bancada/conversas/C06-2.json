@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Valor de exame particular",
   "contato": "TESTE BANCADA ANA C06-2",
-  "conversa_id": 571,
-  "inicio": "2026-10-13T07:59:31+00:00",
+  "conversa_id": 671,
+  "inicio": "2026-11-16T03:24:36+00:00",
   "turnos": [
     {
       "n": 1,
@@ -15,8 +15,7 @@
         "A ultrassonografia abdominal custa R$ 220. Quer agendar?"
       ],
       "ferramentas": [
-        "consultar_exames",
-        "resolve_conversation"
+        "consultar_exames"
       ],
       "nos": [
         "E1",
@@ -49,8 +48,7 @@
           "tipo": "ferramenta",
           "esperado": "consultar_exames",
           "veio": [
-            "consultar_exames",
-            "resolve_conversation"
+            "consultar_exames"
           ],
           "ok": true
         },
@@ -65,24 +63,23 @@
     }
   ],
   "tools": [
-    "consultar_exames",
-    "resolve_conversation"
+    "consultar_exames"
   ],
   "fim": {
     "etiquetas": [],
     "raia": null,
     "raia_pelo_trace": [],
-    "status": "resolved",
+    "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 78,
-    "cache": 67523,
-    "cache_criacao": 69,
-    "saida": 85,
-    "chamadas": 3,
+    "entrada": 23264,
+    "cache": 22985,
+    "cache_criacao": 23258,
+    "saida": 36,
+    "chamadas": 2,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -90,8 +87,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.000726,
+    "openai_usd": 0.002574,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-10-13T08:00:05+00:00"
+  "rodou_em": "2026-11-16T03:25:09+00:00"
 }

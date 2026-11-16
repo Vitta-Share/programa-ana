@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Encerramento",
   "contato": "TESTE BANCADA ANA C29-1",
-  "conversa_id": 593,
-  "inicio": "2026-10-13T18:44:33+00:00",
+  "conversa_id": 691,
+  "inicio": "2026-11-16T03:43:59+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "qual o endereço de vocês?",
       "ana": [
-        "🧪 Modo teste ativado para esta conversa."
+        "Estamos na Rua Silva Cardoso, 689, em Bangu, Rio de Janeiro."
       ],
       "ferramentas": [
         "search_knowledge"
@@ -32,10 +32,10 @@
     {
       "n": 2,
       "paciente": "obrigado, era só isso",
-      "ana": [
-        "Foi um prazer te atender! Qualquer dúvida, é só chamar."
+      "ana": [],
+      "ferramentas": [
+        "kanban_move_card"
       ],
-      "ferramentas": [],
       "nos": [
         "S6",
         "S7"
@@ -47,8 +47,8 @@
           "turno": 2,
           "tipo": "raia",
           "esperado": "ENCERRADO RESOLVIDO",
-          "veio": "Novo Contato",
-          "ok": false
+          "veio": "trace: kanban_move_card para ENCERRADO — RESOLVIDO",
+          "ok": true
         },
         {
           "turno": 2,
@@ -61,34 +61,35 @@
     }
   ],
   "tools": [
-    "search_knowledge"
+    "search_knowledge",
+    "kanban_move_card"
   ],
   "fim": {
     "etiquetas": [],
-    "raia": "Novo Contato",
-    "raia_pelo_trace": null,
-    "status": "pending",
+    "raia": null,
+    "raia_pelo_trace": [
+      "ENCERRADO — RESOLVIDO"
+    ],
+    "status": "resolved",
     "handoff": false
   },
-  "veredito": "falhou",
-  "falhas": [
-    "turno 2: FALHOU raia \"ENCERRADO RESOLVIDO\" (veio: \"Novo Contato\")"
-  ],
+  "veredito": "passou",
+  "falhas": [],
   "uso": {
-    "entrada": 23460,
-    "cache": 46075,
-    "cache_criacao": 23451,
-    "saida": 78,
-    "chamadas": 3,
+    "entrada": 24085,
+    "cache": 70977,
+    "cache_criacao": 24073,
+    "saida": 100,
+    "chamadas": 4,
     "modelos": [
       "gpt-6-luna"
     ]
   },
   "custo": {
     "modelo": "gpt-6-luna",
-    "mensagens_ana": 2,
-    "openai_usd": 0.002846,
-    "meta_brl": 0.07
+    "mensagens_ana": 1,
+    "openai_usd": 0.003168,
+    "meta_brl": 0.035
   },
-  "rodou_em": "2026-10-13T18:45:28+00:00"
+  "rodou_em": "2026-11-16T03:47:06+00:00"
 }

@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Cobertura de convênio por especialidade",
   "contato": "TESTE BANCADA ANA C09-1",
-  "conversa_id": 576,
-  "inicio": "2026-10-13T08:02:40+00:00",
+  "conversa_id": 676,
+  "inicio": "2026-11-16T03:27:47+00:00",
   "turnos": [
     {
       "n": 1,
@@ -16,11 +16,14 @@
       ],
       "ferramentas": [
         "kanban_move_card",
+        "set_custom_attribute",
         "consultar_especialidades_agenda",
         "consultar_convenios_agenda",
         "search_knowledge",
-        "assign_label",
-        "kanban_move_card"
+        "set_labels",
+        "set_labels",
+        "kanban_move_card",
+        "consultar_convenios_agenda"
       ],
       "nos": [
         "E1",
@@ -58,11 +61,14 @@
           "esperado": "consultar_especialidades_agenda",
           "veio": [
             "kanban_move_card",
+            "set_custom_attribute",
             "consultar_especialidades_agenda",
             "consultar_convenios_agenda",
             "search_knowledge",
-            "assign_label",
-            "kanban_move_card"
+            "set_labels",
+            "set_labels",
+            "kanban_move_card",
+            "consultar_convenios_agenda"
           ],
           "ok": true
         },
@@ -72,11 +78,14 @@
           "esperado": "consultar_convenios_agenda",
           "veio": [
             "kanban_move_card",
+            "set_custom_attribute",
             "consultar_especialidades_agenda",
             "consultar_convenios_agenda",
             "search_knowledge",
-            "assign_label",
-            "kanban_move_card"
+            "set_labels",
+            "set_labels",
+            "kanban_move_card",
+            "consultar_convenios_agenda"
           ],
           "ok": true
         },
@@ -101,11 +110,14 @@
   ],
   "tools": [
     "kanban_move_card",
+    "set_custom_attribute",
     "consultar_especialidades_agenda",
     "consultar_convenios_agenda",
     "search_knowledge",
-    "assign_label",
-    "kanban_move_card"
+    "set_labels",
+    "set_labels",
+    "kanban_move_card",
+    "consultar_convenios_agenda"
   ],
   "fim": {
     "etiquetas": [
@@ -121,11 +133,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 1380,
-    "cache": 159143,
-    "cache_criacao": 1359,
-    "saida": 229,
-    "chamadas": 7,
+    "entrada": 24356,
+    "cache": 164016,
+    "cache_criacao": 24332,
+    "saida": 250,
+    "chamadas": 8,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -133,8 +145,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.001844,
+    "openai_usd": 0.004201,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-10-13T08:03:35+00:00"
+  "rodou_em": "2026-11-16T03:29:09+00:00"
 }

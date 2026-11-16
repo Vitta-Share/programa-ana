@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Triagem de urgência",
   "contato": "TESTE BANCADA ANA C01-1",
-  "conversa_id": 563,
-  "inicio": "2026-10-13T07:54:19+00:00",
+  "conversa_id": 663,
+  "inicio": "2026-11-16T03:19:31+00:00",
   "turnos": [
     {
       "n": 1,
@@ -15,7 +15,8 @@
         "Pelo que você me contou, isso precisa de atendimento presencial imediato.\n\nProcure agora o Pronto-Socorro do Hospital São Matheus, que funciona 24 horas: Rua Silva Cardoso, 689, Bangu.\n\nSe não puder se deslocar, ligue 192 (SAMU) ou vá à emergência mais próxima."
       ],
       "ferramentas": [
-        "assign_label",
+        "set_labels",
+        "set_labels",
         "kanban_move_card",
         "handoff_to_human"
       ],
@@ -79,7 +80,8 @@
     }
   ],
   "tools": [
-    "assign_label",
+    "set_labels",
+    "set_labels",
     "kanban_move_card",
     "handoff_to_human"
   ],
@@ -97,10 +99,10 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 160,
-    "cache": 89510,
-    "cache_criacao": 148,
-    "saida": 165,
+    "entrada": 23257,
+    "cache": 69108,
+    "cache_criacao": 23245,
+    "saida": 168,
     "chamadas": 4,
     "modelos": [
       "gpt-6-luna"
@@ -109,8 +111,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.000994,
+    "openai_usd": 0.003101,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-10-13T07:54:56+00:00"
+  "rodou_em": "2026-11-16T03:20:09+00:00"
 }

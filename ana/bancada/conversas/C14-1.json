@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Oferecer horários reais para escolher",
   "contato": "TESTE BANCADA ANA C14-1",
-  "conversa_id": 582,
-  "inicio": "2026-10-13T08:08:20+00:00",
+  "conversa_id": 682,
+  "inicio": "2026-11-16T03:34:13+00:00",
   "turnos": [
     {
       "n": 1,
@@ -17,7 +17,8 @@
       "ferramentas": [
         "kanban_move_card",
         "consultar_precos_consultas",
-        "assign_label"
+        "set_labels",
+        "set_labels"
       ],
       "nos": [
         "E1",
@@ -43,8 +44,7 @@
         "Ótimo! Me passa seu nome completo e CPF, por favor? Assim já deixo tudo pronto para o agendamento."
       ],
       "ferramentas": [
-        "set_custom_attribute",
-        "set_custom_attribute"
+        "get_current_time"
       ],
       "nos": [
         "P7",
@@ -58,7 +58,7 @@
       "n": 3,
       "paciente": "meu nome é Teste Bancada Ana, CPF ***.***.***-**",
       "ana": [
-        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você."
+        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você.\n\nNossa equipe de atendimento funciona de segunda a sexta, das 7h às 18h.\n\nJá registrei sua solicitação aqui.\n\nNossa equipe retorna na segunda-feira às 7h da manhã e vai entrar em contato assim que o expediente iniciar."
       ],
       "ferramentas": [
         "set_custom_attribute",
@@ -66,9 +66,13 @@
         "buscar_paciente_por_cpf",
         "consultar_especialidades_agenda",
         "consultar_convenios_agenda",
-        "assign_label",
+        "set_labels",
+        "set_labels",
         "kanban_move_card",
-        "handoff_to_human"
+        "handoff_to_human",
+        "skip_reply",
+        "skip_reply",
+        "consultar_convenios_agenda"
       ],
       "nos": [
         "S1",
@@ -87,17 +91,21 @@
           "veio": [
             "kanban_move_card",
             "consultar_precos_consultas",
-            "assign_label",
-            "set_custom_attribute",
-            "set_custom_attribute",
+            "set_labels",
+            "set_labels",
+            "get_current_time",
             "set_custom_attribute",
             "set_custom_attribute",
             "buscar_paciente_por_cpf",
             "consultar_especialidades_agenda",
             "consultar_convenios_agenda",
-            "assign_label",
+            "set_labels",
+            "set_labels",
             "kanban_move_card",
-            "handoff_to_human"
+            "handoff_to_human",
+            "skip_reply",
+            "skip_reply",
+            "consultar_convenios_agenda"
           ],
           "ok": true
         },
@@ -105,7 +113,7 @@
           "turno": 3,
           "tipo": "repeticao de ferramenta",
           "esperado": "no maximo 2x por turno",
-          "veio": 1,
+          "veio": 2,
           "ok": true
         },
         {
@@ -121,17 +129,21 @@
   "tools": [
     "kanban_move_card",
     "consultar_precos_consultas",
-    "assign_label",
-    "set_custom_attribute",
-    "set_custom_attribute",
+    "set_labels",
+    "set_labels",
+    "get_current_time",
     "set_custom_attribute",
     "set_custom_attribute",
     "buscar_paciente_por_cpf",
     "consultar_especialidades_agenda",
     "consultar_convenios_agenda",
-    "assign_label",
+    "set_labels",
+    "set_labels",
     "kanban_move_card",
-    "handoff_to_human"
+    "handoff_to_human",
+    "skip_reply",
+    "skip_reply",
+    "consultar_convenios_agenda"
   ],
   "fim": {
     "etiquetas": [
@@ -149,11 +161,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 2004,
-    "cache": 364493,
-    "cache_criacao": 1700,
-    "saida": 524,
-    "chamadas": 17,
+    "entrada": 47722,
+    "cache": 330326,
+    "cache_criacao": 47626,
+    "saida": 614,
+    "chamadas": 16,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -161,8 +173,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 3,
-    "openai_usd": 0.004107,
+    "openai_usd": 0.008382,
     "meta_brl": 0.105
   },
-  "rodou_em": "2026-10-13T08:10:17+00:00"
+  "rodou_em": "2026-11-16T03:36:32+00:00"
 }

@@ -5,21 +5,23 @@
   "familia": null,
   "titulo": "Agendamento por convênio: orientar o portal",
   "contato": "TESTE BANCADA ANA C20-1",
-  "conversa_id": 586,
-  "inicio": "2026-10-13T08:16:06+00:00",
+  "conversa_id": 685,
+  "inicio": "2026-11-16T03:39:31+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "tenho Unimed e quero marcar pediatria",
       "ana": [
-        "Atendemos a Unimed aqui no hospital. Você já pode tentar agendar pediatria pelo nosso portal: hospitalsaomatheus.centraldemarcacao.com.br\n\nSe aparecer alguma questão de cobertura por lá, me avisa que a equipe te ajuda, combinado?"
+        "A Unimed é aceita no hospital, mas não consegui confirmar a cobertura da pediatria. Você pode tentar agendar pelo portal: hospitalsaomatheus.centraldemarcacao.com.br. Se surgir alguma dúvida de cobertura por lá, me avisa que a equipe te ajuda."
       ],
       "ferramentas": [
         "kanban_move_card",
+        "set_custom_attribute",
         "consultar_especialidades_agenda",
-        "kanban_move_card",
-        "assign_label",
-        "search_knowledge"
+        "search_knowledge",
+        "set_labels",
+        "set_labels",
+        "kanban_move_card"
       ],
       "nos": [
         "E1",
@@ -57,10 +59,12 @@
           "esperado": "consultar_especialidades_agenda",
           "veio": [
             "kanban_move_card",
+            "set_custom_attribute",
             "consultar_especialidades_agenda",
-            "kanban_move_card",
-            "assign_label",
-            "search_knowledge"
+            "search_knowledge",
+            "set_labels",
+            "set_labels",
+            "kanban_move_card"
           ],
           "ok": true
         },
@@ -70,10 +74,12 @@
           "esperado": "search_knowledge",
           "veio": [
             "kanban_move_card",
+            "set_custom_attribute",
             "consultar_especialidades_agenda",
-            "kanban_move_card",
-            "assign_label",
-            "search_knowledge"
+            "search_knowledge",
+            "set_labels",
+            "set_labels",
+            "kanban_move_card"
           ],
           "ok": true
         },
@@ -105,10 +111,12 @@
   ],
   "tools": [
     "kanban_move_card",
+    "set_custom_attribute",
     "consultar_especialidades_agenda",
-    "kanban_move_card",
-    "assign_label",
-    "search_knowledge"
+    "search_knowledge",
+    "set_labels",
+    "set_labels",
+    "kanban_move_card"
   ],
   "fim": {
     "etiquetas": [
@@ -124,11 +132,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 1285,
-    "cache": 89422,
-    "cache_criacao": 1273,
-    "saida": 210,
-    "chamadas": 4,
+    "entrada": 24363,
+    "cache": 140697,
+    "cache_criacao": 24342,
+    "saida": 289,
+    "chamadas": 7,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -136,8 +144,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.001128,
+    "openai_usd": 0.003988,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-10-13T08:16:43+00:00"
+  "rodou_em": "2026-11-16T03:40:14+00:00"
 }
