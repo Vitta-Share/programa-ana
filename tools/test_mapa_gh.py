@@ -355,6 +355,62 @@ def test_rodada_grava_uma_execucao_com_os_numeros_e_nao_escreve_nada(gh, histori
     assert all(m == "GET" or c == "/anexos/agendamento" for m, c, _, _ in gh.pedidos)
 
 
+def test_ultimo_horario_e_a_data_mais_distante_entre_todos_os_medicos(gh, historico):
+    # o /agendas/v2 separa por unidade e prestador: o último item não é a data mais distante
+    gh.rotas["GET /agendas/v2"] = (200, {"dataInicial": "2026-09-22", "dataFinal": "2026-10-05",
+                                         "diasPesquisados": 14, "agendas": [
+                                             {"idUnidade": 1, "nomeUnidade": "Hospital", "prestadores": [
+                                                 {"idPrestador": 140, "nomePrestadorRecurso": "Norvandia",
+                                                  "horarios": [{"idHorario": 1, "descricaoHorario": "24/Sep 08:00",
+                                                                "idAgenda": 10, "ordem": 1},
+                                                               {"idHorario": 2, "descricaoHorario": "29/Sep 08:00",
+                                                                "idAgenda": 10, "ordem": 2}]},
+                                                 {"idPrestador": 21, "nomePrestadorRecurso": "Amanda",
+                                                  "horarios": [{"idHorario": 3, "descricaoHorario": "25/Sep 10:00",
+                                                                "idAgenda": 11, "ordem": 1}]}]}]}, 0)
+    gh.rotas["GET /horarios/1/instrucoes"] = (200, {}, 0)
+
+    n = saida(rodar("rodada", base=gh.base, historico=historico))["execucao"]["numeros"]
+    assert n["horarios_14_dias"] == 3
+    assert n["ultimo_horario"] == "29/09"
+
+
+def test_ultimo_horario_atravessa_a_virada_do_ano(gh, historico):
+    gh.rotas["GET /agendas/v2"] = (200, {"dataInicial": "2026-12-28", "dataFinal": "2027-01-10",
+                                         "diasPesquisados": 14, "agendas": [
+                                             {"idUnidade": 1, "nomeUnidade": "Hospital", "prestadores": [
+                                                 {"idPrestador": 140, "nomePrestadorRecurso": "Norvandia",
+                                                  "horarios": [{"idHorario": 1, "descricaoHorario": "05/Jan 08:00",
+                                                                "idAgenda": 10, "ordem": 1}]},
+                                                 {"idPrestador": 21, "nomePrestadorRecurso": "Amanda",
+                                                  "horarios": [{"idHorario": 3, "descricaoHorario": "30/Dec 10:00",
+                                                                "idAgenda": 11, "ordem": 1}]}]}]}, 0)
+    gh.rotas["GET /horarios/1/instrucoes"] = (200, {}, 0)
+
+    n = saida(rodar("rodada", base=gh.base, historico=historico))["execucao"]["numeros"]
+    assert n["ultimo_horario"] == "05/01"
+
+
+def test_medicos_de_todas_as_especialidades_publicadas_sem_corte(gh, historico):
+    # 12 especialidades publicadas; só a 12ª tem médico
+    gh.rotas["GET /consultas"] = (200, lista(*[{"id": 3000 + k, "nome": f"Consulta {k:02d}", "bloqueado": False,
+                                                "ordem": k} for k in range(1, 13)]), 0)
+    prestadores = gh.rotas.pop("GET /prestadores")
+    gh.rotas_por_query = {("GET /prestadores", str(3000 + k)): (200, lista(), 0) for k in range(1, 12)}
+    gh.rotas_por_query[("GET /prestadores", "3012")] = prestadores
+
+    r = rodar("rodada", base=gh.base, historico=historico)
+    assert r.returncode == 0, r.stderr
+    execucao = saida(r)["execucao"]
+    n = execucao["numeros"]
+    assert len(pedidos_de(gh, "/prestadores")) == 12
+    assert len(n["medicos_por_especialidade"]) == 12
+    assert n["medicos_por_especialidade"]["Consulta 12"] == 4
+    assert execucao["resultados"]["prestadores"]["contagem"] == 4
+    assert n["especialidade_da_cadeia"] == "Consulta 12"
+    assert execucao["ids"]["idItemAgendamento"] == 3012
+
+
 def test_rodada_devolve_a_diferenca_contra_a_execucao_anterior(gh, historico):
     primeira = saida(rodar("rodada", base=gh.base, historico=historico))
     # contra a semente de 16/11: 25 convênios lá, 2 aqui; horário igual (1)

@@ -281,7 +281,7 @@ def l_prestadores(gh, ctx):
     if not ctx.get("especialidades"):
         return bloqueado("sem especialidade publicada")
     medicos, escolhida, nomes, ms = {}, None, [], 0
-    for esp in ctx["especialidades"][:10]:
+    for esp in ctx["especialidades"]:
         res = resumir(gh.chamar("GET", "/prestadores", {"idItemAgendamento": esp["id"], "size": 100}),
                       vazio="nenhum médico publicado")
         if res["estado"] in ("erro", "fora_do_ar"):
@@ -352,6 +352,23 @@ def horarios_da_agenda(corpo):
     return achados
 
 
+def ultimo_dia(corpo, achados):
+    """A data mais distante entre todos os horarios (a resposta vem por unidade e prestador, nao
+    por data). O ano sai do dataInicial: um dia/mes antes dele ja e do ano seguinte."""
+    inicio = re.match(r"\d{4}-(\d{2})-(\d{2})", (corpo or {}).get("dataInicial") or "")
+    comeco = (int(inicio.group(1)), int(inicio.group(2))) if inicio else (1, 1)
+    datas = []
+    for h in achados:
+        m = re.fullmatch(r"(\d{2})/(\d{2})", dia_mes(h.get("descricaoHorario")) or "")
+        if m:
+            mes_dia = (int(m.group(2)), int(m.group(1)))
+            datas.append((mes_dia < comeco, mes_dia))
+    if not datas:
+        return None
+    _, (mes, dia) = max(datas)
+    return f"{dia:02d}/{mes:02d}"
+
+
 def l_horarios(gh, ctx):
     if not ctx.get("idPlano"):
         return bloqueado("sem especialidade, convênio e plano montados ao vivo")
@@ -364,7 +381,7 @@ def l_horarios(gh, ctx):
     achados = horarios_da_agenda(resp[1]) if resp[0] == 200 else []
     if achados:
         ctx["idHorario"], ctx["idAgenda"] = achados[0]["idHorario"], achados[0]["idAgenda"]
-        ctx["ultimo_horario"] = dia_mes(achados[-1].get("descricaoHorario"))
+        ctx["ultimo_horario"] = ultimo_dia(resp[1], achados)
     return res
 
 
