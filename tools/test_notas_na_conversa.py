@@ -62,3 +62,19 @@ def test_dias_de_guarda_fora_da_janela_dos_logs_sao_recusados():
         except ValueError:
             continue
         raise AssertionError(f"{dias} dias deveria ser recusado")
+
+
+def test_sem_mudanca_desde_o_export_a_aplicacao_segue():
+    export = agente()
+    atual = copy.deepcopy(export)
+    atual["updatedAt"] = "2026-11-16T10:00:00.000Z"  # outra sessão publicou o prompt: não é a mesma coisa
+    atual["systemPrompt"] = "prompt novo"
+    assert nc.mudou_desde_o_export(export, atual) == []
+
+
+def test_outra_sessao_mexeu_nas_settings_desde_o_export_a_aplicacao_para():
+    export = agente()
+    atual = copy.deepcopy(export)
+    atual["settings"]["split"]["enabled"] = True
+    atual["settings"]["conversationNotes"] = {"toolsUsed": "activity"}
+    assert nc.mudou_desde_o_export(export, atual) == ["conversationNotes", "split"]

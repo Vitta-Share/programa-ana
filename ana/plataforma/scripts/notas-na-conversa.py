@@ -30,3 +30,12 @@ def corpo_da_escrita(agente: dict, dias: int) -> dict:
     settings["conversationNotes"] = dict(NOTAS)
     settings["observability"] = {**settings.get("observability", {}), "fullDetailRetentionDays": dias}
     return {"settings": settings, "expectedUpdatedAt": agente["updatedAt"]}
+
+
+def mudou_desde_o_export(export: dict, atual: dict) -> list[str]:
+    """Blocos de settings que outra sessão mudou desde o export, em ordem.
+
+    Só as settings contam: o prompt publicado por outra sessão não é a mesma coisa.
+    """
+    antes, agora = export["settings"], atual["settings"]
+    return sorted(k for k in set(antes) | set(agora) if antes.get(k) != agora.get(k))
