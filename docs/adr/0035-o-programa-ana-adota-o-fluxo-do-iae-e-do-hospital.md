@@ -2,6 +2,7 @@
 status: accepted
 date: 2026-10-15
 amends: 0030, 0031, 0034
+amended_by: 0036
 ---
 
 # O programa Ana adota o fluxo de trabalho do IAE e do Hospital

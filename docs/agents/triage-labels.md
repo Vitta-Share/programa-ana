@@ -73,6 +73,17 @@ Onde a mudança incide. Pode ter mais de uma. O "app" do fluxo é a pasta `ana/`
 | `area:app-hospital` | O app do hospital (repo Hospital) e a API que a Ana lê (`ana/api-hospital/`) |
 | `area:os` | Os JSON curados (`os/dados/`), o termômetro do `/check` (`os/roadmap_github.py`) e o Retrato (`retrato/`) |
 
+## Selo de comunicação
+
+Com quem o Pedro precisa falar para o card andar (ADR 0036). Vai só no Card de comunicação, um pedido por card. O estado continua no papel de triage: `ready-for-human` enquanto a mensagem não saiu, `needs-info` depois de enviada (espera resposta), fechado quando a resposta chega. Pedido sobre o MV vai como `com:ti-hospital`.
+
+| Label | Significado |
+| --- | --- |
+| `com:global-health` | Pedido à Global Health (API, Painel GH, homologação) |
+| `com:ti-hospital` | Pedido ao TI do hospital (MV, SoulMV de teste, base TST, VPN) |
+| `com:fazer-ai` | Pedido à fazer.ai (plataforma fazer.ai agents e Chatwoot Pro) |
+| `com:hospital` | Pedido à diretoria ou às secretárias do hospital |
+
 ## Wayfinding
 
 Usadas só pela skill `/wayfinder`, antes de existir PRD. Ticket wayfinder nunca recebe `ready-for-agent`. Protocolo em `docs/agents/issue-tracker.md`.
