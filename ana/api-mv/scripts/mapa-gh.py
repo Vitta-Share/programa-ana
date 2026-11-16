@@ -46,16 +46,19 @@ def emitir(dados, codigo=0):
     sys.exit(codigo)
 
 
+SEGREDOS = []  # nome e telefone da sonda, aprendidos na busca por CPF, mais o token
+
+
 def limpar(obj):
-    """Ultima trava: CPF, telefone e token nunca saem, nem dentro de mensagem de erro."""
+    """Ultima trava: CPF, nome de paciente, telefone e token nunca saem, nem em mensagem de erro."""
     if isinstance(obj, dict):
         return {k: limpar(v) for k, v in obj.items()}
     if isinstance(obj, list):
         return [limpar(v) for v in obj]
     if isinstance(obj, str):
-        tok = os.environ.get("GH_TOKEN_HOMOLOG")
-        if tok:
-            obj = obj.replace(tok, "***")
+        for segredo in [os.environ.get("GH_TOKEN_HOMOLOG"), *SEGREDOS]:
+            if segredo:
+                obj = re.sub(re.escape(segredo), "***", obj, flags=re.IGNORECASE)
         obj = re.sub(r"\d{3}\.\d{3}\.\d{3}-\d{2}", "***", obj)
         return re.sub(r"\d{10,}", "***", obj)
     return obj
@@ -239,11 +242,15 @@ def bloqueado(motivo):
 def l_pessoa_por_cpf(gh, ctx):
     status, corpo, ms = gh.chamar("GET", "/pessoas", {"cpf": CPF_SONDA})
     if status == 200 and isinstance(corpo, dict) and corpo.get("id"):
-        ctx["telefone"] = corpo.get("telefone")
+        ctx["sonda"], ctx["telefone"] = True, corpo.get("telefone")
+        SEGREDOS.extend(s for s in (corpo.get("nome"), corpo.get("telefone"), corpo.get("email")) if s)
         return resultado("ok", status, ms, 1, faltou=None, resumo="encontrado")
     if status == 200:
         return resultado("vazio", status, ms, 0, faltou="paciente-sonda não encontrado", resumo="não encontrado")
     return resumir((status, corpo, ms))
+
+
+SEM_SONDA = "sem o paciente-sonda identificado (a busca por CPF não achou)"
 
 
 def l_pessoa_por_telefone(gh, ctx):
@@ -258,6 +265,8 @@ def l_pessoa_por_telefone(gh, ctx):
 
 
 def l_carteiras(gh, ctx):
+    if not ctx.get("sonda"):
+        return bloqueado(SEM_SONDA)
     return resumir(gh.chamar("GET", "/carteiras", {"cpf": CPF_SONDA}),
                    nome=lambda i: i.get("nomeConvenio"), vazio="a sonda não tem carteira")
 
@@ -387,6 +396,8 @@ def l_exames(gh, ctx):
 def l_perguntas_exame(gh, ctx):
     if not ctx.get("exames"):
         return bloqueado("sem exame publicado")
+    if not ctx.get("sonda"):
+        return bloqueado(SEM_SONDA)
     return resumir(gh.chamar("GET", "/exames/perguntas",
                              {"idItemAgendamento": ctx["exames"][0]["id"], "cpf": CPF_SONDA}),
                    nome=lambda i: i.get("descricao"), vazio="nenhuma pergunta de triagem")
@@ -401,6 +412,8 @@ def l_instrucao_geral_exame(gh, ctx):
 
 
 def l_listar_agendamentos(gh, ctx):
+    if not ctx.get("sonda"):
+        return bloqueado(SEM_SONDA)
     resp = gh.chamar("GET", "/agendamentos", {"cpf": CPF_SONDA, "tipoAgendamento": "CONSULTA"})
     achados = itens(resp[1]) if resp[0] == 200 else []
     if achados:
@@ -419,7 +432,7 @@ def l_detalhe_agendamento(gh, ctx):
 LEITURAS = {
     "pessoa_por_cpf": (l_pessoa_por_cpf, []),
     "pessoa_por_telefone": (l_pessoa_por_telefone, ["pessoa_por_cpf"]),
-    "carteiras": (l_carteiras, []),
+    "carteiras": (l_carteiras, ["pessoa_por_cpf"]),
     "especialidades": (l_especialidades, []),
     "prestadores": (l_prestadores, ["especialidades"]),
     "convenios": (l_convenios, ["prestadores"]),
@@ -430,9 +443,9 @@ LEITURAS = {
     "instrucoes_horario": (l_instrucoes_horario, ["horarios"]),
     "anexos_exigidos": (l_anexos_exigidos, ["horarios"]),
     "exames": (l_exames, []),
-    "perguntas_exame": (l_perguntas_exame, ["exames"]),
+    "perguntas_exame": (l_perguntas_exame, ["pessoa_por_cpf", "exames"]),
     "instrucao_geral_exame": (l_instrucao_geral_exame, ["exames"]),
-    "listar_agendamentos": (l_listar_agendamentos, []),
+    "listar_agendamentos": (l_listar_agendamentos, ["pessoa_por_cpf"]),
     "detalhe_agendamento": (l_detalhe_agendamento, ["listar_agendamentos"]),
 }
 

@@ -360,3 +360,82 @@ def test_rodada_devolve_a_diferenca_contra_a_execucao_anterior(gh, historico):
     assert mapa["historico"][-1]["diferenca"]["numeros"]["horarios_14_dias"] == {"antes": 1, "depois": 0}
     horarios = next(c for c in capacidades(mapa) if c["id"] == "horarios")
     assert horarios["ultimo_estado"]["estado"] == "vazio" and horarios["ultimo_estado"]["cor"] == "amarelo"
+
+
+# Critério 4: Global Health parada
+
+
+def test_testar_com_a_global_health_demorando_devolve_fora_do_ar_dentro_do_tempo_limite(gh, historico):
+    gh.rotas["GET /consultas"] = (200, lista(), 4)
+    t0 = time.monotonic()
+    r = rodar("testar", "especialidades", base=gh.base, historico=historico, timeout=1)
+    assert time.monotonic() - t0 < 3.5
+    assert r.returncode == 0, r.stderr
+    res = saida(r)
+    assert res["estado"] == "fora_do_ar" and res["cor"] == "vermelho"
+    assert "fora do ar" in res["faltou"]
+
+
+def test_testar_com_a_global_health_desligada_devolve_fora_do_ar(historico):
+    falsa = GHFalsa({})
+    base = falsa.base
+    falsa.fechar()
+    res = saida(rodar("testar", "exames", base=base, historico=historico, timeout=1))
+    assert res["estado"] == "fora_do_ar"
+
+
+def test_rodada_com_tudo_travado_termina_no_prazo_e_registra_fora_do_ar(gh, historico):
+    gh.rotas = {k: (s, c, 4) for k, (s, c, _) in gh.rotas.items()}
+    t0 = time.monotonic()
+    r = rodar("rodada", base=gh.base, historico=historico, timeout=1, prazo=2)
+    assert time.monotonic() - t0 < 6
+    assert r.returncode == 0, r.stderr
+    execucao = saida(r)["execucao"]
+    assert "pessoa_por_cpf: fora do ar" in execucao["numeros"]["erros"]
+    assert "especialidades: fora do ar" in execucao["numeros"]["erros"]
+    assert execucao["resultados"]["exames"]["estado"] == "fora_do_ar"
+
+
+# Critério 6: produção recusada e varredura de dado sensível
+
+PRODUCAO = "https://whatsapp.agenda.globalhealth.mv/rest/whatsapp"
+
+
+@pytest.mark.parametrize("uso", [("testar", "especialidades"), ("rodada",)])
+def test_endereco_de_producao_e_recusado_sem_tocar_o_historico(uso, historico):
+    saida(rodar("mapa", historico=historico))
+    antes = historico.read_text()
+    r = rodar(*uso, base=PRODUCAO, historico=historico)
+    assert r.returncode == 2
+    assert "produção" in saida(r)["erro"]
+    assert historico.read_text() == antes
+
+
+def test_endereco_fora_da_homologacao_tambem_e_recusado(historico):
+    r = rodar("testar", "especialidades", base="https://outro.exemplo.com/rest/whatsapp", historico=historico)
+    assert r.returncode == 2 and "recusado" in saida(r)["erro"]
+
+
+def varrer(texto):
+    """Reprova CPF (cru ou formatado), nome e telefone da sonda e o token."""
+    achados = [s for s in (CPF_SONDA, NOME_SONDA, TELEFONE_SONDA, TOKEN_FALSO) if s in texto]
+    achados += re.findall(r"\b\d{11}\b|\d{3}\.\d{3}\.\d{3}-\d{2}", texto)
+    return achados
+
+
+def test_varredura_reprova_cpf_nome_de_paciente_e_token_na_saida(gh, historico):
+    vazamento = f"Paciente {NOME_SONDA}, CPF {CPF_SONDA} (663.011.027-70), token {TOKEN_FALSO}"
+    gh.rotas["GET /carteiras"] = (417, {"mensagens": [{"tipo": "ERROR", "texto": vazamento}]}, 0)
+    gh.rotas["GET /agendamentos"] = (200, lista({"id": 11191, "especialidadeExame": "CARDIOLOGIA",
+                                                 "nomePaciente": NOME_SONDA, "cpf": CPF_SONDA}), 0)
+    gh.rotas["GET /agendamentos/11191"] = (500, {"mensagemErro": f"falhou para {NOME_SONDA}"}, 0)
+
+    saidas = [rodar("testar", c, base=gh.base, historico=historico).stdout
+              for c in ("pessoa_por_cpf", "pessoa_por_telefone", "carteiras", "detalhe_agendamento")]
+    saidas.append(rodar("rodada", base=gh.base, historico=historico).stdout)
+    saidas.append(rodar("mapa", historico=historico).stdout)
+    saidas.append(historico.read_text())
+
+    assert "CARDIOLOGIA" in saidas[4]  # a varredura olha uma saída que tem conteúdo
+    for texto in saidas:
+        assert texto and not varrer(texto), varrer(texto)
