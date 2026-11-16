@@ -1,0 +1,789 @@
+{
+  "fonte": "Contrato doc_whatsapp_agendamento_1.10.pdf, cadeias-gh.md e as ferramentas da Ana no export da plataforma. Curado à mão (issue #77).",
+  "versao_contrato": "1.10",
+  "caminhos": [
+    {
+      "id": "paciente",
+      "nome": "Paciente"
+    },
+    {
+      "id": "consulta",
+      "nome": "Consulta"
+    },
+    {
+      "id": "exame",
+      "nome": "Exame"
+    },
+    {
+      "id": "gestao",
+      "nome": "Gestão"
+    }
+  ],
+  "capacidades": [
+    {
+      "id": "pessoa_por_cpf",
+      "caminho": "paciente",
+      "ordem": 1,
+      "chamada": "GET /pessoas",
+      "tipo": "leitura",
+      "promessa": "Diz se a pessoa já tem cadastro, procurando pelo CPF.",
+      "ferramenta_ana": "buscar_paciente_por_cpf",
+      "ligada": true,
+      "chamada_pelo_prompt": true,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 1",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=1"
+        }
+      ],
+      "card": null,
+      "nota": "Na rodada roda com o paciente-sonda; a saída diz só encontrado ou não encontrado."
+    },
+    {
+      "id": "pessoa_por_telefone",
+      "caminho": "paciente",
+      "ordem": 2,
+      "chamada": "GET /pessoas",
+      "tipo": "leitura",
+      "promessa": "Diz se a pessoa já tem cadastro, procurando pelo telefone.",
+      "ferramenta_ana": "buscar_paciente_por_telefone",
+      "ligada": true,
+      "chamada_pelo_prompt": true,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 1",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=1"
+        }
+      ],
+      "card": null,
+      "nota": "O telefone vem da busca por CPF da mesma rodada e nunca sai na resposta."
+    },
+    {
+      "id": "cadastrar_paciente",
+      "caminho": "paciente",
+      "ordem": 3,
+      "chamada": "POST /pessoas",
+      "tipo": "escrita",
+      "promessa": "Cadastra ou atualiza os dados de uma pessoa.",
+      "ferramenta_ana": "cadastrar_paciente",
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 1",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=1"
+        }
+      ],
+      "card": "#28",
+      "nota": "Ferramenta fora do grant da Ana desde o ADR-0014."
+    },
+    {
+      "id": "carteiras",
+      "caminho": "paciente",
+      "ordem": 4,
+      "chamada": "GET /carteiras",
+      "tipo": "leitura",
+      "promessa": "Lista as carteiras de convênio que a pessoa tem cadastradas.",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 4",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=4"
+        }
+      ],
+      "card": "#11",
+      "nota": null
+    },
+    {
+      "id": "cadastrar_carteira",
+      "caminho": "paciente",
+      "ordem": 5,
+      "chamada": "POST /carteiras",
+      "tipo": "escrita",
+      "promessa": "Cadastra ou atualiza uma carteira de convênio.",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 5",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=5"
+        }
+      ],
+      "card": "#11",
+      "nota": null
+    },
+    {
+      "id": "excluir_carteira",
+      "caminho": "paciente",
+      "ordem": 6,
+      "chamada": "DELETE /carteiras/{id}",
+      "tipo": "escrita",
+      "promessa": "Exclui uma carteira de convênio.",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 5",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=5"
+        }
+      ],
+      "card": "#11",
+      "nota": null
+    },
+    {
+      "id": "especialidades",
+      "caminho": "consulta",
+      "ordem": 1,
+      "chamada": "GET /consultas",
+      "tipo": "leitura",
+      "promessa": "Lista as consultas publicadas, pesquisando pelo texto digitado.",
+      "ferramenta_ana": "consultar_especialidades_agenda",
+      "ligada": true,
+      "chamada_pelo_prompt": true,
+      "links": [
+        {
+          "nome": "Painel GH de homologação (Agenda > Itens Agendamento)",
+          "url": "https://dem.globalhealth.mv/adm/"
+        },
+        {
+          "nome": "Contrato da API, pág. 2",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=2"
+        }
+      ],
+      "card": "#5",
+      "nota": null
+    },
+    {
+      "id": "prestadores",
+      "caminho": "consulta",
+      "ordem": 2,
+      "chamada": "GET /prestadores",
+      "tipo": "leitura",
+      "promessa": "Lista os médicos publicados, por especialidade.",
+      "ferramenta_ana": "consultar_prestadores_agenda",
+      "ligada": true,
+      "chamada_pelo_prompt": true,
+      "links": [
+        {
+          "nome": "Painel GH de homologação (Agenda > Itens Agendamento)",
+          "url": "https://dem.globalhealth.mv/adm/"
+        },
+        {
+          "nome": "Contrato da API, pág. 5",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=5"
+        }
+      ],
+      "card": "#5",
+      "nota": "O botão do médico ligado no Painel é o que publica o médico na API."
+    },
+    {
+      "id": "convenios",
+      "caminho": "consulta",
+      "ordem": 3,
+      "chamada": "GET /convenios",
+      "tipo": "leitura",
+      "promessa": "Lista os convênios aceitos para a especialidade.",
+      "ferramenta_ana": "consultar_convenios_agenda",
+      "ligada": true,
+      "chamada_pelo_prompt": true,
+      "links": [
+        {
+          "nome": "Painel GH de homologação (Convênios e Planos)",
+          "url": "https://dem.globalhealth.mv/adm/"
+        },
+        {
+          "nome": "Guia da MV: agenda online",
+          "url": "https://docs.mv.com.br/pages/viewpage.action?pageId=393613251"
+        },
+        {
+          "nome": "Contrato da API, pág. 3",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=3"
+        }
+      ],
+      "card": "#4",
+      "nota": null
+    },
+    {
+      "id": "planos",
+      "caminho": "consulta",
+      "ordem": 4,
+      "chamada": "GET /convenios/{id}/planos",
+      "tipo": "leitura",
+      "promessa": "Lista os planos do convênio escolhido.",
+      "ferramenta_ana": "consultar_planos_convenio",
+      "ligada": true,
+      "chamada_pelo_prompt": true,
+      "links": [
+        {
+          "nome": "Painel GH de homologação (Convênios e Planos)",
+          "url": "https://dem.globalhealth.mv/adm/"
+        },
+        {
+          "nome": "Guia da MV: agenda online",
+          "url": "https://docs.mv.com.br/pages/viewpage.action?pageId=393613251"
+        },
+        {
+          "nome": "Contrato da API, pág. 3",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=3"
+        }
+      ],
+      "card": "#4",
+      "nota": null
+    },
+    {
+      "id": "subplanos",
+      "caminho": "consulta",
+      "ordem": 5,
+      "chamada": "GET /convenios/{id}/planos/{idPlano}/subPlanos",
+      "tipo": "leitura",
+      "promessa": "Lista os subplanos do plano escolhido (a maioria dos hospitais não usa).",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 4",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=4"
+        }
+      ],
+      "card": null,
+      "nota": null
+    },
+    {
+      "id": "horarios",
+      "caminho": "consulta",
+      "ordem": 6,
+      "chamada": "GET /agendas/v2",
+      "tipo": "leitura",
+      "promessa": "Lista os horários livres dos próximos 14 dias para especialidade, convênio e plano.",
+      "ferramenta_ana": "consultar_horarios_livres",
+      "ligada": true,
+      "chamada_pelo_prompt": true,
+      "links": [
+        {
+          "nome": "Painel GH de homologação (Agenda > Itens Agendamento)",
+          "url": "https://dem.globalhealth.mv/adm/"
+        },
+        {
+          "nome": "Guia da MV: agenda online",
+          "url": "https://docs.mv.com.br/pages/viewpage.action?pageId=393613251"
+        },
+        {
+          "nome": "Contrato da API, pág. 6",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=6"
+        }
+      ],
+      "card": "#73",
+      "nota": null
+    },
+    {
+      "id": "tipos_consulta",
+      "caminho": "consulta",
+      "ordem": 7,
+      "chamada": "GET /consultas/tipos",
+      "tipo": "leitura",
+      "promessa": "Lista os tipos de consulta (primeira consulta, retorno) que a agenda aceita.",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 9",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=9"
+        }
+      ],
+      "card": "#11",
+      "nota": null
+    },
+    {
+      "id": "instrucoes_horario",
+      "caminho": "consulta",
+      "ordem": 8,
+      "chamada": "GET /horarios/{id}/instrucoes",
+      "tipo": "leitura",
+      "promessa": "Devolve as instruções da consulta ou do exame naquele horário.",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 11",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=11"
+        }
+      ],
+      "card": null,
+      "nota": "O HTTP 500 com horário real é defeito da Global Health, não do TI do hospital."
+    },
+    {
+      "id": "anexos_exigidos",
+      "caminho": "consulta",
+      "ordem": 9,
+      "chamada": "POST /anexos/agendamento",
+      "tipo": "leitura",
+      "promessa": "Diz quais arquivos o paciente precisa mandar para marcar (carteira, pedido médico).",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 8",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=8"
+        }
+      ],
+      "card": "#11",
+      "nota": "É um POST que só consulta: não grava nada."
+    },
+    {
+      "id": "agendar",
+      "caminho": "consulta",
+      "ordem": 10,
+      "chamada": "POST /horarios/agendar",
+      "tipo": "escrita",
+      "promessa": "Marca o horário para o paciente.",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Guia da MV: agenda online",
+          "url": "https://docs.mv.com.br/pages/viewpage.action?pageId=393613251"
+        },
+        {
+          "nome": "Contrato da API, pág. 11",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=11"
+        }
+      ],
+      "card": "#4",
+      "nota": null
+    },
+    {
+      "id": "exames",
+      "caminho": "exame",
+      "ordem": 1,
+      "chamada": "GET /exames",
+      "tipo": "leitura",
+      "promessa": "Lista os exames publicados, pesquisando pelo texto digitado.",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Painel GH de homologação (Agenda > Itens Agendamento)",
+          "url": "https://dem.globalhealth.mv/adm/"
+        },
+        {
+          "nome": "Contrato da API, pág. 2",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=2"
+        }
+      ],
+      "card": "#5",
+      "nota": "A ferramenta consultar_exames da Ana é da API do Hospital (preços), não da Global Health. Horário e marcação do exame usam as mesmas chamadas do caminho da consulta."
+    },
+    {
+      "id": "perguntas_exame",
+      "caminho": "exame",
+      "ordem": 2,
+      "chamada": "GET /exames/perguntas",
+      "tipo": "leitura",
+      "promessa": "Lista as perguntas de triagem do exame; uma resposta pode impedir a marcação.",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 10",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=10"
+        }
+      ],
+      "card": "#5",
+      "nota": null
+    },
+    {
+      "id": "instrucao_geral_exame",
+      "caminho": "exame",
+      "ordem": 3,
+      "chamada": "GET /exames/instrucaoGeral",
+      "tipo": "leitura",
+      "promessa": "Devolve o preparo geral do exame.",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 15",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=15"
+        }
+      ],
+      "card": "#5",
+      "nota": null
+    },
+    {
+      "id": "enviar_anexo",
+      "caminho": "exame",
+      "ordem": 4,
+      "chamada": "POST /anexos/upload",
+      "tipo": "escrita",
+      "promessa": "Sobe um arquivo do paciente (imagem ou PDF) para a Global Health.",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 9",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=9"
+        }
+      ],
+      "card": "#5",
+      "nota": null
+    },
+    {
+      "id": "listar_agendamentos",
+      "caminho": "gestao",
+      "ordem": 1,
+      "chamada": "GET /agendamentos",
+      "tipo": "leitura",
+      "promessa": "Lista os agendamentos ativos do paciente.",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 13",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=13"
+        }
+      ],
+      "card": "#11",
+      "nota": null
+    },
+    {
+      "id": "detalhe_agendamento",
+      "caminho": "gestao",
+      "ordem": 2,
+      "chamada": "GET /agendamentos/{id}",
+      "tipo": "leitura",
+      "promessa": "Devolve os dados de um agendamento.",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 14",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=14"
+        }
+      ],
+      "card": "#11",
+      "nota": null
+    },
+    {
+      "id": "reagendar",
+      "caminho": "gestao",
+      "ordem": 3,
+      "chamada": "POST /horarios/reagendar",
+      "tipo": "escrita",
+      "promessa": "Troca o horário de um agendamento.",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 13",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=13"
+        }
+      ],
+      "card": "#11",
+      "nota": null
+    },
+    {
+      "id": "cancelar",
+      "caminho": "gestao",
+      "ordem": 4,
+      "chamada": "DELETE /agendamentos/{id}",
+      "tipo": "escrita",
+      "promessa": "Cancela um agendamento.",
+      "ferramenta_ana": null,
+      "ligada": false,
+      "chamada_pelo_prompt": false,
+      "links": [
+        {
+          "nome": "Contrato da API, pág. 15",
+          "url": "ana/api-mv/doc_whatsapp_agendamento_1.10.pdf#page=15"
+        }
+      ],
+      "card": "#11",
+      "nota": null
+    }
+  ],
+  "semente": [
+    {
+      "id": "2026-09-08-sessao",
+      "data": "2026-09-08T12:00:00-03:00",
+      "quem": "sessao",
+      "registro_de_sessao": true,
+      "duracao_ms": null,
+      "nota": "Prova da finalização com o paciente-sonda (cadeias-gh.md): Cardiologia com horários, marcação recusada com 417.",
+      "numeros": {
+        "especialidades_publicadas": 1,
+        "exames_publicados": 0,
+        "medicos_por_especialidade": {
+          "Consulta Cardiologica": 4
+        },
+        "convenios": 33,
+        "planos": 2,
+        "horarios_14_dias": 3,
+        "ultimo_horario": "29/09",
+        "erros": [
+          "instrucoes_horario: HTTP 500"
+        ]
+      },
+      "resultados": {
+        "pessoa_por_cpf": {
+          "estado": "ok",
+          "status": 200,
+          "contagem": 1,
+          "nomes": [],
+          "faltou": null,
+          "resumo": "encontrado"
+        },
+        "especialidades": {
+          "estado": "ok",
+          "status": 200,
+          "contagem": 1,
+          "nomes": [
+            "Consulta Cardiologica"
+          ],
+          "faltou": null
+        },
+        "prestadores": {
+          "estado": "ok",
+          "status": 200,
+          "contagem": 4,
+          "nomes": [
+            "Amanda",
+            "Charles",
+            "Norvandia",
+            "Ricardo"
+          ],
+          "faltou": null
+        },
+        "convenios": {
+          "estado": "ok",
+          "status": 200,
+          "contagem": 33,
+          "nomes": [
+            "Particular"
+          ],
+          "faltou": null
+        },
+        "planos": {
+          "estado": "ok",
+          "status": 200,
+          "contagem": 2,
+          "nomes": [
+            "Particular Apartamento",
+            "Particular Enfermaria"
+          ],
+          "faltou": null
+        },
+        "subplanos": {
+          "estado": "vazio",
+          "status": 200,
+          "contagem": 0,
+          "nomes": [],
+          "faltou": "nenhum subplano"
+        },
+        "horarios": {
+          "estado": "ok",
+          "status": 200,
+          "contagem": 3,
+          "nomes": [
+            "Norvandia 24/09 09:28",
+            "Amanda 25/09 08:56",
+            "Norvandia 29/09 08:16"
+          ],
+          "faltou": null
+        },
+        "tipos_consulta": {
+          "estado": "ok",
+          "status": 200,
+          "contagem": 2,
+          "nomes": [
+            "CONSULTA SUBSEQUENTE",
+            "PRIMEIRA CONSULTA"
+          ],
+          "faltou": null
+        },
+        "instrucoes_horario": {
+          "estado": "erro",
+          "status": 500,
+          "contagem": null,
+          "nomes": [],
+          "faltou": "Erro interno"
+        },
+        "exames": {
+          "estado": "vazio",
+          "status": 200,
+          "contagem": 0,
+          "nomes": [],
+          "faltou": "nenhum exame publicado"
+        },
+        "listar_agendamentos": {
+          "estado": "vazio",
+          "status": 200,
+          "contagem": 0,
+          "nomes": [],
+          "faltou": "nenhum agendamento"
+        },
+        "agendar": {
+          "estado": "erro",
+          "status": 417,
+          "contagem": null,
+          "nomes": [],
+          "faltou": "Não é possível agendar com o convênio escolhido",
+          "data": "2026-09-08"
+        }
+      }
+    },
+    {
+      "id": "2026-11-15-sessao",
+      "data": "2026-11-15T12:00:00-03:00",
+      "quem": "sessao",
+      "registro_de_sessao": true,
+      "duracao_ms": null,
+      "nota": "Convênio e horário sem resposta por mais de 2 minutos.",
+      "numeros": {
+        "especialidades_publicadas": null,
+        "exames_publicados": null,
+        "medicos_por_especialidade": {},
+        "convenios": null,
+        "planos": null,
+        "horarios_14_dias": null,
+        "ultimo_horario": null,
+        "erros": [
+          "convenios: fora do ar",
+          "horarios: fora do ar"
+        ]
+      },
+      "resultados": {
+        "convenios": {
+          "estado": "fora_do_ar",
+          "status": null,
+          "contagem": null,
+          "nomes": [],
+          "faltou": "sem resposta em mais de 2 minutos"
+        },
+        "horarios": {
+          "estado": "fora_do_ar",
+          "status": null,
+          "contagem": null,
+          "nomes": [],
+          "faltou": "sem resposta em mais de 2 minutos"
+        }
+      }
+    },
+    {
+      "id": "2026-11-16-sessao",
+      "data": "2026-11-16T16:39:00-03:00",
+      "quem": "sessao",
+      "registro_de_sessao": true,
+      "duracao_ms": null,
+      "nota": "Sincronização do Painel às 16:33 (a data saiu de 04/02/2026); itens do Painel de 1.813 para 2.063, 101 ligados (56 consultas e 45 exames). Nada a partir de 10/12.",
+      "numeros": {
+        "especialidades_publicadas": 1,
+        "exames_publicados": 0,
+        "medicos_por_especialidade": {
+          "Consulta Cardiologica": 4
+        },
+        "convenios": 25,
+        "planos": null,
+        "horarios_14_dias": 1,
+        "ultimo_horario": "26/11",
+        "erros": [
+          "instrucoes_horario: HTTP 500"
+        ]
+      },
+      "resultados": {
+        "especialidades": {
+          "estado": "ok",
+          "status": 200,
+          "contagem": 1,
+          "nomes": [
+            "Consulta Cardiologica"
+          ],
+          "faltou": null
+        },
+        "prestadores": {
+          "estado": "ok",
+          "status": 200,
+          "contagem": 4,
+          "nomes": [
+            "Amanda",
+            "Charles",
+            "Norvandia",
+            "Ricardo"
+          ],
+          "faltou": null
+        },
+        "convenios": {
+          "estado": "ok",
+          "status": 200,
+          "contagem": 25,
+          "nomes": [
+            "Particular"
+          ],
+          "faltou": null
+        },
+        "horarios": {
+          "estado": "ok",
+          "status": 200,
+          "contagem": 1,
+          "nomes": [
+            "Ricardo 26/11 09:15"
+          ],
+          "faltou": null
+        },
+        "tipos_consulta": {
+          "estado": "ok",
+          "status": 200,
+          "contagem": null,
+          "nomes": [
+            "PRIMEIRA CONSULTA"
+          ],
+          "faltou": null
+        },
+        "instrucoes_horario": {
+          "estado": "erro",
+          "status": 500,
+          "contagem": null,
+          "nomes": [],
+          "faltou": "Erro interno"
+        },
+        "exames": {
+          "estado": "vazio",
+          "status": 200,
+          "contagem": 0,
+          "nomes": [],
+          "faltou": "nenhum exame publicado"
+        },
+        "listar_agendamentos": {
+          "estado": "vazio",
+          "status": 200,
+          "contagem": 0,
+          "nomes": [],
+          "faltou": "nenhum agendamento"
+        },
+        "agendar": {
+          "estado": "erro",
+          "status": 417,
+          "contagem": null,
+          "nomes": [],
+          "faltou": "Não é possível agendar com o convênio escolhido",
+          "data": "2026-11-16T16:39"
+        }
+      }
+    }
+  ]
+}
