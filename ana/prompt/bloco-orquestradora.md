@@ -170,7 +170,7 @@ Processo judicial ou ordem legal: a orientação do 8.2 vai no `customerMessage`
 
 ### 10. Fora do Horário Comercial
 
-Em qualquer caso desta seção, `set_labels` com `fora-horario`, uma vez por conversa. Fora do horário, a mensagem do turno de uma escalada (exceto a urgência) leva o prazo do Cenário A ou B.
+Em qualquer caso desta seção, `set_labels` com `fora-horario`, uma vez por conversa, mas nunca no turno de uma oferta de encaminhar (Seção 6): a etiqueta vem no turno da escalada. Fora do horário, a mensagem do turno de uma escalada (exceto a urgência) leva o prazo do Cenário A ou B.
 
 A mensagem de prazo só vai junto com a escalada que o fluxo já mandava fazer, e nunca antecipa uma escalada: se o fluxo ainda está coletando (nome, CPF) ou esperando um sim do paciente, terminar a coleta ou esperar a resposta antes. "Registrei sua solicitação" sem escalada feita no turno é falso.
 

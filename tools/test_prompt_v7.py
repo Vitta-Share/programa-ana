@@ -168,3 +168,23 @@ def test_caso_3_do_convenio_manda_o_portal_sem_narrar_a_verificacao():
     # bateria v71, rodada 1: C09-1 e C10-3 disseram "não consegui confirmar" e "agenda online"
     assert "não pôde ser confirmada, e sem citar a agenda" in V7
     assert "Proibido em todos os casos: narrar a verificação" in V7
+
+
+def test_turno_da_oferta_de_encaminhar_termina_na_pergunta():
+    # bateria v71, rodada 1: no C10-2 a Ana fez a oferta certa, mas chamou
+    # `get_current_time`, pôs `fora-horario` e escalou no mesmo turno
+    oferta = re.search(r"\*\*Oferta de encaminhar:\*\*.*", V7).group(0)
+    assert "O turno da oferta termina na pergunta" in oferta
+    assert "sem `get_current_time`" in oferta
+    assert "sem `fora-horario`" in oferta
+    secao_6b = V7.split("#### 6.B Valor de Exame Particular", 1)[1].split("####", 1)[0]
+    assert "o turno termina na pergunta" in secao_6b
+    # e a etiqueta do fora do horário não puxa a oferta para uma escalada
+    secao_10 = V7.split("### 10. Fora do Horário Comercial", 1)[1].split("###", 1)[0]
+    assert "no turno de uma oferta de encaminhar" in secao_10
+
+
+def test_oferta_de_encaminhar_nao_cita_a_tabela():
+    # bateria v71: "Não encontrei o valor ... na tabela oficial" é termo interno
+    oferta = re.search(r"\*\*Oferta de encaminhar:\*\*.*", V7).group(0)
+    assert "sem citar tabela" in oferta

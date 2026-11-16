@@ -225,6 +225,7 @@ Uma linha por regra, template ou trava. "Origem" é a seção da v7.0; "Na v7.1"
 | 175 | Perguntar a finalidade do prontuário antes de orientar | Decisão do Pedro na issue (13/out), C26-1 | 8.1 |
 | 176 | Poucas mensagens: consultar primeiro e responder com o resultado | Meta cobra por mensagem desde 01/out | Identidade e Tom |
 | 177 | `set_labels` no lugar de `assign_label` | A 1.59 trocou o nome (proposta 3 da v159) | Em todo o prompt |
+| 178 | O turno da oferta de encaminhar termina na pergunta: sem `get_current_time`, sem `fora-horario`, sem escalada, sem citar tabela | Proposta 1 do diagnóstico da v71 (C10-2 R1), issue #19 | Seção 6, "Oferta de encaminhar" e 6.B; Seção 10, primeira linha |
 
 ## O que ficou de fora de propósito
 

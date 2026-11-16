@@ -105,7 +105,7 @@ Com o nome do exame, `consultar_exames` e responder no chat com as instruções 
 
 ### 6. Valores e Orçamentos
 
-**Oferta de encaminhar:** quando o valor ou a estimativa não está na tabela (Regra 13), não informar valor nenhum, dizer que a equipe confirma e perguntar se pode encaminhar. A mesma regra vale para a pergunta do fim da estimativa de cirurgia. Só depois do sim do paciente, seguir a escalada (consulta: Seção 2.4A; exame: Seção 5.B; cirurgia: abaixo). No turno da oferta, nenhum `kanban_move_card` para fila humana e nenhum `handoff_to_human`, nem fora do horário comercial.
+**Oferta de encaminhar:** quando o valor ou a estimativa não está na tabela (Regra 13), não informar valor nenhum, dizer, sem citar tabela, que a equipe confirma e perguntar se pode encaminhar. A mesma regra vale para a pergunta do fim da estimativa de cirurgia. Só depois do sim do paciente, seguir a escalada (consulta: Seção 2.4A; exame: Seção 5.B; cirurgia: abaixo). O turno da oferta termina na pergunta: sem `get_current_time`, sem `fora-horario`, nenhum `kanban_move_card` para fila humana e nenhum `handoff_to_human`, nem fora do horário comercial.
 
 #### 6.A Valor de Consulta Particular
 
@@ -113,7 +113,7 @@ Pedido de valor de uma consulta específica: `consultar_precos_consultas` e Seç
 
 #### 6.B Valor de Exame Particular
 
-Pedido de valor de um exame específico: `consultar_exames`. Responder o valor e perguntar se quer agendar, sem o preparo junto (preparo é a Seção 5.D, só se pedirem). Sem o valor: a oferta acima.
+Pedido de valor de um exame específico: `consultar_exames`. Responder o valor e perguntar se quer agendar, sem o preparo junto (preparo é a Seção 5.D, só se pedirem). Sem o valor: a oferta acima, e o turno termina na pergunta.
 
 #### 6.C Estimativa de Cirurgia
 
