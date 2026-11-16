@@ -1,0 +1,145 @@
+{
+  "exportadoEm": "2026-11-16T02:18Z",
+  "de": "GET /api/v1/tools/<id>",
+  "versaoPlataforma": "1.59.0",
+  "nota": "Estado das ferramentas 7 e 11 depois de regravar o body em mode kv (issue #52), pelo ana/plataforma/scripts/body_kv.py --aplicar.",
+  "ferramentas": {
+    "7": {
+      "id": "7",
+      "name": "cadastrar_paciente",
+      "label": "Cadastrar paciente (GH homologação)",
+      "description": "Cria o cadastro do paciente no sistema de agendamento do Hospital São Matheus (homologação Global Health). Use SOMENTE depois de buscar_paciente_por_cpf voltar vazia, dentro de um fluxo que já exige nome e CPF, e após o paciente confirmar os dados. Nunca chame duas vezes na mesma conversa. Nome sem números, CPF com 11 dígitos, data de nascimento em aaaa-mm-dd, telefone só números com DDD. O sucesso devolve o id do cadastro; a recusa devolve o motivo em linguagem de negócio.",
+      "method": "POST",
+      "urlTemplate": "https://dem.agenda.globalhealth.mv/rest/whatsapp/pessoas",
+      "allowedHosts": [
+        "dem.agenda.globalhealth.mv"
+      ],
+      "headers": {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      "inputSchema": {
+        "cpf": {
+          "type": "string",
+          "required": true,
+          "description": "CPF do paciente: exatamente 11 dígitos, somente números"
+        },
+        "nome": {
+          "type": "string",
+          "required": true,
+          "description": "Nome completo do paciente (mínimo duas palavras), somente letras e espaços, sem números"
+        },
+        "telefone": {
+          "type": "string",
+          "required": true,
+          "description": "Telefone: somente números, com DDD, sem o +55"
+        },
+        "dataNascimento": {
+          "type": "string",
+          "required": true,
+          "description": "Data de nascimento no formato aaaa-mm-dd (12/03/1985 vira 1985-03-12). Obrigatória"
+        }
+      },
+      "outputSchema": {},
+      "query": {},
+      "body": {
+        "mode": "kv",
+        "rows": [
+          {
+            "key": "cpf",
+            "value": "{{cpf}}"
+          },
+          {
+            "key": "nome",
+            "value": "{{nome}}"
+          },
+          {
+            "key": "telefone",
+            "value": "{{telefone}}"
+          },
+          {
+            "key": "dataNascimento",
+            "value": "{{dataNascimento}}"
+          }
+        ]
+      },
+      "credentialRef": "vault:4",
+      "enabled": true,
+      "expectedStatuses": [],
+      "ackEnabled": false,
+      "ackMessage": null,
+      "appointment": null,
+      "conversationRefIntegrationId": null,
+      "maxResponseChars": null,
+      "silenceTruncationAlert": false,
+      "createdAt": "2026-08-07T18:00:16.497Z",
+      "updatedAt": "2026-11-16T02:17:38.358Z"
+    },
+    "11": {
+      "id": "11",
+      "name": "registrar_ouvidoria",
+      "label": "Registrar manifestação de ouvidoria (API do Hospital)",
+      "description": "Grava a manifestação de ouvidoria no índice oficial de protocolos do Hospital São Matheus, servido pela API do aplicativo do hospital, e devolve na mesma resposta o campo protocolo, no formato ANO-NNNN (ex.: 2026-0004). Esse campo É o número que se informa ao paciente: nenhuma outra ferramenta precisa ser chamada para obtê-lo. Use SOMENTE no PASSO R2 da Seção 7.3, depois da coleta estruturada confirmada pelo paciente e da nota interna. NUNCA chamar duas vezes na mesma conversa (em dúvida se gravou, use consultar_protocolo_ouvidoria com o número já devolvido). O resumo vai em linguagem de relato (paciente relata que...), SEM nome de solicitante, paciente ou profissional, SEM CPF e SEM dado clínico: a identificação fica só na nota interna. Erro, recusa ou resposta sem o campo protocolo: não citar número nenhum e seguir a mensagem de falha da Seção 7.3.",
+      "method": "POST",
+      "urlTemplate": "https://api.hospitalsaomatheus.cloud/api/ana/ouvidoria/protocolos",
+      "allowedHosts": [
+        "api.hospitalsaomatheus.cloud"
+      ],
+      "headers": {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      "inputSchema": {
+        "setor": {
+          "type": "string",
+          "required": true,
+          "description": "Setor identificado no relato (ex.: Pronto-Socorro, Recepcao, Enfermagem, Faturamento). Usar 'Nao informado' se o relato nao permitir inferir"
+        },
+        "resumo": {
+          "type": "string",
+          "required": true,
+          "description": "Uma a duas linhas em linguagem de relato (paciente relata que...). NUNCA incluir CPF, nome de paciente, de solicitante ou de profissional, nem dado clinico. Nunca enviar vazio: o servidor recusa"
+        },
+        "categoria": {
+          "type": "string",
+          "required": true,
+          "description": "Categoria inferida do relato: Atendimento, Demora, Cobranca, Higiene, Conduta profissional, Infraestrutura ou Elogio"
+        }
+      },
+      "outputSchema": {},
+      "query": {},
+      "body": {
+        "mode": "kv",
+        "rows": [
+          {
+            "key": "setor",
+            "value": "{{setor}}"
+          },
+          {
+            "key": "resumo",
+            "value": "{{resumo}}"
+          },
+          {
+            "key": "categoria",
+            "value": "{{categoria}}"
+          },
+          {
+            "key": "conversa_id",
+            "value": "{{conversation_id}}"
+          }
+        ]
+      },
+      "credentialRef": "vault:6",
+      "enabled": true,
+      "expectedStatuses": [],
+      "ackEnabled": false,
+      "ackMessage": null,
+      "appointment": null,
+      "conversationRefIntegrationId": null,
+      "maxResponseChars": null,
+      "silenceTruncationAlert": false,
+      "createdAt": "2026-08-12T17:26:40.957Z",
+      "updatedAt": "2026-11-16T02:17:38.628Z"
+    }
+  }
+}
