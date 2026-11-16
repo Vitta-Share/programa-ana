@@ -256,18 +256,30 @@ class Canal:
         return d.get("payload", [])
 
     def estado(self, conversa_id):
-        """(raia do kanban, status da conversa). A raia e o nome da coluna em que o
-        card da conversa esta; None quando a conversa nao tem card."""
+        """(raia do kanban, status da conversa, id do card). A raia e o nome da coluna
+        em que o card da conversa esta. O detalhe da conversa traz so o id do card
+        ({"id": 137}); a coluna vem de GET /kanban/tasks/<id>. Card None = a conversa
+        nao tem card (issue #26: a inbox de API entrou no funil em 13/out/2026)."""
         status, d = self._admin(f"/conversations/{conversa_id}")
         if status != 200 or not isinstance(d, dict):
-            return None, None
+            return None, None, None
+        card_id = (d.get("kanban_task") or {}).get("id")
+        if not card_id:
+            return None, d.get("status"), None
         raia = None
-        card = d.get("kanban_task") or {}
-        passo = card.get("board_step_id")
-        for s in (card.get("board") or {}).get("steps", []):
-            if s.get("id") == passo:
-                raia = s.get("name")
-        return raia, d.get("status")
+        st, card = self._admin(f"/kanban/tasks/{card_id}")
+        if st == 200 and isinstance(card, dict):
+            passo = card.get("board_step_id")
+            for s in (card.get("board") or {}).get("steps", []):
+                if s.get("id") == passo:
+                    raia = s.get("name")
+        return raia, d.get("status"), card_id
+
+    def resolver(self, conversa_id):
+        """Resolve a conversa (toggle_status). True se o Chatwoot aceitou."""
+        status, _ = self._admin(f"/conversations/{conversa_id}/toggle_status", "POST",
+                                {"status": "resolved"})
+        return status == 200
 
 
 # --------------------------------------------------------------------- trace
@@ -604,7 +616,7 @@ def rodar_cenario(canal, trace, cenario, arquivo):
     emitir("custo", id=cid, uso=uso, custo=resultado["custo"])
 
     notas = canal.notas_privadas(conversa_id)
-    raia, status = canal.estado(conversa_id)
+    raia, status, card = canal.estado(conversa_id)
     resultado["fim"] = {
         "etiquetas": canal.etiquetas(conversa_id),
         "raia": raia,
