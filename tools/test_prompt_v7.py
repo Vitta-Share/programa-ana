@@ -216,3 +216,9 @@ def test_oferta_de_encaminhar_tem_mensagem_modelo_e_lista_fechada_de_ferramentas
     assert "as ferramentas dele são só a consulta da fonte e o `kanban_move_card` para `EM ATENDIMENTO — ANA`" in oferta
     modelo = V7.split("**Mensagem da oferta**", 1)[1]
     assert "```\nNão tenho o valor de [item] para te passar agora. Quer que nossa equipe confirme para você?\n```" in modelo
+
+
+def test_voltar_devolve_a_v71_que_estava_no_ar_antes_da_v72():
+    # issue #19: a v7.2 subiu por cima da v7.1 (sha d76d3785c5d6); o `voltar` devolve ela
+    assert sha(pp.EXPORT_PROMPT.read_text(encoding="utf-8")).startswith("d76d3785c5d6")
+    assert pp.EXPORT_AGENTE.name == "export-ana-pre-prompt-v72.json"
