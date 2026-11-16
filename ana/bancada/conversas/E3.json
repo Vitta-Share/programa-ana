@@ -1,0 +1,81 @@
+{
+  "id": "E3",
+  "arquivo": "integracao.json",
+  "capacidade": null,
+  "familia": "E",
+  "titulo": "Chave rotacionada no vault volta a Ana sem tocar na definicao da tool",
+  "contato": "TESTE BANCADA ANA E3",
+  "conversa_id": 1285,
+  "inicio": "2026-11-16T19:43:27+00:00",
+  "turnos": [
+    {
+      "n": 1,
+      "paciente": "quanto custa a consulta de cardiologia?",
+      "ana": [
+        "A consulta de cardiologia é R$ 380. Quer que eu veja os horários disponíveis para você?"
+      ],
+      "ferramentas": [
+        "kanban_move_card",
+        "consultar_precos_consultas",
+        "set_labels"
+      ],
+      "nos": [],
+      "espere": null,
+      "falha_se": null,
+      "conferencias": [
+        {
+          "turno": 1,
+          "tipo": "contem",
+          "esperado": "380",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 1,
+          "tipo": "ferramenta",
+          "esperado": "consultar_precos_consultas",
+          "veio": [
+            "kanban_move_card",
+            "consultar_precos_consultas",
+            "set_labels"
+          ],
+          "ok": true
+        }
+      ]
+    }
+  ],
+  "tools": [
+    "kanban_move_card",
+    "consultar_precos_consultas",
+    "set_labels"
+  ],
+  "fim": {
+    "etiquetas": [
+      "particular-aquecido"
+    ],
+    "raia": "Em Atendimento — Ana",
+    "raia_pelo_trace": null,
+    "status": "pending",
+    "handoff": false
+  },
+  "veredito": "passou",
+  "falhas": [],
+  "uso": {
+    "entrada": 19727,
+    "cache": 60101,
+    "cache_criacao": 19712,
+    "saida": 188,
+    "chamadas": 5,
+    "modelos": [
+      "gpt-6-luna"
+    ]
+  },
+  "custo": {
+    "modelo": "gpt-6-luna",
+    "mensagens_ana": 1,
+    "openai_usd": 0.002668,
+    "meta_brl": 0.035
+  },
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T19:44:08+00:00"
+}

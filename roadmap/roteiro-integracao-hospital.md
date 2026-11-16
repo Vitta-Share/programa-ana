@@ -393,3 +393,42 @@ idêntica.
 **O D5 ficou mais duro.** O cenário só cobrava o número do protocolo, e por isso a rodada 2 tinha
 dado "passou" numa resposta que engolia data e prazo. Agora ele cobra os três: `2026-0005`,
 `18/08/2026` e `25/08/2026`.
+
+---
+
+## Rodada 5 (16/nov/2026): a janela da V29, E1, E3 e D4
+
+Os três cenários que quebram a Ana de propósito, parados desde a rodada 2. Rodaram com a Ana
+livre de outras sessões, um por vez, cada um restaurado e conferido antes do próximo.
+
+**Chão medido antes:** prompt no ar `5331eb0a977b` (v7.2), plataforma 1.59.0, `gpt-6-luna`.
+A `vault:6` hoje serve as ferramentas 1, 2, 3, 4, 11 e 12. A chave do hospital respondeu 200
+direto na API e uma chave errada respondeu 401; a rota do D4 respondeu 404. O C1a de controle
+passou (R$ 380, uma chamada). O estado anterior, sem segredo, ficou em
+`ana/plataforma/export-ana-pre-janela-robustez.json`, e a quebra e a volta são o script
+`ana/plataforma/scripts/janela-robustez.py` (para sozinho se o prompt no ar não for a v7.2 ou
+se alguma ferramenta mudou desde o export).
+
+| Cenário | Veredito | Evidência |
+|---|---|---|
+| **E1** API indisponível | **passou** | `vault:6` com chave errada: `consultar_precos_consultas` recebeu **HTTP 401** no log da plataforma, e a Ana disse "Não tenho o valor da consulta de cardiologia para te passar agora. Quer que nossa equipe confirme para você?". Nenhum valor citado. |
+| **E3** chave rotacionada | **passou** | a chave certa de volta só no vault, pelo mesmo nome de entrada: o script conferiu **nenhuma ferramenta gravada** desde o export (o `updatedAt` das seis igual) e a Ana voltou a responder "A consulta de cardiologia é R$ 380", com a ferramenta **ok** no log. O segredo mora na referência do vault, não na definição da ferramenta. Cenário novo no `integracao.json`. |
+| **D4** gravação quebrada | **passou no que o cenário promete; o runner reprovou pela forma** | ferramenta 11 apontada para `.../protocolos-inexistente-bancada-d4`: `registrar_ouvidoria` recebeu **HTTP 404**, nada foi gravado, e a Ana usou a mensagem sem protocolo da Seção 7.3 ("Sua manifestação foi registrada com todo o cuidado.") e escalou. Nenhum número em mensagem nenhuma. O runner reprovou porque a conferência mora no turno 5 ("pode registrar"), e desde a #53 a Ana registra no turno 4, sem esperar a confirmação; o turno 5 caiu no silêncio depois do handoff. |
+
+**Restaurado e conferido:** depois de cada cenário, as seis ferramentas iguais ao export, a
+`vault:6` ativa e o prompt ainda a v7.2.
+
+**Placar: 3 de 3 no que os cenários prometem.** E1 e E3 passaram, o D4 cumpriu o que promete.
+Com isso, nenhum cenário deste roteiro segue como "não rodado".
+
+**Achado 1, a primeira tentativa do D4 não chegou ao registro, por outro motivo.** No turno 2,
+antes de o paciente dar nome e CPF, a Ana gravou no contato um nome tirado do nome do contato e
+um CPF de mentira (onze dígitos em sequência), chamou `buscar_paciente_por_cpf`, levou HTTP 417
+da Global Health, pediu "um CPF válido" e escalou. A segunda tentativa, com o mesmo roteiro,
+seguiu o fluxo normal. É intermitente e não tem a ver com a ferramenta 11: inventar dado para
+chamar ferramenta é falha do lado da fala, e merece issue própria.
+
+**Achado 2, o D4 precisa de ajuste de forma.** A conferência "cuidado ou registrada, sem
+número" está presa ao turno 5. Com a Ana registrando no turno 4, a mensagem que importa sai
+antes, e o turno 5 nunca tem resposta. O cenário deveria conferir o "sem número" em todo turno
+e pular o "pode registrar" com `so_se` quando o registro já aconteceu.

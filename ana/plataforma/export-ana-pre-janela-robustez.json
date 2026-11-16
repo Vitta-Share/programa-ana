@@ -1,0 +1,269 @@
+{
+  "promptSha256": "5331eb0a977b4a4adaee65355d0c4b945f79b73f558031dcda36c0fc1a5ce6c0",
+  "vault": {
+    "id": "6",
+    "name": "hospital-ana-api-key",
+    "kind": "header",
+    "baseUrl": null,
+    "paramName": "X-API-Key",
+    "status": "active",
+    "valueFitsKind": true
+  },
+  "ferramentas": [
+    {
+      "id": "1",
+      "name": "consultar_precos_consultas",
+      "label": "Tabela de consultas particulares",
+      "description": "Tabela oficial de consultas particulares do Hospital São Matheus, servida pela API do aplicativo do hospital: especialidade, valor_rs (numérico: 380.0 é R$ 380,00; ao falar com o paciente, formato brasileiro, sem centavos quando o valor for inteiro), descricao_servico, diferencial_1 a diferencial_3, alta_demanda (booleano), observacoes_ana e ultima_atualizacao. Só especialidades ativas aparecem. Use SEMPRE que o paciente perguntar valor, disponibilidade ou confirmação de uma especialidade em atendimento particular (Seções 2.3 e 6.A do SOP).\n\nDOIS MODOS, declarados no campo `modo` do corpo, com uma `dica`. SEM o parâmetro `especialidade`: vem a lista inteira das ativas em modo `resumo`, só nome e valor, nunca cortada; é o certo para preço direto e para a pergunta de catálogo. COM `especialidade`: vem o modo `completo`, com descrição, diferenciais e alta_demanda, que a Seção 2.3 pede na hesitação.\n\nO filtro casa por trecho do nome e pode voltar mais de um item (pedir \"urologia\" traz também \"Neurologia\"): use o que bate com o pedido do paciente, nunca o primeiro por ser o primeiro.\n\nTermo sem match devolve lista vazia e o campo `disponiveis`. Essa lista é só a de PARTICULAR, e não o catálogo do hospital: especialidade fora dela pode ser atendida por convênio. Nunca diga nem sugira que o hospital não atende. Vale a Regra Global 13: diga que não achou o valor na tabela oficial e OFEREÇA ENCAMINHAR À EQUIPE para confirmar, na mesma mensagem. Sugerir outra especialidade da lista não substitui esse encaminhamento. Nunca invente nome fora de `disponiveis`.",
+      "method": "GET",
+      "urlTemplate": "https://api.hospitalsaomatheus.cloud/api/ana/consultas-particulares",
+      "allowedHosts": [
+        "api.hospitalsaomatheus.cloud"
+      ],
+      "headers": {
+        "Accept": "application/json"
+      },
+      "inputSchema": {
+        "especialidade": {
+          "type": "string",
+          "required": false,
+          "description": "Opcional. Nome da especialidade para receber o detalhe completo dela (descricao, diferenciais, alta_demanda). Envie o nome como o paciente falou; acento e caixa nao importam. Deixe FORA da chamada quando a pergunta for de catalogo (o que voces atendem particular)."
+        }
+      },
+      "outputSchema": {},
+      "query": {
+        "especialidade": "{{especialidade}}"
+      },
+      "body": {},
+      "credentialRef": "vault:6",
+      "enabled": true,
+      "expectedStatuses": [],
+      "ackEnabled": false,
+      "ackMessage": null,
+      "appointment": null,
+      "conversationRefIntegrationId": null,
+      "maxResponseChars": null,
+      "silenceTruncationAlert": false,
+      "createdAt": "2026-07-30T22:59:56.454Z",
+      "updatedAt": "2026-08-19T15:21:31.267Z"
+    },
+    {
+      "id": "2",
+      "name": "consultar_exames",
+      "label": "Tabela de exames",
+      "description": "Tabela oficial de exames do Hospital São Matheus, servida pela API do app do hospital: nome_exame, tipo_exame, convenio_aceito (booleano), valor_particular_rs (numérico: 580.0 é R$ 580,00; ao paciente, formato brasileiro, sem centavos quando inteiro), requer_pedido_medico e preparo_necessario (booleanos), instrucoes_preparo_completas, tempo_resultado, local_realizacao, diferencial_1 e 2, observacoes_ana, ultima_atualizacao (aaaa-mm-dd). Só ativos aparecem. Use SEMPRE que o paciente perguntar disponibilidade, valor ou preparo de exame (Seções 5 e 6.B do SOP).\n\nMODOS, declarados no campo `modo` do corpo, com uma `dica`. SEM `exame`: a lista inteira em `resumo`, só nome e valor, nunca cortada; serve para catálogo e valor direto. COM `exame`: modo `completo`, com preparo, instruções, tempo de resultado e local. NUNCA fale de preparo, pedido médico ou local a partir do `resumo`: esses campos não vêm nele. Precisou deles, chame de novo com o nome do exame.\n\nO FILTRO: envie SÓ o nome do exame, NUNCA a frase do paciente. O termo é procurado DENTRO do nome cadastrado, então frase longa não casa. Termo curto demais (uma letra, uma sílaba) casa quase tudo e volta em `resumo`, sem o preparo. Pode voltar mais de um item: use o que bate com o pedido.\n\nVAZIO COM `disponiveis`: são os nomes cadastrados. Se um deles for o que o paciente pediu, inclusive pelo nome popular (ultrassom = Ultrassonografia Abdominal; eco = Ecocardiograma), chame de novo UMA vez com esse nome e responda. Só se a segunda voltar vazia é que o exame não está na tabela.\n\nE aí NÃO É NÃO. `disponiveis` é só esta tabela, não a lista do que o hospital faz: o exame pode ser feito assim mesmo. NUNCA diga nem sugira que o hospital não faz. O certo é a Regra Global 13: diga que não achou o exame na tabela oficial e, NA MESMA mensagem, ofereça encaminhar à equipe para confirmar. Perguntar se é convênio ou particular não substitui esse encaminhamento. Nunca invente nome fora de `disponiveis`.",
+      "method": "GET",
+      "urlTemplate": "https://api.hospitalsaomatheus.cloud/api/ana/exames",
+      "allowedHosts": [
+        "api.hospitalsaomatheus.cloud"
+      ],
+      "headers": {
+        "Accept": "application/json"
+      },
+      "inputSchema": {
+        "exame": {
+          "type": "string",
+          "required": false,
+          "description": "Opcional. Nome do exame para receber o detalhe completo dele (preparo, instrucoes, tempo de resultado, local). Envie o nome como o paciente falou; acento e caixa nao importam. Deixe FORA da chamada quando a pergunta for de catalogo (quais exames voces fazem)."
+        }
+      },
+      "outputSchema": {},
+      "query": {
+        "exame": "{{exame}}"
+      },
+      "body": {},
+      "credentialRef": "vault:6",
+      "enabled": true,
+      "expectedStatuses": [],
+      "ackEnabled": false,
+      "ackMessage": null,
+      "appointment": null,
+      "conversationRefIntegrationId": null,
+      "maxResponseChars": null,
+      "silenceTruncationAlert": false,
+      "createdAt": "2026-07-30T23:00:00.986Z",
+      "updatedAt": "2026-11-16T16:21:25.657Z"
+    },
+    {
+      "id": "3",
+      "name": "consultar_cirurgias_estimativas",
+      "label": "Tabela de estimativas de cirurgias",
+      "description": "Tabela oficial de estimativas de cirurgias do Hospital São Matheus, servida pela API do aplicativo do hospital: procedimento, descricao_procedimento, honorarios_equipe_rs, valor_internacao_rs e estimativa_total_rs (numéricos: 8300.0 é R$ 8.300,00; ao paciente, formato brasileiro, sem centavos quando inteiro), o_que_inclui_honorarios, o_que_inclui_internacao, diferencial_1 e 2, caveat_obrigatorio_ana, observacoes_ana, ultima_atualizacao (aaaa-mm-dd). Só ativos aparecem. Use SOMENTE quando o paciente perguntar custo de cirurgia específica (Seção 6.C do SOP). O caveat de avaliação médica é obrigatório em toda resposta.\n\nMODOS, declarados no campo `modo` do corpo, com uma `dica`. SEM `procedimento`: a tabela é curta e hoje vem `completo`, mas pode crescer e voltar em `resumo` (só nome e total). COM `procedimento`: sempre `completo`. NUNCA informe valor a partir do `resumo`: o caveat_obrigatorio_ana não vem nele. Se vier `resumo`, chame de novo com o nome antes de falar qualquer valor.\n\nO FILTRO: envie SÓ o nome do procedimento, uma ou duas palavras, NUNCA a frase do paciente. O termo é procurado DENTRO do nome cadastrado, então frase longa não casa: em \"quanto custa a cirurgia de apendicite por videolaparoscopia\", o termo é `apendicectomia`. Pode voltar mais de um item: use o que bate com o pedido.\n\nVAZIO COM `disponiveis`: são os nomes cadastrados. Se um deles for o que o paciente pediu, inclusive pelo nome popular (apendicite = Apendicectomia; vesícula = Colecistectomia; hérnia = Herniorrafia), chame de novo UMA vez com esse nome e responda o valor. Só se a segunda voltar vazia é que a estimativa não existe.\n\nAí: `disponiveis` é só a lista com estimativa cadastrada, não o catálogo cirúrgico. Nunca diga nem sugira que o hospital não realiza. Vale a Regra Global 13: diga que não achou na tabela oficial e OFEREÇA ENCAMINHAR À EQUIPE para orçamento, na mesma mensagem. Sugerir outro procedimento não substitui o encaminhamento. Nunca invente nome fora de `disponiveis`.",
+      "method": "GET",
+      "urlTemplate": "https://api.hospitalsaomatheus.cloud/api/ana/cirurgias-estimativas",
+      "allowedHosts": [
+        "api.hospitalsaomatheus.cloud"
+      ],
+      "headers": {
+        "Accept": "application/json"
+      },
+      "inputSchema": {
+        "procedimento": {
+          "type": "string",
+          "required": false,
+          "description": "Opcional. Nome do procedimento cirurgico para receber o detalhe completo dele (o que inclui, diferenciais e o caveat obrigatorio). Envie o nome como o paciente falou; acento e caixa nao importam."
+        }
+      },
+      "outputSchema": {},
+      "query": {
+        "procedimento": "{{procedimento}}"
+      },
+      "body": {},
+      "credentialRef": "vault:6",
+      "enabled": true,
+      "expectedStatuses": [],
+      "ackEnabled": false,
+      "ackMessage": null,
+      "appointment": null,
+      "conversationRefIntegrationId": null,
+      "maxResponseChars": null,
+      "silenceTruncationAlert": false,
+      "createdAt": "2026-07-30T23:00:07.263Z",
+      "updatedAt": "2026-08-19T18:22:10.589Z"
+    },
+    {
+      "id": "4",
+      "name": "consultar_convenios_especialidade",
+      "label": "Tabela de convênios por especialidade",
+      "description": "Tabela oficial de cobertura de convênios por especialidade do Hospital São Matheus, servida pela API do app do hospital: convenio, especialidade, cobre (booleano: true cobre, false não cobre), observacao, ultima_atualizacao (aaaa-mm-dd). Use SEMPRE que o paciente mencionar convênio e for preciso verificar cobertura de especialidade ou exame (Seções 3 e 5.A do SOP). Nunca afirmar nem negar cobertura de memória: a resposta vem desta tabela.\n\nDOIS PARÂMETROS opcionais e combináveis, `convenio` e `especialidade`, e os MODOS declarados no campo `modo` do corpo, com uma `dica`. SEM parâmetro: a lista inteira em `resumo` (convênio, especialidade e cobre), nunca cortada; já diz se cobre. COM um ou os dois: modo `completo`, que traz a `observacao` (a ressalva de autorização, exames ou cirurgia) que as Seções 3 e 5.A mandam dizer. NUNCA fale a ressalva a partir do `resumo`: a observacao não vem nele.\n\nO FILTRO: cada parte no seu parâmetro (convenio=Unimed E especialidade=Cardiologia, nunca convenio=Unimed Cardiologia). Envie a marca do convênio como ela é (Unimed, Amil, Bradesco Saúde), sem palavras extras como \"plano\" ou \"meu convênio\". O termo é procurado DENTRO do nome cadastrado, então frase longa não casa.\n\nVAZIO COM `disponiveis`: são os pares cadastrados, no formato convênio / especialidade. Se um par for o que o paciente pediu, escrito de outro jeito, chame de novo UMA vez com esse par. Só se a segunda voltar vazia é que a combinação não está na tabela.\n\nE aí NÃO É NÃO. `disponiveis` é só o que já foi cadastrado, não a lista dos convênios aceitos pelo hospital: o convênio do paciente pode ser aceito assim mesmo. NUNCA diga que ele \"não consta\", \"não está cadastrado\" ou \"não é aceito\", e NUNCA empurre o paciente para o particular por causa disso. O certo é a Regra Global 13: diga que não achou essa combinação na tabela oficial e, NA MESMA mensagem, ofereça encaminhar à equipe para confirmar a cobertura. Nunca invente convênio ou especialidade fora de `disponiveis`.",
+      "method": "GET",
+      "urlTemplate": "https://api.hospitalsaomatheus.cloud/api/ana/convenios-especialidade",
+      "allowedHosts": [
+        "api.hospitalsaomatheus.cloud"
+      ],
+      "headers": {
+        "Accept": "application/json"
+      },
+      "inputSchema": {
+        "convenio": {
+          "type": "string",
+          "required": false,
+          "description": "Opcional. Nome do convenio do paciente (ex.: Unimed, Amil). Acento e caixa nao importam. Combinavel com especialidade."
+        },
+        "especialidade": {
+          "type": "string",
+          "required": false,
+          "description": "Opcional. Nome da especialidade (ex.: Cardiologia). Acento e caixa nao importam. Combinavel com convenio. Cada parte no seu parametro: nunca junte convenio e especialidade num campo so."
+        }
+      },
+      "outputSchema": {},
+      "query": {
+        "convenio": "{{convenio}}",
+        "especialidade": "{{especialidade}}"
+      },
+      "body": {},
+      "credentialRef": "vault:6",
+      "enabled": true,
+      "expectedStatuses": [],
+      "ackEnabled": false,
+      "ackMessage": null,
+      "appointment": null,
+      "conversationRefIntegrationId": null,
+      "maxResponseChars": null,
+      "silenceTruncationAlert": false,
+      "createdAt": "2026-07-30T23:00:50.714Z",
+      "updatedAt": "2026-08-19T18:28:29.165Z"
+    },
+    {
+      "id": "11",
+      "name": "registrar_ouvidoria",
+      "label": "Registrar manifestação de ouvidoria (API do Hospital)",
+      "description": "Grava a manifestação de ouvidoria no índice oficial de protocolos do Hospital São Matheus, servido pela API do aplicativo do hospital, e devolve na mesma resposta o campo protocolo, no formato ANO-NNNN (ex.: 2026-0004). Esse campo É o número que se informa ao paciente: nenhuma outra ferramenta precisa ser chamada para obtê-lo. Use SOMENTE no PASSO R2 da Seção 7.3, depois da coleta estruturada confirmada pelo paciente e da nota interna. NUNCA chamar duas vezes na mesma conversa (em dúvida se gravou, use consultar_protocolo_ouvidoria com o número já devolvido). O resumo vai em linguagem de relato (paciente relata que...), SEM nome de solicitante, paciente ou profissional, SEM CPF e SEM dado clínico: a identificação fica só na nota interna. Erro, recusa ou resposta sem o campo protocolo: não citar número nenhum e seguir a mensagem de falha da Seção 7.3.",
+      "method": "POST",
+      "urlTemplate": "https://api.hospitalsaomatheus.cloud/api/ana/ouvidoria/protocolos",
+      "allowedHosts": [
+        "api.hospitalsaomatheus.cloud"
+      ],
+      "headers": {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      "inputSchema": {
+        "setor": {
+          "type": "string",
+          "required": true,
+          "description": "Setor identificado no relato (ex.: Pronto-Socorro, Recepcao, Enfermagem, Faturamento). Usar 'Nao informado' se o relato nao permitir inferir"
+        },
+        "resumo": {
+          "type": "string",
+          "required": true,
+          "description": "Uma a duas linhas em linguagem de relato (paciente relata que...). NUNCA incluir CPF, nome de paciente, de solicitante ou de profissional, nem dado clinico. Nunca enviar vazio: o servidor recusa"
+        },
+        "categoria": {
+          "type": "string",
+          "required": true,
+          "description": "Categoria inferida do relato: Atendimento, Demora, Cobranca, Higiene, Conduta profissional, Infraestrutura ou Elogio"
+        }
+      },
+      "outputSchema": {},
+      "query": {},
+      "body": {
+        "mode": "kv",
+        "rows": [
+          {
+            "key": "setor",
+            "value": "{{setor}}"
+          },
+          {
+            "key": "resumo",
+            "value": "{{resumo}}"
+          },
+          {
+            "key": "categoria",
+            "value": "{{categoria}}"
+          },
+          {
+            "key": "conversa_id",
+            "value": "{{conversation_id}}"
+          }
+        ]
+      },
+      "credentialRef": "vault:6",
+      "enabled": true,
+      "expectedStatuses": [],
+      "ackEnabled": false,
+      "ackMessage": null,
+      "appointment": null,
+      "conversationRefIntegrationId": null,
+      "maxResponseChars": null,
+      "silenceTruncationAlert": false,
+      "createdAt": "2026-08-12T17:26:40.957Z",
+      "updatedAt": "2026-11-16T02:17:38.628Z"
+    },
+    {
+      "id": "12",
+      "name": "consultar_protocolo_ouvidoria",
+      "label": "Consultar protocolo de ouvidoria (API do Hospital)",
+      "description": "Consulta uma manifestação de ouvidoria JÁ registrada, pelo número de protocolo no formato ANO-NNNN (ex.: 2026-0004). NÃO faz parte do registro: o número do registro novo vem da própria registrar_ouvidoria. Use na Seção 7.5, quando o paciente voltar citando um protocolo, e na dúvida sobre uma gravação já feita nesta conversa. Enviar o número exatamente como o paciente escreveu, com o hífen, sem completar dígitos e sem corrigir o ano. Se a consulta encontrar a manifestação, a mensagem ao paciente é OBRIGATORIAMENTE o template da Seção 7.5 preenchido com os três dados copiados desta resposta: o protocolo, a data_abertura e o prazo_resposta (datas em formato brasileiro: 2026-08-18 vira 18/08/2026). Antes de enviar, confira um a um: o número está na mensagem? a data de abertura está? o prazo está? Se qualquer um faltar, reescreva pelo template. Responder só \"encontrei sua manifestação\" sem os três dados é PROIBIDO: encontrar e não contar é falha grave. NUNCA leia o status para o paciente (respondido significa que a equipe interna fechou o caso, não que ele foi contatado) e NUNCA leia o resumo de volta. Protocolo não encontrado ou erro: não afirmar que o protocolo não existe e seguir a mensagem de não localizado da Seção 7.5. Protocolo de agendamento (numérico, sem hífen) não se consulta aqui.",
+      "method": "GET",
+      "urlTemplate": "https://api.hospitalsaomatheus.cloud/api/ana/ouvidoria/protocolos/{{protocolo}}",
+      "allowedHosts": [
+        "api.hospitalsaomatheus.cloud"
+      ],
+      "headers": {
+        "Accept": "application/json"
+      },
+      "inputSchema": {
+        "protocolo": {
+          "type": "string",
+          "required": true,
+          "description": "Numero do protocolo de ouvidoria no formato ANO-NNNN, com o hifen (ex.: 2026-0004), exatamente como o paciente informou ou como registrar_ouvidoria devolveu"
+        }
+      },
+      "outputSchema": {},
+      "query": {},
+      "body": {},
+      "credentialRef": "vault:6",
+      "enabled": true,
+      "expectedStatuses": [],
+      "ackEnabled": false,
+      "ackMessage": null,
+      "appointment": null,
+      "conversationRefIntegrationId": null,
+      "maxResponseChars": null,
+      "silenceTruncationAlert": false,
+      "createdAt": "2026-08-12T17:26:46.450Z",
+      "updatedAt": "2026-08-21T02:50:02.394Z"
+    }
+  ]
+}
