@@ -631,6 +631,12 @@ def rodar_cenario(canal, trace, cenario, arquivo):
         "handoff": ("handoff_to_human" in tools) if tools is not None
                    else (None if status is None else status == "open"),
     }
+    # a inbox de teste nao acumula conversa aberta (issue #26): o runner fecha o que a
+    # Ana deixou aberto, DEPOIS de ler o estado, para a conferencia ver o que ela fez
+    if status is not None and status != "resolved":
+        fechou = canal.resolver(conversa_id)
+        print(f"  conversa #{conversa_id} ficou {status}: "
+              + ("resolvida pelo runner" if fechou else "NAO consegui resolver (toggle_status)"))
 
     for n, turno in enumerate(cenario["turnos"]):
         if n >= len(resultado["turnos"]):

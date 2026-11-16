@@ -145,6 +145,29 @@ def test_encerramento_passa_com_o_card_encerrado_e_a_conversa_resolvida():
     assert any(c["tipo"] == "resolvida" and c["ok"] for c in r["conferencias"])
 
 
+@pytest.mark.parametrize("status", ["open", "pending"])
+def test_no_fim_o_runner_resolve_a_conversa_que_ficou_aberta(status):
+    canal = CanalFalso(raia="Em Atendimento — Ana", status=status, card=110)
+    r = rodar(canal, cenario={"id": "C02-1", "turnos": [{"envie": "oi"}]})
+    assert ("resolver", 691) in canal.eventos
+    # o estado conferido e o que a Ana deixou, lido antes de o runner fechar a conversa
+    assert canal.eventos.index(("estado", 691)) < canal.eventos.index(("resolver", 691))
+    assert r["fim"]["status"] == status
+
+
+def test_o_runner_nao_mexe_na_conversa_que_a_ana_ja_resolveu():
+    canal = CanalFalso(raia="Encerrado — Resolvido", status="resolved", card=137)
+    rodar(canal)
+    assert ("resolver", 691) not in canal.eventos
+
+
+def test_resolver_pede_toggle_status_resolved_ao_chatwoot():
+    respostas = {"/conversations/691/toggle_status": (200, {"payload": {"current_status": "resolved"}})}
+    canal = canal_de_api(respostas)
+    assert canal.resolver(691) is True
+    assert canal.chamadas == [("POST", "/conversations/691/toggle_status", {"status": "resolved"})]
+
+
 def test_o_cenario_de_encerramento_da_bateria_pede_a_conversa_resolvida():
     dados = json.loads((RAIZ / "ana" / "bancada" / "cenarios" / "capacidades.json").read_text())
     c29 = next(c for c in dados["cenarios"] if c["id"] == "C29-1")
