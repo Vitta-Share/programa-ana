@@ -23,6 +23,7 @@ Os achados foram vistos entre 06 e 14/ago, com a instância na 1.4.1 ou anterior
 | 5 | `reasoning_effort` no `modelConfig` | Entregue (1.5.0 e 1.6.0), em uso | Nenhum; agradecimento |
 | 6 | Build novo do chatwoot-pro (hotfix V8) | Resolvido na `.112`; instância na `.129` sem hotfix | Nenhum; registro |
 | 7 | Lista de inboxes dessincronizada | Corrigido com `instance_sync_inboxes` | Só registro |
+| 8 | Horário de atendimento no agente cala o agente fora da janela | Visto na fonte em 16/nov | Um modo que só alimenta as variáveis do horário |
 
 ---
 
@@ -126,14 +127,27 @@ Os achados foram vistos entre 06 e 14/ago, com a instância na 1.4.1 ou anterior
 
 Em 06/ago a lista de inboxes da plataforma divergia do Chatwoot. Corrigido na hora com `instance_sync_inboxes`. Sem reincidência conhecida. Só registro, sem pedido.
 
+## 8. Horário de atendimento no agente cala o agente fora da janela
+
+**Quando foi visto:** 16/nov, lendo a fonte, antes de ligar o horário na Ana (issue #56 do programa). Nada foi alterado na instância.
+
+**O que queríamos:** que a Ana soubesse se o hospital está aberto pelo horário cadastrado na plataforma, com `{{esta_aberto}}`, `{{proximo_atendimento}}` e `{{horario_atendimento}}`, em vez de um texto escrito à mão no prompt. O horário já existe na instância ("Equipe Hospital São Matheus", id 1, segunda a sexta das 7h às 18h, fuso de São Paulo). O agente 1 está com `businessHoursId` vazio.
+
+**O que a fonte mostra:** as três variáveis saem do `businessHoursId` do agente (`src/graph/prepare.ts`). O mesmo campo liga o `outOfHoursGate` (`src/modules/chatwoot/webhook.ts`). Fora da janela o agente não roda: a plataforma deixa uma nota privada para a equipe e, se houver aviso de ausência configurado, manda esse aviso ao paciente. O comentário do código diz que as variáveis existem para o texto do prompt bater com a trava, então hoje não dá para ter uma sem a outra.
+
+**Por que isso nos trava:** a Ana atende 24 horas. De noite e no fim de semana ela faz a triagem de urgência, escala na hora quando é urgente e dá ao paciente o prazo certo de retorno. Com a trava ligada, ninguém responde das 18h às 7h nem no fim de semana. Seguimos com o horário escrito à mão no prompt.
+
+**Pedido:** um modo do horário que só alimenta as variáveis, sem calar o agente. Por exemplo, uma opção no agente que separe "usar o horário no prompt" de "não responder fora do horário".
+
 ---
 
 ## O que de fato pedimos
 
 1. **Body legado (achado 3):** converter ou sinalizar body em mapa simples nas linhas já gravadas, e confirmar a recusa em todas as bordas de escrita.
 2. **`resolve_conversation` (achado 1):** confirmar se o caminho imediato dos turnos de follow-up ainda descarta a mensagem final.
+3. **Horário de atendimento (achado 8):** um modo que só alimenta as variáveis do horário, sem calar o agente fora da janela.
 
-Nada disso trava a Ana hoje: os dois têm contorno em uso.
+Nada disso trava a Ana hoje: os três têm contorno em uso.
 
 ---
 
