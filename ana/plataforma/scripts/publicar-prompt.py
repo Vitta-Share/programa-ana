@@ -23,11 +23,11 @@ from pathlib import Path
 # Os nomes das colunas do kanban têm travessão na plataforma e ficam como estão:
 # o `kanban_move_card` move pelo nome exato.
 COLUNAS_COM_TRAVESSAO = (
-    "EM ATENDIMENTO — ANA",
-    "ENCERRADO — RESOLVIDO",
-    "ENCERRADO — DESISTÊNCIA",
+    "EM ATENDIMENTO \u2014 ANA",
+    "ENCERRADO \u2014 RESOLVIDO",
+    "ENCERRADO \u2014 DESISTÊNCIA",
 )
-TRACOS = ("—", "–")
+TRACOS = ("\u2014", "\u2013")
 
 
 def corpo_publicar(agente: dict, prompt: str) -> dict:

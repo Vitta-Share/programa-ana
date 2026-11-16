@@ -50,10 +50,101 @@ def test_prompt_mudado_por_outra_sessao_desde_o_export_para_a_publicacao():
 
 
 def test_prompt_com_travessao_fora_das_colunas_nao_sobe():
-    limpo = "Mover para `EM ATENDIMENTO — ANA` e depois `ENCERRADO — RESOLVIDO`.\nSem traço."
+    limpo = "Mover para `EM ATENDIMENTO \u2014 ANA` e depois `ENCERRADO \u2014 RESOLVIDO`.\nSem traço."
     assert pp.travessoes_fora_das_colunas(limpo) == []
-    sujo = "Cenário A — fora do horário\nCenário B – fim de semana"
+    sujo = "Cenário A \u2014 fora do horário\nCenário B \u2013 fim de semana"
     assert pp.travessoes_fora_das_colunas(sujo) == [
-        "Cenário A — fora do horário",
-        "Cenário B – fim de semana",
+        "Cenário A \u2014 fora do horário",
+        "Cenário B \u2013 fim de semana",
     ]
+
+
+# ------------------------------------------------------------ o prompt v7
+
+V70 = (RAIZ / "ana" / "plataforma" / "export-prompt-v70.md").read_text(encoding="utf-8")
+V7 = (RAIZ / "ana" / "prompt" / "prompt-compilado.md").read_text(encoding="utf-8")
+
+FERRAMENTAS = [
+    "search_knowledge", "consultar_precos_consultas", "consultar_exames",
+    "consultar_cirurgias_estimativas", "buscar_paciente_por_cpf", "buscar_paciente_por_telefone",
+    "consultar_especialidades_agenda", "consultar_convenios_agenda", "consultar_planos_convenio",
+    "consultar_horarios_livres", "consultar_prestadores_agenda", "registrar_ouvidoria",
+    "consultar_protocolo_ouvidoria", "kanban_move_card", "update_kanban_task", "set_labels",
+    "private_note", "set_custom_attribute", "handoff_to_human", "resolve_conversation",
+    "get_current_time", "skip_reply",
+]
+ETIQUETAS = [
+    "emergencia", "particular-aquecido", "agendamento-particular", "agendamento-convenio",
+    "exame-resultado", "prontuario", "ouvidoria", "fora-horario",
+]
+COLUNAS = [
+    "NOVO CONTATO", "EM ATENDIMENTO \u2014 ANA", "AGUARDANDO CONFIRMAÇÃO", "FILA COMERCIAL",
+    "FILA ATENDIMENTO", "FILA OUVIDORIA", "SETOR RESPONSÁVEL", "AGENDADO",
+    "ENCERRADO \u2014 RESOLVIDO", "ENCERRADO \u2014 DESISTÊNCIA",
+]
+ATRIBUTOS = ["nome_completo", "cpf", "convenio"]
+
+
+def blocos(texto):
+    return re.findall(r"```\n(.*?)```", texto, re.DOTALL)
+
+
+def test_o_prompt_comprimido_fica_perto_de_40_mil_caracteres():
+    assert len(V70) == 63_657
+    assert len(V7) <= 45_000
+
+
+def test_o_prompt_nao_tem_travessao_fora_dos_nomes_das_colunas():
+    assert pp.travessoes_fora_das_colunas(V70)  # a v7.0 tinha 29
+    assert pp.travessoes_fora_das_colunas(V7) == []
+
+
+def test_a_ana_e_proibida_de_usar_travessao_na_resposta():
+    assert "Nunca use travessão nem meia-risca" in V7
+
+
+def test_toda_ferramenta_etiqueta_coluna_e_atributo_seguem_com_o_mesmo_nome():
+    for nome in FERRAMENTAS:
+        assert re.search(rf"\b{nome}\b", V70.replace("assign_label", "set_labels")), nome
+        assert f"`{nome}`" in V7, nome
+    for nome in ATRIBUTOS:
+        assert f"`{nome}`" in V70, nome
+        assert f"`{nome}`" in V7, nome
+    for etiqueta in ETIQUETAS:
+        assert f"| {etiqueta} |" in V7, etiqueta
+    for coluna in COLUNAS:
+        assert f"| {coluna} |" in V7, coluna
+    # a 1.59 trocou o nome da ferramenta nativa de etiqueta
+    assert "assign_label" not in V7
+
+
+def test_toda_mensagem_modelo_da_v70_vai_igual_na_v7():
+    modelos = [b for b in blocos(V70) if "PASSO 1 →" not in b]  # o único bloco que não é fala
+    assert len(modelos) == 31
+    faltando = [m for m in modelos if f"```\n{m}```" not in V7]
+    assert faltando == []
+
+
+def test_oferta_de_encaminhar_espera_o_sim_do_paciente():
+    # diagnóstico da v159, proposta 1: C08-2, C10-1 e C10-2 escalavam antes do sim
+    assert V7.count("Só depois do sim do paciente") >= 1
+    assert "nem fora do horário comercial" in V7
+
+
+def test_mensagem_de_fora_do_horario_nunca_antecipa_a_escalada():
+    # diagnóstico da v159, proposta 2: C13-1 pedia o nome e já escalava pelo fora de horário
+    assert "nunca antecipa uma escalada" in V7
+
+
+def test_prontuario_pergunta_a_finalidade_antes_de_orientar():
+    # decisão do Pedro na issue (13/out): processo judicial, falecido e menor mudam o caminho
+    assert "perguntar a finalidade antes de orientar" in V7
+
+
+def test_toda_regra_da_v69_tem_endereco_na_v7():
+    checklist = (RAIZ / "ana" / "prompt" / "regras-v69.md").read_text(encoding="utf-8")
+    linhas = [l for l in checklist.splitlines() if re.match(r"\| \d+ \|", l)]
+    assert len(linhas) >= 170
+    celulas = [[c.strip() for c in l.strip()[1:-1].split("|")] for l in linhas]
+    sem_endereco = [c for c in celulas if len(c) != 4 or not all(c)]
+    assert sem_endereco == []
