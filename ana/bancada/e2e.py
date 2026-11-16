@@ -272,6 +272,26 @@ class Canal:
 
 # --------------------------------------------------------------------- trace
 
+def chamadas_do_log(itens, conversa_chatwoot):
+    """[(turnId, nome_da_tool, createdAt, args)] da conversa, do mais velho ao mais novo.
+
+    Na 1.59 a etapa `tool` do log traz linhas que nao sao chamadas: a de etapa
+    (`detail.phase`, como a das etiquetas do set_labels e a do atributo recusado) e
+    o resumo do fim do turno quando a ferramenta falhou em todas as chamadas
+    (`detail.failedCalls`). Contadas como chamada, viravam "tool repetida" (issue #55)."""
+    sufixo = f":{conversa_chatwoot}"
+    saida = []
+    for i in reversed(itens):                                  # a API devolve do mais novo
+        detalhe = i.get("detail") or {}                        # ao mais velho
+        if not str(i.get("threadId") or "").endswith(sufixo):
+            continue
+        if "phase" in detalhe or "failedCalls" in detalhe:
+            continue
+        saida.append((i.get("turnId"), detalhe.get("tool"), i.get("createdAt"),
+                      detalhe.get("args") or {}))
+    return saida
+
+
 class Trace:
     """As ferramentas que a Ana chamou, lidas dos logs da plataforma."""
 
@@ -296,12 +316,7 @@ class Trace:
         status, d = pedir(url, headers={"Authorization": f"Bearer {self.token}"})
         if status != 200 or not isinstance(d, dict):
             return None
-        sufixo = f":{conversa_chatwoot}"
-        itens = [i for i in reversed(d.get("items", []))          # a API devolve do mais novo
-                 if str(i.get("threadId") or "").endswith(sufixo)]  # ao mais velho
-        return [(i.get("turnId"), (i.get("detail") or {}).get("tool"), i.get("createdAt"),
-                 (i.get("detail") or {}).get("args") or {})
-                for i in itens]
+        return chamadas_do_log(d.get("items", []), conversa_chatwoot)
 
 
     def uso(self, desde_iso):
