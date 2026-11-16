@@ -1,0 +1,164 @@
+{
+  "id": "1",
+  "name": "Ana (Hospital São Matheus)",
+  "modelConfig": {
+    "model": "gpt-6-luna",
+    "provider": "openai",
+    "credentialRef": "vault:2",
+    "reasoningEffort": "none"
+  },
+  "businessHoursId": null,
+  "followUpHoursId": null,
+  "transferWithSummary": true,
+  "enabled": true,
+  "mode": "test",
+  "kind": "text",
+  "settings": {
+    "stt": {
+      "model": "whisper-1",
+      "baseURL": null,
+      "enabled": true,
+      "language": "pt",
+      "provider": "openai",
+      "credentialRef": "vault:2"
+    },
+    "tts": {
+      "mode": "never",
+      "model": "",
+      "voice": "",
+      "baseURL": null,
+      "provider": "openai",
+      "credentialRef": null
+    },
+    "split": {
+      "enabled": false,
+      "maxChars": 320,
+      "maxChunks": 5,
+      "typingWpm": 150,
+      "maxDelayMs": 2000,
+      "minDelayMs": 500
+    },
+    "kanban": {
+      "instructions": null
+    },
+    "limits": {
+      "maxToolCalls": 10
+    },
+    "vision": {
+      "model": "",
+      "baseURL": null,
+      "enabled": false,
+      "provider": "openai",
+      "credentialRef": "vault:2",
+      "extractionPrompt": "Descreva objetivamente o conteúdo deste arquivo, transcrevendo todo o texto visível e os dados relevantes. Responda apenas com o conteúdo, sem comentários nem suposições."
+    },
+    "handoff": {
+      "mode": "route",
+      "instructions": "Escale para a equipe humana quando: houver qualquer sinal de urgência médica (imediatamente, em qualquer horário, sem coletar dados); o paciente pedir para falar com uma pessoa; houver questão médica (sintomas, diagnóstico, interpretação de exames, medicamentos); reclamação registrada na ouvidoria; negociação de valores; ou os fluxos do SOP indicarem fila humana (FILA COMERCIAL, FILA ATENDIMENTO, FILA OUVIDORIA, SETOR RESPONSÁVEL). Fora do horário comercial (seg-sex 7h-18h), registre e acolha sem escalar ativamente, exceto urgência. Antes de escalar, acolha e avise que alguém da equipe vai assumir.",
+      "targetTeamId": null,
+      "targetAgentId": null,
+      "targetInstanceId": null
+    },
+    "debounce": {
+      "enabled": true,
+      "windowSeconds": 8,
+      "maxWindowSeconds": 60,
+      "maxMessagesPerBurst": 10
+    },
+    "followUp": {
+      "steps": [
+        {
+          "delayUnit": "minutes",
+          "delayValue": 60,
+          "instructions": ""
+        }
+      ],
+      "enabled": false,
+      "pauseWhileAppointment": true
+    },
+    "guardrails": {
+      "input": {
+        "action": "template",
+        "checks": {
+          "toxicity": true,
+          "unsafeContent": true,
+          "promptAdherence": false,
+          "competitorMentions": false
+        },
+        "enabled": true,
+        "templateMessage": "Desculpe, não consigo ajudar com isso.",
+        "generationPrompt": ""
+      },
+      "model": "",
+      "output": {
+        "action": "template",
+        "checks": {
+          "toxicity": true,
+          "unsafeContent": true,
+          "promptAdherence": true,
+          "competitorMentions": true
+        },
+        "enabled": true,
+        "templateMessage": "Desculpe, não consigo ajudar com isso.",
+        "generationPrompt": ""
+      },
+      "baseURL": null,
+      "enabled": false,
+      "provider": "openai",
+      "competitors": [],
+      "customPolicy": "",
+      "credentialRef": null
+    },
+    "toolGuidance": {},
+    "observability": {
+      "fullDetailRetentionDays": 14
+    },
+    "serviceWindow": {
+      "enabled": true,
+      "windowHours": 24,
+      "templateName": null,
+      "templateParams": [],
+      "templateContent": null,
+      "templateCategory": "UTILITY",
+      "templateLanguage": "pt_BR"
+    },
+    "channelRedirect": {
+      "enabled": false,
+      "maxResends": 3,
+      "openWidget": true,
+      "entryInboxId": null,
+      "widgetInboxId": null,
+      "cloneWaMessage": true,
+      "closingEnabled": true,
+      "closingMessage": "Obrigado pelo contato! Estou encerrando o atendimento por aqui, mas é só chamar novamente quando precisar.",
+      "redirectMessage": "Olá! Para te atender melhor, vamos continuar a conversa pelo nosso chat. É só acessar o link: {link}",
+      "resendDelayUnit": "minutes",
+      "closingDelayUnit": "minutes",
+      "resendDelayValue": 60,
+      "closingDelayValue": 60,
+      "waFollowupEnabled": true,
+      "waFollowupMessage": "Vi que você começou um atendimento pelo nosso chat e não finalizou. É só acessar o link para retomar de onde parou: {link}",
+      "chatFollowupEnabled": true,
+      "waFollowupDelayUnit": "minutes",
+      "waFollowupDelayValue": 45,
+      "chatFollowupDelayUnit": "minutes",
+      "chatFollowupDelayValue": 15,
+      "chatFollowupInstructions": ""
+    },
+    "attributeContext": {
+      "task": [],
+      "contact": [
+        "cpf",
+        "nome_completo"
+      ],
+      "conversation": []
+    },
+    "conversationNotes": {
+      "errors": "note",
+      "toolsUsed": "note"
+    }
+  },
+  "createdAt": "2026-07-29T17:30:33.129Z",
+  "updatedAt": "2026-11-16T02:18:36.493Z",
+  "systemPromptChars": 63657
+}

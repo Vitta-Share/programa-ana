@@ -86,3 +86,48 @@ def test_o_aplicar_para_se_outra_sessao_mudou_as_settings_desde_o_export():
     atual["settings"]["split"]["maxChars"] = 400
     assert cf.mudou_desde_o_export(export, atual) == ["split"]
     assert cf.mudou_desde_o_export(export, agente()) == []
+
+
+# ------------------------------- critério 2: marcadas, falsos alarmes e custo extra
+
+PRECOS = {"cambio_brl_por_usd": 5.0,
+          "openai": {"gpt-6-luna": {"entrada": 0.10, "cache": 0.01, "saida": 0.50}}}
+
+
+def revisao(conversa, veredito="clean", fonte=True, entrada=10000, cache=4000, saida=300,
+            turno="t", status="ok"):
+    detail = {"direction": "output", "check": "factual_grounding"}
+    if status == "ok":
+        detail.update(verdict=veredito, claimCount=0 if veredito == "clean" else 2,
+                      sourced=fonte, inputTokens=entrada, cachedInputTokens=cache,
+                      outputTokens=saida)
+    else:
+        detail.update(outcome="analysis_failed", unchecked=True)
+    return {"turnId": turno, "threadId": f"1:1:{conversa}", "stage": "guardrail",
+            "status": status, "detail": detail, "createdAt": "2026-11-16T05:00:00Z"}
+
+
+def test_a_tabela_conta_respostas_marcadas_so_das_conversas_da_bateria():
+    linhas = [revisao(700), revisao(700, "violated", turno="a"), revisao(701, "violated", fonte=False),
+              revisao(999, "violated"),  # conversa de outra sessão na mesma janela
+              {"threadId": "1:1:700", "stage": "guardrail", "status": "ok",
+               "detail": {"direction": "output", "action": "template"}}]  # moderação, não checagem
+    t = cf.tabela(linhas, conversas={700, 701, 702}, precos=PRECOS, modelo="gpt-6-luna")
+    assert (t["conversas"], t["revisoes"], t["marcadas"]) == (3, 3, 2)
+    assert (t["marcadas_com_fonte"], t["marcadas_sem_fonte"]) == (1, 1)
+
+
+def test_a_tabela_soma_o_custo_do_revisor_e_divide_pelas_conversas_da_bateria():
+    # 6.000 sem cache x 0,10 + 4.000 em cache x 0,01 + 300 de saída x 0,50 = US$ 0,00079 por revisão
+    linhas = [revisao(700), revisao(701), revisao(700, status="error")]
+    t = cf.tabela(linhas, conversas={700, 701, 702, 703}, precos=PRECOS, modelo="gpt-6-luna")
+    assert t["falhas"] == 1
+    assert t["usd"] == 0.00158
+    assert t["usd_por_conversa"] == 0.000395
+    assert t["brl_por_conversa"] == 0.001975
+
+
+def test_as_marcadas_saem_em_lista_para_julgar_o_falso_alarme_uma_a_uma():
+    linhas = [revisao(700), revisao(701, "violated", turno="b"), revisao(700, "violated", turno="a")]
+    m = cf.marcadas(linhas, conversas={700, 701})
+    assert [(x["conversa"], x["turno"], x["afirmacoes"]) for x in m] == [(700, "a", 2), (701, "b", 2)]
