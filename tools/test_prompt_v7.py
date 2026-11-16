@@ -186,8 +186,9 @@ def test_turno_da_oferta_de_encaminhar_termina_na_pergunta():
 
 def test_oferta_de_encaminhar_nao_cita_a_tabela():
     # bateria v71: "Não encontrei o valor ... na tabela oficial" é termo interno
-    oferta = re.search(r"\*\*Oferta de encaminhar:\*\*.*", V7).group(0)
-    assert "sem citar tabela" in oferta
+    modelo = V7.split("**Mensagem da oferta**", 1)[1].split("```", 2)[1]
+    assert "Não tenho o valor de [item]" in modelo
+    assert "tabela" not in modelo
 
 
 def test_regras_globais_dizem_que_oferecer_encaminhar_nao_e_escalar():
@@ -206,3 +207,12 @@ def test_pergunta_da_oferta_nunca_vai_no_customer_message_do_handoff():
     handoff = re.search(r"^- `handoff_to_human`: .*", V7, re.MULTILINE).group(0)
     assert "A pergunta da oferta de encaminhar (Seção 6) é resposta de texto" in handoff
     assert "nunca vai no `customerMessage`" in handoff
+
+
+def test_oferta_de_encaminhar_tem_mensagem_modelo_e_lista_fechada_de_ferramentas():
+    # bateria v72, depois das regras 9 e 13: C10-1 e C10-2 ainda escalaram uma vez em
+    # duas, com `set_custom_attribute`, `update_kanban_task` e `set_labels` no caminho
+    oferta = re.search(r"\*\*Oferta de encaminhar:\*\*.*", V7).group(0)
+    assert "as ferramentas dele são só a consulta da fonte e o `kanban_move_card` para `EM ATENDIMENTO — ANA`" in oferta
+    modelo = V7.split("**Mensagem da oferta**", 1)[1]
+    assert "```\nNão tenho o valor de [item] para te passar agora. Quer que nossa equipe confirme para você?\n```" in modelo
