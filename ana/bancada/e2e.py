@@ -306,12 +306,36 @@ def chamadas_do_log(itens, conversa_chatwoot):
     return saida
 
 
+def agente_da_inbox(agentes, inbox_nome):
+    """Quem responde pela inbox: id, nome, modelo e reasoning, numa linha (issue #19).
+
+    `agentes` e a lista de GET /api/v1/agents, que traz as inboxes de cada agente.
+    Vai para o log e para as janelas da rodada: o placar de um clone nao se confunde
+    com o da Ana 1."""
+    for a in agentes:
+        if any(i.get("name") == inbox_nome for i in a.get("inboxes") or []):
+            m = a.get("modelConfig") or {}
+            return (f"agente {a.get('id')} ({a.get('name')}), {m.get('model')}, "
+                    f"reasoning {m.get('reasoningEffort') or 'padrao'}")
+    return "sem agente ligado"
+
+
 class Trace:
     """As ferramentas que a Ana chamou, lidas dos logs da plataforma."""
 
     def __init__(self, env):
         self.token = env.get("AGENTS_API_TOKEN")
         self.ligado = bool(self.token)
+
+    def agente(self):
+        """A linha do `agente_da_inbox` para a inbox de teste. None = nao coletado."""
+        if not self.ligado:
+            return None
+        status, d = pedir(f"{PLATAFORMA}/api/v1/agents",
+                          headers={"Authorization": f"Bearer {self.token}"})
+        if status != 200 or not isinstance(d, dict):
+            return None
+        return agente_da_inbox(d.get("agents") or [], INBOX_NOME)
 
     def por_conversa(self, conversa_chatwoot, desde_iso):
         """[(turnId, nome_da_tool, createdAt)] na ordem em que aconteceram. None = nao coletado.
@@ -779,6 +803,11 @@ def main():
     print(f"Bancada de cenarios da Ana: {caminho.name} ({len(cenarios)} cenario(s))")
     print(f"Canal: inbox '{INBOX_NOME}' do Chatwoot, modo teste com o prefixo {PREFIXO_MODO_TESTE}")
     print(f"Trace: {'ligado' if trace.ligado else 'DESLIGADO (sem AGENTS_API_TOKEN no .env)'}")
+    agente = trace.agente() or "nao coletado"
+    print(f"Agente: {agente}")
+    if rotulo:
+        with (RESULTADOS / f"janelas-{args.bateria}.txt").open("a") as j:
+            j.write(f"{args.bateria} rodada{args.rodada} agente {agente}\n")
 
     rodadas_anteriores = {}
     if args.bateria:
