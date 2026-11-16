@@ -556,7 +556,8 @@ def rodar_cenario(canal, trace, cenario, arquivo):
                  "familia": cenario.get("familia"), "titulo": cenario.get("titulo"),
                  "contato": nome_contato, "conversa_id": None, "inicio": None,
                  "turnos": [], "tools": None, "pior_repeticao": None,
-                 "fim": None, "conferencias": [], "falhas": [], "uso": None, "custo": None}
+                 "fim": None, "conferencias": [], "falhas": [], "uso": None, "custo": None,
+                 "turnos_pulados": []}
 
     try:
         source_id, conversa_id = canal.abrir_conversa(nome_contato)
@@ -588,8 +589,18 @@ def rodar_cenario(canal, trace, cenario, arquivo):
         resultado["falhas"].append(f"nao consegui ativar o modo teste: {e}")
 
     enviados = []
+    gravados = []   # o turno do cenario que cada turno gravado envia (o pulado nao entra)
     for n, turno in enumerate(cenario["turnos"]):
         texto = turno["envie"]
+        # turno condicional (issue #19): so vai se a ultima resposta da Ana casa com a
+        # regex "so_se" (ex.: a lista numerada de horarios que a Global Health devolveu)
+        if turno.get("so_se") and not re.search(
+                turno["so_se"], "\n".join(resultado["turnos"][-1]["ana"] if resultado["turnos"] else []),
+                re.MULTILINE):
+            resultado["turnos_pulados"].append(n + 1)
+            print(f"\n  (turno {n + 1} pulado: a Ana nao disse /{turno['so_se']}/)")
+            continue
+        gravados.append(turno)
         print(f"\n  > paciente: {texto}")
         emitir("paciente", id=cid, n=n + 1, texto=texto, espere=turno.get("espere"),
                nos=turno.get("nos", []))
@@ -607,7 +618,7 @@ def rodar_cenario(canal, trace, cenario, arquivo):
             print("  < Ana: (nada em " + str(TETO_ESPERA_S) + "s)")
         emitir("ana", id=cid, n=n + 1, respostas=respostas)
         resultado["turnos"].append({
-            "n": n + 1, "paciente": texto, "ana": respostas,
+            "n": len(gravados), "paciente": texto, "ana": respostas,
             "ferramentas": None, "nos": turno.get("nos", []),
             "espere": turno.get("espere"), "falha_se": turno.get("falha"),
             "conferencias": []})
@@ -670,18 +681,15 @@ def rodar_cenario(canal, trace, cenario, arquivo):
         print(f"  conversa #{conversa_id} ficou {status}: "
               + ("resolvida pelo runner" if fechou else "NAO consegui resolver (toggle_status)"))
 
-    for n, turno in enumerate(cenario["turnos"]):
-        if n >= len(resultado["turnos"]):
-            break
-        gravado = resultado["turnos"][n]
-        gravado["conferencias"] = checar(n + 1, turno, "\n".join(gravado["ana"]), tools, pior)
+    for gravado, turno in zip(resultado["turnos"], gravados):
+        gravado["conferencias"] = checar(gravado["n"], turno, "\n".join(gravado["ana"]), tools, pior)
     if resultado["turnos"]:
         resultado["turnos"][-1]["conferencias"] += checar_fim(
             cenario, len(resultado["turnos"]), resultado["fim"], tools, notas)
 
     resultado["conferencias"] = [c for t in resultado["turnos"] for c in t["conferencias"]]
     resultado["falhas"] += [descrever(c) for c in resultado["conferencias"] if c["ok"] is False]
-    if len(resultado["turnos"]) < len(cenario["turnos"]):
+    if len(resultado["turnos"]) + len(resultado["turnos_pulados"]) < len(cenario["turnos"]):
         resultado["veredito"] = "erro"
     else:
         resultado["veredito"] = "passou" if not resultado["falhas"] else "falhou"
@@ -702,7 +710,7 @@ def gravar_conversa(r):
     CONVERSAS.mkdir(exist_ok=True)
     doc = {k: r[k] for k in ("id", "arquivo", "capacidade", "familia", "titulo", "contato",
                              "conversa_id", "inicio", "turnos", "tools", "fim",
-                             "veredito", "falhas", "uso", "custo")}
+                             "veredito", "falhas", "uso", "custo", "turnos_pulados")}
     doc["rodou_em"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
     # o arquivo vai para o git: CPF sai mascarado, mesmo o de teste que o cenario envia
     texto = re.sub(r"\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b", "***.***.***-**",
