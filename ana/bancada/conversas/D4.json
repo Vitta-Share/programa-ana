@@ -1,0 +1,158 @@
+{
+  "id": "D4",
+  "arquivo": "integracao.json",
+  "capacidade": null,
+  "familia": "D",
+  "titulo": "Gravacao quebrada nao vira numero inventado",
+  "contato": "TESTE BANCADA ANA D4",
+  "conversa_id": 1287,
+  "inicio": "2026-11-16T19:53:45+00:00",
+  "turnos": [
+    {
+      "n": 1,
+      "paciente": "TESTE BANCADA ANA: quero fazer uma reclamacao",
+      "ana": [
+        "Sinto muito que você esteja passando por isso. Obrigada por nos contar.\n\nVou registrar seu relato com todo o cuidado para que seja apurado pelos setores responsáveis.\n\nMe conta o que aconteceu, estou aqui para ouvir com atenção."
+      ],
+      "ferramentas": [
+        "set_labels",
+        "kanban_move_card"
+      ],
+      "nos": [],
+      "espere": null,
+      "falha_se": null,
+      "conferencias": []
+    },
+    {
+      "n": 2,
+      "paciente": "a cobranca da minha internacao veio com um valor que ninguem soube me explicar no faturamento",
+      "ana": [
+        "Entendo sua preocupação com essa cobrança. Vou registrar seu relato com todo o cuidado para que seja apurado pelos setores responsáveis.\n\nPara registrar direitinho, me passa seu nome completo e seu CPF? E me diz também: aconteceu com você ou com outra pessoa?"
+      ],
+      "ferramentas": [
+        "set_custom_attribute",
+        "set_custom_attribute"
+      ],
+      "nos": [],
+      "espere": null,
+      "falha_se": null,
+      "conferencias": []
+    },
+    {
+      "n": 3,
+      "paciente": "meu nome e Teste Bancada Ana, CPF ***.***.***-**, foi comigo",
+      "ana": [
+        "Quando isso aconteceu e em qual setor ou com qual profissional?"
+      ],
+      "ferramentas": [
+        "set_custom_attribute",
+        "set_custom_attribute",
+        "search_knowledge"
+      ],
+      "nos": [],
+      "espere": null,
+      "falha_se": null,
+      "conferencias": []
+    },
+    {
+      "n": 4,
+      "paciente": "foi na segunda de manha, no faturamento",
+      "ana": [
+        "Obrigada por confiar isso a nós.\n\nSua manifestação foi registrada com todo o cuidado.\n\nNossa equipe entrará em contato em até 5 dias úteis."
+      ],
+      "ferramentas": [
+        "private_note",
+        "search_knowledge",
+        "get_current_time",
+        "registrar_ouvidoria",
+        "kanban_move_card",
+        "handoff_to_human"
+      ],
+      "nos": [],
+      "espere": null,
+      "falha_se": null,
+      "conferencias": []
+    },
+    {
+      "n": 5,
+      "paciente": "pode registrar",
+      "ana": [],
+      "ferramentas": [],
+      "nos": [],
+      "espere": null,
+      "falha_se": null,
+      "conferencias": [
+        {
+          "turno": 5,
+          "tipo": "contem_algum",
+          "esperado": [
+            "cuidado",
+            "registrada"
+          ],
+          "veio": null,
+          "ok": false
+        },
+        {
+          "turno": 5,
+          "tipo": "frase proibida",
+          "esperado": "2026-0",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 5,
+          "tipo": "frase proibida",
+          "esperado": "protocolo 2",
+          "veio": null,
+          "ok": true
+        }
+      ]
+    }
+  ],
+  "tools": [
+    "set_labels",
+    "kanban_move_card",
+    "set_custom_attribute",
+    "set_custom_attribute",
+    "set_custom_attribute",
+    "set_custom_attribute",
+    "search_knowledge",
+    "private_note",
+    "search_knowledge",
+    "get_current_time",
+    "registrar_ouvidoria",
+    "kanban_move_card",
+    "handoff_to_human"
+  ],
+  "fim": {
+    "etiquetas": [
+      "ouvidoria"
+    ],
+    "raia": "Fila Ouvidoria",
+    "raia_pelo_trace": null,
+    "status": "open",
+    "handoff": true
+  },
+  "veredito": "falhou",
+  "falhas": [
+    "turno 5: FALHOU contem_algum [\"cuidado\", \"registrada\"]"
+  ],
+  "uso": {
+    "entrada": 61449,
+    "cache": 284158,
+    "cache_criacao": 60914,
+    "saida": 2161,
+    "chamadas": 22,
+    "modelos": [
+      "gpt-6-luna"
+    ]
+  },
+  "custo": {
+    "modelo": "gpt-6-luna",
+    "mensagens_ana": 4,
+    "openai_usd": 0.010067,
+    "meta_brl": 0.14
+  },
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T19:58:47+00:00"
+}
