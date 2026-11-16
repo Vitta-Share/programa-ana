@@ -50,3 +50,18 @@ def test_d4_restaurada_volta_a_url_do_export_e_a_conferencia_fica_limpa():
     assert corpo == {"urlTemplate": URL_11}
     restaurada = {**quebrada, **corpo, "updatedAt": "2026-11-16T20:05:00.000Z"}
     assert jr.diferencas(export, restaurada) == []
+
+
+def test_e3_a_chave_girada_no_vault_nao_toca_definicao_de_ferramenta_nenhuma():
+    export = [ferramenta("1", url="https://x/consultas"), ferramenta()]
+    assert jr.ferramentas_tocadas(export, [dict(f) for f in export]) == []
+    editada = [export[0], ferramenta(atualizada="2026-11-16T20:00:00.000Z")]
+    assert jr.ferramentas_tocadas(export, editada) == ["11"]
+
+
+def test_nada_se_quebra_com_outro_prompt_no_ar_ou_ferramenta_mexida_desde_o_export():
+    export = [ferramenta()]
+    assert jr.motivo_para_parar(jr.PROMPT_V72, export, export) is None
+    assert "prompt" in jr.motivo_para_parar("abc123", export, export)
+    mexida = [ferramenta(url="https://api.hospitalsaomatheus.cloud/api/ana/outra")]
+    assert "11" in jr.motivo_para_parar(jr.PROMPT_V72, export, mexida)
