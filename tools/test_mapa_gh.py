@@ -189,3 +189,30 @@ def test_mapa_traz_todas_as_capacidades_do_contrato_com_a_ficha_completa(histori
     for caminho in mapa["caminhos"]:
         ordens = [c["ordem"] for c in caminho["capacidades"]]
         assert ordens == sorted(ordens) and len(set(ordens)) == len(ordens)
+
+
+# Critério 5: a semente do Histórico
+
+
+def test_historico_nasce_com_as_tres_execucoes_de_semente_marcadas_como_registro_de_sessao(historico):
+    mapa = saida(rodar("mapa", historico=historico))
+    saida(rodar("mapa", historico=historico))  # o segundo uso não planta de novo
+
+    linhas = [json.loads(l) for l in historico.read_text().splitlines() if l.strip()]
+    assert [l["data"][:10] for l in linhas] == ["2026-09-08", "2026-11-15", "2026-11-16"]
+    assert all(l["registro_de_sessao"] is True and l["quem"] == "sessao" for l in linhas)
+
+    assert [e["data"][:10] for e in mapa["historico"]] == ["2026-09-08", "2026-11-15", "2026-11-16"]
+    set_08, nov_15, nov_16 = (e["numeros"] for e in mapa["historico"])
+    assert set_08["convenios"] == 33 and set_08["horarios_14_dias"] == 3
+    assert set_08["escritas"]["agendar"]["status"] == 417
+    assert "convenios: fora do ar" in nov_15["erros"] and "horarios: fora do ar" in nov_15["erros"]
+    assert nov_16["convenios"] == 25 and nov_16["horarios_14_dias"] == 1
+    assert nov_16["ultimo_horario"] == "26/11" and nov_16["exames_publicados"] == 0
+    assert nov_16["escritas"]["agendar"]["status"] == 417
+
+    agendar = next(c for c in capacidades(mapa) if c["id"] == "agendar")
+    assert agendar["ultimo_estado"]["status"] == 417
+    assert agendar["ultimo_estado"]["cor"] == "vermelho"
+    assert agendar["ultimo_estado"]["registro_de_sessao"] is True
+    assert agendar["ultimo_estado"]["data"].startswith("2026-11-16")

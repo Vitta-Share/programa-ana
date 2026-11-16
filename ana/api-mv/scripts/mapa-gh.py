@@ -55,6 +55,29 @@ def ultimo_estado(cap_id, historico):
     return {"estado": "sem_registro", "cor": "cinza", "data": None}
 
 
+def escritas_registradas(cat, historico):
+    """Ultimo resultado registrado de cada escrita, com a data: as escritas nunca rodam daqui."""
+    escritas = {}
+    for c in cat["capacidades"]:
+        if c["tipo"] != "escrita":
+            continue
+        ultimo = ultimo_estado(c["id"], historico)
+        if ultimo["estado"] != "sem_registro":
+            escritas[c["id"]] = {"status": ultimo.get("status"), "mensagem": ultimo.get("faltou"),
+                                 "data": ultimo["data"]}
+    return escritas
+
+
+def resumo_historico(cat, historico):
+    linhas = []
+    for i, execucao in enumerate(historico):
+        numeros = {**execucao["numeros"]}
+        numeros.setdefault("escritas", escritas_registradas(cat, historico[:i + 1]))
+        linhas.append({k: execucao.get(k) for k in ("id", "data", "quem", "registro_de_sessao", "duracao_ms", "nota")}
+                      | {"numeros": numeros})
+    return linhas
+
+
 def cmd_mapa():
     cat = catalogo()
     historico = ler_historico(cat)
@@ -64,7 +87,7 @@ def cmd_mapa():
         caminhos.append({**caminho, "capacidades": [{**c, "ultimo_estado": ultimo_estado(c["id"], historico)}
                                                     for c in caps]})
     emitir({"versao_contrato": cat["versao_contrato"], "ambiente": "homologacao",
-            "caminhos": caminhos})
+            "caminhos": caminhos, "historico": resumo_historico(cat, historico)})
 
 
 def main(argv):
