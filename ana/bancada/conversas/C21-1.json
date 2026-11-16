@@ -5,18 +5,18 @@
   "familia": null,
   "titulo": "Acolher e coletar a manifestação",
   "contato": "TESTE BANCADA ANA C21-1",
-  "conversa_id": 587,
-  "inicio": "2026-10-13T08:16:46+00:00",
+  "conversa_id": 686,
+  "inicio": "2026-11-16T03:40:17+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quero fazer uma reclamação, esperei três horas na recepção ontem",
       "ana": [
-        "Sinto muito que você tenha passado por essa espera. Obrigada por nos contar. Vou registrar seu relato com todo o cuidado para que seja apurado pelos setores responsáveis.\n\nMe conta o que aconteceu, estou aqui para ouvir com atenção."
+        "Sinto muito que você tenha passado por essa espera. Obrigada por nos contar.\n\nVou registrar seu relato com todo o cuidado para que seja apurado pelos setores responsáveis.\n\nMe conta o que aconteceu, estou aqui para ouvir com atenção."
       ],
       "ferramentas": [
-        "assign_label",
-        "kanban_move_card"
+        "set_labels",
+        "set_labels"
       ],
       "nos": [
         "E1",
@@ -71,28 +71,26 @@
     }
   ],
   "tools": [
-    "assign_label",
-    "kanban_move_card"
+    "set_labels",
+    "set_labels"
   ],
   "fim": {
     "etiquetas": [
       "ouvidoria"
     ],
     "raia": null,
-    "raia_pelo_trace": [
-      "EM ATENDIMENTO — ANA"
-    ],
+    "raia_pelo_trace": [],
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 127,
-    "cache": 66986,
-    "cache_criacao": 118,
-    "saida": 98,
-    "chamadas": 3,
+    "entrada": 23047,
+    "cache": 22990,
+    "cache_criacao": 23041,
+    "saida": 72,
+    "chamadas": 2,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -100,8 +98,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.000732,
+    "openai_usd": 0.002571,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-10-13T08:17:23+00:00"
+  "rodou_em": "2026-11-16T03:40:48+00:00"
 }

@@ -5,18 +5,20 @@
   "familia": null,
   "titulo": "Estimativa de cirurgia, com o caveat obrigatório",
   "contato": "TESTE BANCADA ANA C08-2",
-  "conversa_id": 575,
-  "inicio": "2026-10-13T08:02:00+00:00",
+  "conversa_id": 675,
+  "inicio": "2026-11-16T03:27:07+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quanto custa a cirurgia de apendicite por videolaparoscopia?",
       "ana": [
-        "Para apendicectomia videolaparoscópica, a estimativa é de R$ 8.300, incluindo honorários e internação. O valor final depende de avaliação médica presencial e pode variar conforme os materiais utilizados, o tempo de internação e eventuais intercorrências. Quer que eu te conecte com a equipe para um orçamento personalizado?"
+        "Não consegui confirmar a estimativa agora. O orçamento depende de avaliação médica presencial. Posso encaminhar você à nossa equipe para verificar o valor?"
       ],
       "ferramentas": [
+        "kanban_move_card",
         "consultar_cirurgias_estimativas",
-        "kanban_move_card"
+        "handoff_to_human",
+        "consultar_cirurgias_estimativas"
       ],
       "nos": [
         "E1",
@@ -48,8 +50,10 @@
           "tipo": "ferramenta",
           "esperado": "consultar_cirurgias_estimativas",
           "veio": [
+            "kanban_move_card",
             "consultar_cirurgias_estimativas",
-            "kanban_move_card"
+            "handoff_to_human",
+            "consultar_cirurgias_estimativas"
           ],
           "ok": true
         },
@@ -57,15 +61,17 @@
           "turno": 1,
           "tipo": "handoff",
           "esperado": false,
-          "veio": false,
-          "ok": true
+          "veio": true,
+          "ok": false
         }
       ]
     }
   ],
   "tools": [
+    "kanban_move_card",
     "consultar_cirurgias_estimativas",
-    "kanban_move_card"
+    "handoff_to_human",
+    "consultar_cirurgias_estimativas"
   ],
   "fim": {
     "etiquetas": [],
@@ -73,17 +79,19 @@
     "raia_pelo_trace": [
       "EM ATENDIMENTO — ANA"
     ],
-    "status": "pending",
-    "handoff": false
+    "status": "open",
+    "handoff": true
   },
-  "veredito": "passou",
-  "falhas": [],
+  "veredito": "falhou",
+  "falhas": [
+    "turno 1: FALHOU handoff false (veio: true)"
+  ],
   "uso": {
-    "entrada": 456,
-    "cache": 67316,
-    "cache_criacao": 447,
-    "saida": 134,
-    "chamadas": 3,
+    "entrada": 23255,
+    "cache": 69128,
+    "cache_criacao": 23243,
+    "saida": 164,
+    "chamadas": 4,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -91,8 +99,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.000786,
+    "openai_usd": 0.003099,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-10-13T08:02:37+00:00"
+  "rodou_em": "2026-11-16T03:27:44+00:00"
 }

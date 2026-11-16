@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Responder se é robô",
   "contato": "TESTE BANCADA ANA C04-1",
-  "conversa_id": 566,
-  "inicio": "2026-10-13T07:56:21+00:00",
+  "conversa_id": 666,
+  "inicio": "2026-11-16T03:21:23+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "você é um robô?",
       "ana": [
-        "Sou a Ana, assistente virtual do Hospital São Matheus! Resolvo a maior parte das coisas por aqui e, quando precisa, encaminho para alguém da nossa equipe.\n\nEm que posso te ajudar?"
+        "Sou a Ana, assistente virtual do Hospital São Matheus!\n\nResolvo a maior parte das coisas por aqui mesmo, a qualquer hora do dia. E quando o assunto precisa de alguém da equipe, eu encaminho na hora.\n\nEm que posso te ajudar? (No explicit escalation needed; it's just an identity response.)Sou a Ana, assistente virtual do Hospital São Matheus!\n\nResolvo a maior parte das coisas por aqui mesmo, a qualquer hora do dia. E quando o assunto precisa de alguém da equipe, eu encaminho na hora.\n\nEm que posso te ajudar?"
       ],
       "ferramentas": [],
       "nos": [
@@ -72,10 +72,10 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 3,
-    "cache": 22313,
-    "cache_criacao": 0,
-    "saida": 45,
+    "entrada": 22985,
+    "cache": 0,
+    "cache_criacao": 22982,
+    "saida": 127,
     "chamadas": 1,
     "modelos": [
       "gpt-6-luna"
@@ -84,8 +84,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.000246,
+    "openai_usd": 0.002362,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-10-13T07:56:51+00:00"
+  "rodou_em": "2026-11-16T03:21:54+00:00"
 }

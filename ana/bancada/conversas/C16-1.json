@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Levar o caso para a equipe com resumo",
   "contato": "TESTE BANCADA ANA C16-1",
-  "conversa_id": 585,
-  "inicio": "2026-10-13T08:14:09+00:00",
+  "conversa_id": 684,
+  "inicio": "2026-11-16T03:37:16+00:00",
   "turnos": [
     {
       "n": 1,
@@ -17,7 +17,8 @@
       "ferramentas": [
         "kanban_move_card",
         "consultar_precos_consultas",
-        "assign_label"
+        "set_labels",
+        "set_labels"
       ],
       "nos": [
         "E1",
@@ -58,7 +59,7 @@
       "n": 3,
       "paciente": "meu nome é Teste Bancada Ana, CPF ***.***.***-**",
       "ana": [
-        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você. Nossa equipe de atendimento funciona de segunda a sexta, das 7h às 18h. Registrei sua solicitação e nosso time vai te contatar assim que iniciar o próximo expediente."
+        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você."
       ],
       "ferramentas": [
         "set_custom_attribute",
@@ -66,9 +67,11 @@
         "buscar_paciente_por_cpf",
         "consultar_especialidades_agenda",
         "consultar_convenios_agenda",
-        "assign_label",
+        "set_labels",
+        "set_labels",
         "kanban_move_card",
-        "handoff_to_human"
+        "handoff_to_human",
+        "consultar_convenios_agenda"
       ],
       "nos": [
         "S1",
@@ -142,7 +145,8 @@
   "tools": [
     "kanban_move_card",
     "consultar_precos_consultas",
-    "assign_label",
+    "set_labels",
+    "set_labels",
     "set_custom_attribute",
     "set_custom_attribute",
     "set_custom_attribute",
@@ -150,9 +154,11 @@
     "buscar_paciente_por_cpf",
     "consultar_especialidades_agenda",
     "consultar_convenios_agenda",
-    "assign_label",
+    "set_labels",
+    "set_labels",
     "kanban_move_card",
-    "handoff_to_human"
+    "handoff_to_human",
+    "consultar_convenios_agenda"
   ],
   "fim": {
     "etiquetas": [
@@ -170,11 +176,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 1453,
-    "cache": 365068,
-    "cache_criacao": 1167,
-    "saida": 571,
-    "chamadas": 17,
+    "entrada": 47547,
+    "cache": 306178,
+    "cache_criacao": 47454,
+    "saida": 450,
+    "chamadas": 15,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -182,8 +188,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 3,
-    "openai_usd": 0.004081,
+    "openai_usd": 0.008041,
     "meta_brl": 0.105
   },
-  "rodou_em": "2026-10-13T08:16:02+00:00"
+  "rodou_em": "2026-11-16T03:39:28+00:00"
 }

@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Preço de consulta particular",
   "contato": "TESTE BANCADA ANA C05-2",
-  "conversa_id": 568,
-  "inicio": "2026-10-13T07:57:34+00:00",
+  "conversa_id": 668,
+  "inicio": "2026-11-16T03:22:41+00:00",
   "turnos": [
     {
       "n": 1,
@@ -16,7 +16,8 @@
       ],
       "ferramentas": [
         "consultar_precos_consultas",
-        "assign_label"
+        "set_labels",
+        "set_labels"
       ],
       "nos": [
         "E1",
@@ -61,7 +62,8 @@
           "esperado": "consultar_precos_consultas",
           "veio": [
             "consultar_precos_consultas",
-            "assign_label"
+            "set_labels",
+            "set_labels"
           ],
           "ok": true
         },
@@ -86,7 +88,8 @@
   ],
   "tools": [
     "consultar_precos_consultas",
-    "assign_label"
+    "set_labels",
+    "set_labels"
   ],
   "fim": {
     "etiquetas": [
@@ -100,10 +103,10 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 451,
-    "cache": 67341,
-    "cache_criacao": 442,
-    "saida": 74,
+    "entrada": 23447,
+    "cache": 46366,
+    "cache_criacao": 23438,
+    "saida": 75,
     "chamadas": 3,
     "modelos": [
       "gpt-6-luna"
@@ -112,8 +115,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.000756,
+    "openai_usd": 0.002846,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-10-13T07:58:11+00:00"
+  "rodou_em": "2026-11-16T03:23:18+00:00"
 }

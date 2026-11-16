@@ -5,23 +5,20 @@
   "familia": null,
   "titulo": "Item fora da tabela não vira negativa",
   "contato": "TESTE BANCADA ANA C10-3",
-  "conversa_id": 580,
-  "inicio": "2026-10-13T08:05:35+00:00",
+  "conversa_id": 680,
+  "inicio": "2026-11-16T03:31:08+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "meu plano é a Porto Seguro Saúde, vocês cobrem dermatologia?",
       "ana": [
-        "A Porto Seguro é atendida no hospital. Para dermatologia, você já pode tentar agendar pelo portal: hospitalsaomatheus.centraldemarcacao.com.br\n\nSe aparecer alguma dúvida sobre a cobertura por lá, me avisa que a equipe te ajuda."
+        "Atendemos Porto Seguro aqui no hospital. Você já pode tentar agendar dermatologia pelo nosso portal: hospitalsaomatheus.centraldemarcacao.com.br\n\nSe aparecer qualquer questão de cobertura por lá, me avisa que a equipe te ajuda, combinado?"
       ],
       "ferramentas": [
-        "kanban_move_card",
         "consultar_especialidades_agenda",
-        "kanban_move_card",
-        "assign_label",
         "search_knowledge",
-        "get_current_time",
-        "assign_label",
+        "set_labels",
+        "set_labels",
         "kanban_move_card"
       ],
       "nos": [
@@ -79,13 +76,10 @@
           "tipo": "ferramenta",
           "esperado": "consultar_especialidades_agenda",
           "veio": [
-            "kanban_move_card",
             "consultar_especialidades_agenda",
-            "kanban_move_card",
-            "assign_label",
             "search_knowledge",
-            "get_current_time",
-            "assign_label",
+            "set_labels",
+            "set_labels",
             "kanban_move_card"
           ],
           "ok": true
@@ -95,13 +89,10 @@
           "tipo": "ferramenta",
           "esperado": "search_knowledge",
           "veio": [
-            "kanban_move_card",
             "consultar_especialidades_agenda",
-            "kanban_move_card",
-            "assign_label",
             "search_knowledge",
-            "get_current_time",
-            "assign_label",
+            "set_labels",
+            "set_labels",
             "kanban_move_card"
           ],
           "ok": true
@@ -111,8 +102,7 @@
           "tipo": "etiqueta",
           "esperado": "agendamento-convenio",
           "veio": [
-            "agendamento-convenio",
-            "fora-horario"
+            "agendamento-convenio"
           ],
           "ok": true
         },
@@ -134,19 +124,15 @@
     }
   ],
   "tools": [
-    "kanban_move_card",
     "consultar_especialidades_agenda",
-    "kanban_move_card",
-    "assign_label",
     "search_knowledge",
-    "get_current_time",
-    "assign_label",
+    "set_labels",
+    "set_labels",
     "kanban_move_card"
   ],
   "fim": {
     "etiquetas": [
-      "agendamento-convenio",
-      "fora-horario"
+      "agendamento-convenio"
     ],
     "raia": null,
     "raia_pelo_trace": [
@@ -158,11 +144,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 25228,
-    "cache": 136720,
-    "cache_criacao": 25207,
-    "saida": 267,
-    "chamadas": 7,
+    "entrada": 24231,
+    "cache": 94334,
+    "cache_criacao": 24216,
+    "saida": 172,
+    "chamadas": 5,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -170,8 +156,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.004024,
+    "openai_usd": 0.003452,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-10-13T08:06:18+00:00"
+  "rodou_em": "2026-11-16T03:31:51+00:00"
 }

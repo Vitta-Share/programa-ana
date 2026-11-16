@@ -5,18 +5,18 @@
   "familia": null,
   "titulo": "Item fora da tabela não vira negativa",
   "contato": "TESTE BANCADA ANA C10-2",
-  "conversa_id": 579,
-  "inicio": "2026-10-13T08:04:56+00:00",
+  "conversa_id": 679,
+  "inicio": "2026-11-16T03:30:31+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quanto custa a ressonância magnética?",
       "ana": [
-        "Não encontrei o valor da ressonância magnética na tabela oficial. Posso encaminhar seu pedido para a equipe confirmar o preço."
+        "Não encontrei o valor da ressonância magnética na informação oficial disponível. Posso encaminhar sua dúvida para a equipe confirmar?"
       ],
       "ferramentas": [
         "consultar_exames",
-        "assign_label"
+        "handoff_to_human"
       ],
       "nos": [
         "E1",
@@ -57,7 +57,7 @@
           "esperado": "consultar_exames",
           "veio": [
             "consultar_exames",
-            "assign_label"
+            "handoff_to_human"
           ],
           "ok": true
         },
@@ -65,33 +65,33 @@
           "turno": 1,
           "tipo": "handoff",
           "esperado": false,
-          "veio": false,
-          "ok": true
+          "veio": true,
+          "ok": false
         }
       ]
     }
   ],
   "tools": [
     "consultar_exames",
-    "assign_label"
+    "handoff_to_human"
   ],
   "fim": {
-    "etiquetas": [
-      "fora-horario"
-    ],
+    "etiquetas": [],
     "raia": null,
     "raia_pelo_trace": [],
-    "status": "pending",
-    "handoff": false
+    "status": "open",
+    "handoff": true
   },
-  "veredito": "passou",
-  "falhas": [],
+  "veredito": "falhou",
+  "falhas": [
+    "turno 1: FALHOU handoff false (veio: true)"
+  ],
   "uso": {
-    "entrada": 339,
-    "cache": 67205,
-    "cache_criacao": 330,
-    "saida": 69,
-    "chamadas": 3,
+    "entrada": 23618,
+    "cache": 46243,
+    "cache_criacao": 23371,
+    "saida": 130,
+    "chamadas": 4,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -99,8 +99,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.00074,
+    "openai_usd": 0.002889,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-10-13T08:05:31+00:00"
+  "rodou_em": "2026-11-16T03:31:05+00:00"
 }
