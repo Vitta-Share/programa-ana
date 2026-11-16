@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import hashlib
 import importlib.util
+import json
 import re
 from pathlib import Path
 
@@ -218,10 +219,44 @@ def test_oferta_de_encaminhar_tem_mensagem_modelo_e_lista_fechada_de_ferramentas
     assert "```\nNão tenho o valor de [item] para te passar agora. Quer que nossa equipe confirme para você?\n```" in modelo
 
 
-def test_voltar_devolve_a_v71_que_estava_no_ar_antes_da_v72():
-    # issue #19: a v7.2 subiu por cima da v7.1 (sha d76d3785c5d6); o `voltar` devolve ela
-    assert sha(pp.EXPORT_PROMPT.read_text(encoding="utf-8")).startswith("d76d3785c5d6")
-    assert pp.EXPORT_AGENTE.name == "export-ana-pre-prompt-v72.json"
+def test_voltar_devolve_a_v72_que_estava_no_ar_antes_da_v73():
+    # issue #19, tentativa 2: a v7.3 sobe por cima da v7.2 (sha 5331eb0a977b); o `voltar` devolve ela
+    assert sha(pp.EXPORT_PROMPT.read_text(encoding="utf-8")).startswith("5331eb0a977b")
+    assert pp.EXPORT_AGENTE.name == "export-ana-pre-prompt-v73.json"
+
+
+# ------------------------------------------------------------ a orientação do handoff
+# A plataforma cola `settings.handoff.instructions` na descrição do `handoff_to_human`
+# ("Operator guidance"). Na v72 R3 do C10-2 a Ana pôs `emergencia` e `fora-horario`, as
+# duas condições dessa orientação, e escalou no turno da oferta.
+
+INSTRUCAO = (RAIZ / "ana" / "prompt" / "instrucao-handoff.md").read_text(encoding="utf-8").strip()
+
+
+def test_publicar_leva_a_orientacao_do_handoff_e_preserva_as_outras_settings():
+    vivo = agente()
+    vivo["settings"]["handoff"]["instructions"] = "Escale quando..."
+    corpo = pp.corpo_publicar(vivo, "prompt novo", "Escale quando... menos na oferta.")
+    assert corpo["systemPrompt"] == "prompt novo"
+    assert corpo["expectedUpdatedAt"] == "2026-11-16T06:28:48.248Z"
+    assert corpo["settings"] == {
+        "handoff": {"mode": "route", "instructions": "Escale quando... menos na oferta."},
+        "toolPreconditions": {},
+    }
+    # a leitura não muda: o PATCH só leva o saco inteiro quando a orientação muda
+    assert vivo["settings"]["handoff"]["instructions"] == "Escale quando..."
+    assert "settings" not in pp.corpo_publicar(vivo, "prompt novo", "Escale quando...")
+
+
+def test_orientacao_do_handoff_proibe_escalar_no_turno_da_oferta():
+    assert "oferece encaminhar" in INSTRUCAO
+    assert "o handoff só vem no turno do sim do paciente" in INSTRUCAO
+    assert "Pergunta de preço não é urgência nem negociação de valores" in INSTRUCAO
+    # o que já estava no ar segue igual, a regra nova vem no fim
+    vivo = json.loads(pp.EXPORT_AGENTE.read_text(encoding="utf-8"))["settings"]["handoff"]["instructions"]
+    assert INSTRUCAO.startswith(vivo)
+    assert len(INSTRUCAO) <= 1500  # TOOL_INSTRUCTIONS_MAX da plataforma
+    assert pp.travessoes_fora_das_colunas(INSTRUCAO) == []
 
 
 def test_horario_unico_tambem_vira_lista_e_espera_o_numero_do_paciente():

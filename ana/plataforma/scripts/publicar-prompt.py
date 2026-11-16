@@ -7,14 +7,19 @@ desde o export, que é o que o `prompt_set` do console não confere.
 
     python3 ana/plataforma/scripts/publicar-prompt.py exportar    # guarda o prompt vivo e o hash
     python3 ana/plataforma/scripts/publicar-prompt.py conferir    # o vivo ainda é o do export?
+    python3 ana/plataforma/scripts/publicar-prompt.py previa      # o que o publicar muda, sem gravar
     python3 ana/plataforma/scripts/publicar-prompt.py publicar    # sobe ana/prompt/prompt-compilado.md
     python3 ana/plataforma/scripts/publicar-prompt.py publicar --sobre <sha>   # revisão por cima da que subiu
     python3 ana/plataforma/scripts/publicar-prompt.py voltar      # devolve o prompt do export
+
+Junto com o prompt vai a orientação do `handoff_to_human` (`ana/prompt/instrucao-handoff.md`),
+que a plataforma guarda em `settings.handoff.instructions` e cola na descrição da ferramenta.
 """
 
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import sys
@@ -31,14 +36,27 @@ COLUNAS_COM_TRAVESSAO = (
 TRACOS = ("\u2014", "\u2013")
 
 
-def corpo_publicar(agente: dict, prompt: str) -> dict:
-    """O corpo do PATCH /api/v1/agents/:id que troca só o prompt.
+def corpo_publicar(agente: dict, prompt: str, instrucao_handoff: str | None = None) -> dict:
+    """O corpo do PATCH /api/v1/agents/:id que troca o prompt e, se mudou, a orientação do handoff.
 
-    Sem `settings` no corpo (o PATCH substitui o saco de settings inteiro quando ele vem),
-    e com `expectedUpdatedAt` para a plataforma recusar (409) se outra sessão gravou o
-    agente depois da leitura.
+    O PATCH substitui o saco de settings inteiro quando ele vem: sem orientação nova, o
+    corpo não leva `settings`; com ela, leva todas as settings lidas com só a
+    `handoff.instructions` trocada. `expectedUpdatedAt` faz a plataforma recusar (409) se
+    outra sessão gravou o agente depois da leitura.
     """
-    return {"systemPrompt": prompt, "expectedUpdatedAt": agente["updatedAt"]}
+    corpo = {"systemPrompt": prompt, "expectedUpdatedAt": agente["updatedAt"]}
+    settings = settings_com_instrucao(agente, instrucao_handoff)
+    if settings != agente["settings"]:
+        corpo["settings"] = settings
+    return corpo
+
+
+def settings_com_instrucao(agente: dict, instrucao_handoff: str | None) -> dict:
+    """As settings do agente com a orientação do handoff trocada (None: as mesmas)."""
+    settings = copy.deepcopy(agente["settings"])
+    if instrucao_handoff is not None:
+        settings.setdefault("handoff", {})["instructions"] = instrucao_handoff
+    return settings
 
 
 def _sha(texto: str) -> str:
@@ -68,9 +86,10 @@ def travessoes_fora_das_colunas(prompt: str) -> list[str]:
 # ---------------------------------------------------------------- casca (rede)
 
 RAIZ = Path(__file__).resolve().parents[3]
-EXPORT_PROMPT = RAIZ / "ana" / "plataforma" / "export-prompt-v71.md"
-EXPORT_AGENTE = RAIZ / "ana" / "plataforma" / "export-ana-pre-prompt-v72.json"
+EXPORT_PROMPT = RAIZ / "ana" / "plataforma" / "export-prompt-v72.md"
+EXPORT_AGENTE = RAIZ / "ana" / "plataforma" / "export-ana-pre-prompt-v73.json"
 COMPILADO = RAIZ / "ana" / "prompt" / "prompt-compilado.md"
+INSTRUCAO_HANDOFF = RAIZ / "ana" / "prompt" / "instrucao-handoff.md"
 AGENTE = "https://agents.hospitalsaomatheus.cloud/api/v1/agents/1"
 
 
@@ -94,24 +113,30 @@ def _pedir(metodo: str = "GET", corpo: dict | None = None) -> dict:
         return json.load(resposta)["agent"]
 
 
-def _subir(prompt: str, sha_esperado_no_ar: str) -> int:
+def _subir(prompt: str, sha_esperado_no_ar: str, instrucao: str | None, previa: bool = False) -> int:
     atual = _pedir()
     if prompt_mudou(sha_esperado_no_ar, atual):
         print("PARADO: o prompt vivo não é o esperado (outra sessão publicou). Refaça o export e confira.")
         return 1
-    _pedir("PATCH", corpo_publicar(atual, prompt))
+    corpo = corpo_publicar(atual, prompt, instrucao)
+    if previa:
+        print(f"prévia: prompt {len(prompt)} chars, sha {_sha(prompt)[:12]}; "
+              + ("orientação do handoff muda:\n" + corpo["settings"]["handoff"]["instructions"]
+                 if "settings" in corpo else "orientação do handoff igual"))
+        return 0
+    _pedir("PATCH", corpo)
     depois = _pedir()
     ok = _sha(depois["systemPrompt"]) == _sha(prompt)
     print(f"no ar: {len(depois['systemPrompt'])} chars, sha {_sha(depois['systemPrompt'])[:12]}")
-    if depois["settings"] != atual["settings"]:
-        print("ATENÇÃO: as settings mudaram junto com o prompt.")
+    if depois["settings"] != settings_com_instrucao(atual, instrucao):
+        print("ATENÇÃO: as settings no ar não são as esperadas.")
         ok = False
     return 0 if ok else 1
 
 
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    p.add_argument("cmd", choices=["exportar", "conferir", "publicar", "voltar"])
+    p.add_argument("cmd", choices=["exportar", "conferir", "previa", "publicar", "voltar"])
     p.add_argument("--sobre", help="publicar por cima deste prompt vivo (sha ou começo dele), e não do export")
     args = p.parse_args()
     cmd = args.cmd
@@ -124,19 +149,22 @@ def main() -> int:
         EXPORT_AGENTE.write_text(json.dumps(a, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         print(f"export: {len(prompt)} chars, sha {_sha(prompt)[:12]}")
         return 0
-    sha_export = json.loads(EXPORT_AGENTE.read_text(encoding="utf-8"))["systemPromptSha256"]
+    export = json.loads(EXPORT_AGENTE.read_text(encoding="utf-8"))
+    sha_export = export["systemPromptSha256"]
     if cmd == "conferir":
         mudou = prompt_mudou(sha_export, _pedir())
         print("o prompt vivo MUDOU desde o export" if mudou else "o prompt vivo é o do export")
         return 1 if mudou else 0
-    if cmd == "publicar":
+    if cmd in ("previa", "publicar"):
         prompt = COMPILADO.read_text(encoding="utf-8")
-        sujas = travessoes_fora_das_colunas(prompt)
+        instrucao = INSTRUCAO_HANDOFF.read_text(encoding="utf-8").strip()
+        sujas = travessoes_fora_das_colunas(prompt + "\n" + instrucao)
         if sujas:
             print("PARADO: travessão fora dos nomes das colunas:\n" + "\n".join(sujas))
             return 1
-        return _subir(prompt, args.sobre or sha_export)
-    return _subir(EXPORT_PROMPT.read_text(encoding="utf-8"), _sha(COMPILADO.read_text(encoding="utf-8")))
+        return _subir(prompt, args.sobre or sha_export, instrucao, previa=cmd == "previa")
+    return _subir(EXPORT_PROMPT.read_text(encoding="utf-8"), _sha(COMPILADO.read_text(encoding="utf-8")),
+                  export["settings"]["handoff"]["instructions"])
 
 
 if __name__ == "__main__":
