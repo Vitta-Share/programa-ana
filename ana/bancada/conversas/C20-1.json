@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Agendamento por convênio: orientar o portal",
   "contato": "TESTE BANCADA ANA C20-1",
-  "conversa_id": 1085,
-  "inicio": "2026-11-16T13:07:05+00:00",
+  "conversa_id": 1187,
+  "inicio": "2026-11-16T16:12:23+00:00",
   "turnos": [
     {
       "n": 1,
@@ -126,11 +126,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 21638,
-    "cache": 119301,
-    "cache_criacao": 21614,
-    "saida": 1030,
-    "chamadas": 8,
+    "entrada": 22188,
+    "cache": 119701,
+    "cache_criacao": 21624,
+    "saida": 947,
+    "chamadas": 10,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -138,8 +138,9 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.003872,
+    "openai_usd": 0.003889,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T13:15:05+00:00"
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T16:13:13+00:00"
 }

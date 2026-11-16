@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Prontuário médico",
   "contato": "TESTE BANCADA ANA C26-1",
-  "conversa_id": 1088,
-  "inicio": "2026-11-16T13:19:23+00:00",
+  "conversa_id": 1190,
+  "inicio": "2026-11-16T16:14:43+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "preciso pegar meu prontuário médico",
       "ana": [
-        "Claro. O pedido é para você continuar seu tratamento ou uso pessoal, para seguro de vida ou INSS, para um processo judicial, ou é de um familiar falecido ou de um menor de idade?"
+        "Claro. Para que eu te oriente certinho, qual é a finalidade do prontuário: uso pessoal ou continuidade do tratamento, seguro ou INSS, processo judicial, ou você está solicitando como familiar de um paciente falecido?"
       ],
       "ferramentas": [
         "kanban_move_card",
@@ -34,10 +34,10 @@
       "n": 2,
       "paciente": "é para uso pessoal",
       "ana": [
-        "Para solicitar seu prontuário para uso pessoal, envie a documentação necessária para prontuario@hospitalsaomatheus.com.br. A equipe vai orientar sobre os documentos obrigatórios e iniciar o processo quando receber tudo completo."
+        "Para solicitar seu prontuário, reúna a documentação necessária e envie para prontuario@hospitalsaomatheus.com.br. Nossa equipe vai orientar você sobre o requerimento e os documentos obrigatórios, e inicia o processo assim que receber a documentação completa.\n\nPosso te ajudar com mais alguma coisa?"
       ],
       "ferramentas": [
-        "search_knowledge"
+        "set_labels"
       ],
       "nos": [
         "A3",
@@ -88,7 +88,7 @@
           "veio": [
             "kanban_move_card",
             "set_labels",
-            "search_knowledge"
+            "set_labels"
           ],
           "ok": true
         },
@@ -114,7 +114,7 @@
   "tools": [
     "kanban_move_card",
     "set_labels",
-    "search_knowledge"
+    "set_labels"
   ],
   "fim": {
     "etiquetas": [
@@ -128,11 +128,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 40418,
-    "cache": 62931,
-    "cache_criacao": 40397,
-    "saida": 602,
-    "chamadas": 7,
+    "entrada": 39207,
+    "cache": 63172,
+    "cache_criacao": 38919,
+    "saida": 714,
+    "chamadas": 8,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -140,8 +140,9 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 2,
-    "openai_usd": 0.004972,
+    "openai_usd": 0.004909,
     "meta_brl": 0.07
   },
-  "rodou_em": "2026-11-16T13:21:58+00:00"
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T16:15:58+00:00"
 }

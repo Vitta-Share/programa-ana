@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Preço de consulta particular",
   "contato": "TESTE BANCADA ANA C05-1",
-  "conversa_id": 1067,
-  "inicio": "2026-11-16T12:03:15+00:00",
+  "conversa_id": 1169,
+  "inicio": "2026-11-16T15:52:10+00:00",
   "turnos": [
     {
       "n": 1,
@@ -15,8 +15,8 @@
         "A consulta de cardiologia é R$ 380. Quer que eu veja os horários disponíveis para você?"
       ],
       "ferramentas": [
-        "kanban_move_card",
         "consultar_precos_consultas",
+        "kanban_move_card",
         "set_labels"
       ],
       "nos": [
@@ -54,8 +54,8 @@
           "tipo": "ferramenta",
           "esperado": "consultar_precos_consultas",
           "veio": [
-            "kanban_move_card",
             "consultar_precos_consultas",
+            "kanban_move_card",
             "set_labels"
           ],
           "ok": true
@@ -80,8 +80,8 @@
     }
   ],
   "tools": [
-    "kanban_move_card",
     "consultar_precos_consultas",
+    "kanban_move_card",
     "set_labels"
   ],
   "fim": {
@@ -96,11 +96,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 19729,
-    "cache": 60107,
-    "cache_criacao": 19714,
-    "saida": 192,
-    "chamadas": 5,
+    "entrada": 20338,
+    "cache": 60538,
+    "cache_criacao": 19792,
+    "saida": 254,
+    "chamadas": 6,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -108,8 +108,9 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.00267,
+    "openai_usd": 0.002766,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T12:03:54+00:00"
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T15:52:51+00:00"
 }

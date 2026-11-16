@@ -5,23 +5,26 @@
   "familia": null,
   "titulo": "Cobertura de convênio por especialidade",
   "contato": "TESTE BANCADA ANA C09-1",
-  "conversa_id": 1076,
-  "inicio": "2026-11-16T12:09:18+00:00",
+  "conversa_id": 1178,
+  "inicio": "2026-11-16T15:58:35+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "meu convênio é a Unimed, vocês cobrem cardiologia?",
       "ana": [
-        "Sim, a Unimed do Brasil está na lista de convênios para cardiologia. Encontrei este horário disponível:\n\n1. 26/11, às 9h15, com Ricardo Cesar Simoes Chaves\n\nQuer que eu encaminhe sua preferência para a equipe confirmar?"
+        "Sim, atendemos Unimed do Brasil para cardiologia. Encontrei este horário disponível: 26/11, às 9h15. Quer que eu te passe as opções de agendamento?"
       ],
       "ferramentas": [
+        "search_knowledge",
         "kanban_move_card",
         "consultar_especialidades_agenda",
         "consultar_convenios_agenda",
         "set_labels",
         "consultar_planos_convenio",
         "consultar_horarios_livres",
-        "set_custom_attribute"
+        "set_custom_attribute",
+        "set_custom_attribute",
+        "set_labels"
       ],
       "nos": [
         "E1",
@@ -58,13 +61,16 @@
           "tipo": "ferramenta",
           "esperado": "consultar_especialidades_agenda",
           "veio": [
+            "search_knowledge",
             "kanban_move_card",
             "consultar_especialidades_agenda",
             "consultar_convenios_agenda",
             "set_labels",
             "consultar_planos_convenio",
             "consultar_horarios_livres",
-            "set_custom_attribute"
+            "set_custom_attribute",
+            "set_custom_attribute",
+            "set_labels"
           ],
           "ok": true
         },
@@ -73,13 +79,16 @@
           "tipo": "ferramenta",
           "esperado": "consultar_convenios_agenda",
           "veio": [
+            "search_knowledge",
             "kanban_move_card",
             "consultar_especialidades_agenda",
             "consultar_convenios_agenda",
             "set_labels",
             "consultar_planos_convenio",
             "consultar_horarios_livres",
-            "set_custom_attribute"
+            "set_custom_attribute",
+            "set_custom_attribute",
+            "set_labels"
           ],
           "ok": true
         },
@@ -103,13 +112,16 @@
     }
   ],
   "tools": [
+    "search_knowledge",
     "kanban_move_card",
     "consultar_especialidades_agenda",
     "consultar_convenios_agenda",
     "set_labels",
     "consultar_planos_convenio",
     "consultar_horarios_livres",
-    "set_custom_attribute"
+    "set_custom_attribute",
+    "set_custom_attribute",
+    "set_labels"
   ],
   "fim": {
     "etiquetas": [
@@ -123,11 +135,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 21674,
-    "cache": 139494,
-    "cache_criacao": 21647,
-    "saida": 603,
-    "chamadas": 9,
+    "entrada": 26490,
+    "cache": 199674,
+    "cache_criacao": 26301,
+    "saida": 889,
+    "chamadas": 12,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -135,8 +147,9 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.003864,
+    "openai_usd": 0.00509,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T12:10:29+00:00"
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T15:59:37+00:00"
 }

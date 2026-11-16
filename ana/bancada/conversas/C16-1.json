@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Levar o caso para a equipe com resumo",
   "contato": "TESTE BANCADA ANA C16-1",
-  "conversa_id": 1084,
-  "inicio": "2026-11-16T12:56:54+00:00",
+  "conversa_id": 1186,
+  "inicio": "2026-11-16T16:09:41+00:00",
   "turnos": [
     {
       "n": 1,
@@ -40,7 +40,7 @@
       "n": 2,
       "paciente": "pode ser, quero marcar sim",
       "ana": [
-        "Ótimo! Me passa seu nome completo e CPF, por favor? Assim já deixo tudo pronto para o agendamento."
+        "Ótimo! Me passa seu CPF, por favor? Assim já deixo tudo pronto para o agendamento."
       ],
       "ferramentas": [
         "set_custom_attribute",
@@ -58,7 +58,7 @@
       "n": 3,
       "paciente": "meu nome é Teste Bancada Ana, CPF ***.***.***-**",
       "ana": [
-        "Encontrei este horário para sua consulta de cardiologia:\n\n1. 26/11, às 9h15, com Ricardo Cesar Simoes Chaves.\n\nQuer que eu anote essa opção como sua preferência?"
+        "Tenho este horário disponível para cardiologia:\n\n1. 26/11 às 9h15, com Ricardo Cesar Simoes Chaves\n\nQuer que eu anote sua preferência por esse horário?"
       ],
       "ferramentas": [
         "set_custom_attribute",
@@ -67,8 +67,7 @@
         "consultar_especialidades_agenda",
         "consultar_convenios_agenda",
         "consultar_planos_convenio",
-        "consultar_horarios_livres",
-        "update_kanban_task"
+        "consultar_horarios_livres"
       ],
       "nos": [
         "S1",
@@ -81,7 +80,7 @@
         "S6",
         "S8"
       ],
-      "espere": "Uma mensagem única dizendo que a equipe entra em contato, a etiqueta agendamento-particular aplicada e o card movido no Chatwoot.",
+      "espere": "Agenda sem resposta: uma mensagem única dizendo que a equipe entra em contato, a etiqueta agendamento-particular aplicada e o card movido no Chatwoot. Agenda com horários: a lista numerada, e a escalada vem no turno 4.",
       "falha_se": "Prometer que o horário está marcado, reservado ou garantido. Quem confirma é a equipe.",
       "conferencias": [
         {
@@ -111,29 +110,82 @@
           "esperado": "reservado",
           "veio": null,
           "ok": true
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "paciente": "quero o 1, por favor",
+      "ana": [
+        "Perfeito, Teste! Anotei sua preferência de horário. Nossa equipe vai entrar em contato em breve para confirmar tudo com você."
+      ],
+      "ferramentas": [
+        "private_note",
+        "set_labels",
+        "kanban_move_card",
+        "handoff_to_human"
+      ],
+      "nos": [
+        "P16",
+        "P10",
+        "S4",
+        "S6",
+        "S8"
+      ],
+      "espere": "Só roda se a agenda devolveu horários no turno 3: uma mensagem única dizendo que a equipe entra em contato, a etiqueta agendamento-particular aplicada e o card movido no Chatwoot.",
+      "falha_se": "Dizer que o horário está marcado, reservado ou garantido, ou não passar para a equipe.",
+      "conferencias": [
+        {
+          "turno": 4,
+          "tipo": "frase proibida",
+          "esperado": "está marcado",
+          "veio": null,
+          "ok": true
         },
         {
-          "turno": 3,
+          "turno": 4,
+          "tipo": "frase proibida",
+          "esperado": "está agendado",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 4,
+          "tipo": "frase proibida",
+          "esperado": "garantido",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 4,
+          "tipo": "frase proibida",
+          "esperado": "reservado",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 4,
           "tipo": "etiqueta",
           "esperado": "agendamento-particular",
           "veio": [
-            "particular-aquecido"
+            "particular-aquecido",
+            "agendamento-particular"
           ],
-          "ok": false
+          "ok": true
         },
         {
-          "turno": 3,
+          "turno": 4,
           "tipo": "raia",
           "esperado": "FILA COMERCIAL",
-          "veio": "Em Atendimento — Ana",
-          "ok": false
+          "veio": "Fila Comercial",
+          "ok": true
         },
         {
-          "turno": 3,
+          "turno": 4,
           "tipo": "handoff",
           "esperado": true,
-          "veio": false,
-          "ok": false
+          "veio": true,
+          "ok": true
         }
       ]
     }
@@ -151,38 +203,39 @@
     "consultar_convenios_agenda",
     "consultar_planos_convenio",
     "consultar_horarios_livres",
-    "update_kanban_task"
+    "private_note",
+    "set_labels",
+    "kanban_move_card",
+    "handoff_to_human"
   ],
   "fim": {
     "etiquetas": [
-      "particular-aquecido"
+      "particular-aquecido",
+      "agendamento-particular"
     ],
-    "raia": "Em Atendimento — Ana",
+    "raia": "Fila Comercial",
     "raia_pelo_trace": null,
-    "status": "pending",
-    "handoff": false
+    "status": "open",
+    "handoff": true
   },
-  "veredito": "falhou",
-  "falhas": [
-    "turno 3: FALHOU etiqueta \"agendamento-particular\" (veio: [\"particular-aquecido\"])",
-    "turno 3: FALHOU raia \"FILA COMERCIAL\" (veio: \"Em Atendimento — Ana\")",
-    "turno 3: FALHOU handoff true (veio: false)"
-  ],
+  "veredito": "passou",
+  "falhas": [],
   "uso": {
-    "entrada": 62396,
-    "cache": 264347,
-    "cache_criacao": 62291,
-    "saida": 1092,
-    "chamadas": 19,
+    "entrada": 44181,
+    "cache": 368452,
+    "cache_criacao": 43300,
+    "saida": 1687,
+    "chamadas": 26,
     "modelos": [
       "gpt-6-luna"
     ]
   },
   "custo": {
     "modelo": "gpt-6-luna",
-    "mensagens_ana": 3,
-    "openai_usd": 0.009429,
-    "meta_brl": 0.105
+    "mensagens_ana": 4,
+    "openai_usd": 0.008946,
+    "meta_brl": 0.14
   },
-  "rodou_em": "2026-11-16T13:07:02+00:00"
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T16:12:20+00:00"
 }

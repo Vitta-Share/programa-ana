@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Item fora da tabela não vira negativa",
   "contato": "TESTE BANCADA ANA C10-2",
-  "conversa_id": 1079,
-  "inicio": "2026-11-16T12:12:02+00:00",
+  "conversa_id": 1181,
+  "inicio": "2026-11-16T16:01:20+00:00",
   "turnos": [
     {
       "n": 1,
@@ -16,13 +16,15 @@
       ],
       "ferramentas": [
         "consultar_exames",
-        "set_labels",
         "kanban_move_card",
+        "set_custom_attribute",
         "kanban_move_card",
+        "consultar_exames",
+        "kanban_move_card",
+        "get_current_time",
         "set_labels",
         "set_labels",
-        "kanban_move_card",
-        "handoff_to_human"
+        "set_labels"
       ],
       "nos": [
         "E1",
@@ -63,13 +65,15 @@
           "esperado": "consultar_exames",
           "veio": [
             "consultar_exames",
-            "set_labels",
             "kanban_move_card",
+            "set_custom_attribute",
             "kanban_move_card",
+            "consultar_exames",
+            "kanban_move_card",
+            "get_current_time",
             "set_labels",
             "set_labels",
-            "kanban_move_card",
-            "handoff_to_human"
+            "set_labels"
           ],
           "ok": true
         },
@@ -77,43 +81,41 @@
           "turno": 1,
           "tipo": "handoff",
           "esperado": false,
-          "veio": true,
-          "ok": false
+          "veio": false,
+          "ok": true
         }
       ]
     }
   ],
   "tools": [
     "consultar_exames",
-    "set_labels",
     "kanban_move_card",
+    "set_custom_attribute",
     "kanban_move_card",
+    "consultar_exames",
+    "kanban_move_card",
+    "get_current_time",
     "set_labels",
     "set_labels",
-    "kanban_move_card",
-    "handoff_to_human"
+    "set_labels"
   ],
   "fim": {
     "etiquetas": [
-      "agente-off",
-      "fora-horario",
-      "emergencia"
+      "fora-horario"
     ],
-    "raia": "Fila Atendimento",
+    "raia": "Em Atendimento — Ana",
     "raia_pelo_trace": null,
-    "status": "open",
-    "handoff": true
+    "status": "pending",
+    "handoff": false
   },
-  "veredito": "falhou",
-  "falhas": [
-    "turno 1: FALHOU handoff false (veio: true)"
-  ],
+  "veredito": "passou",
+  "falhas": [],
   "uso": {
-    "entrada": 19723,
-    "cache": 154519,
-    "cache_criacao": 19648,
-    "saida": 237,
-    "chamadas": 9,
+    "entrada": 33951,
+    "cache": 178099,
+    "cache_criacao": 33511,
+    "saida": 508,
+    "chamadas": 13,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -121,8 +123,9 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.003636,
+    "openai_usd": 0.00543,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T12:12:45+00:00"
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T16:02:09+00:00"
 }
