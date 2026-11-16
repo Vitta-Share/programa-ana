@@ -5,16 +5,17 @@
   "familia": null,
   "titulo": "Recusar o que está fora do escopo",
   "contato": "TESTE BANCADA ANA C03-1",
-  "conversa_id": 918,
-  "inicio": "2026-11-16T08:23:10+00:00",
+  "conversa_id": 1065,
+  "inicio": "2026-11-16T11:46:09+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "vocês vendem plano de saúde?",
       "ana": [
-        "O hospital não vende planos de saúde. Atendemos alguns convênios, e a cobertura depende do serviço e do plano contratado."
+        "Não tenho essa informação. Posso encaminhar sua dúvida para a equipe confirmar se o hospital comercializa planos de saúde?"
       ],
       "ferramentas": [
+        "kanban_move_card",
         "search_knowledge"
       ],
       "nos": [
@@ -55,11 +56,12 @@
     }
   ],
   "tools": [
+    "kanban_move_card",
     "search_knowledge"
   ],
   "fim": {
     "etiquetas": [],
-    "raia": "Novo Contato",
+    "raia": "Em Atendimento — Ana",
     "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
@@ -67,11 +69,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 20902,
-    "cache": 21680,
-    "cache_criacao": 20893,
-    "saida": 287,
-    "chamadas": 3,
+    "entrada": 21606,
+    "cache": 40873,
+    "cache_criacao": 21192,
+    "saida": 324,
+    "chamadas": 6,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -79,8 +81,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002451,
+    "openai_usd": 0.002731,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T08:23:46+00:00"
+  "rodou_em": "2026-11-16T12:02:28+00:00"
 }

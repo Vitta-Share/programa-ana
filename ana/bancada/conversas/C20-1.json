@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Agendamento por convênio: orientar o portal",
   "contato": "TESTE BANCADA ANA C20-1",
-  "conversa_id": 938,
-  "inicio": "2026-11-16T08:43:42+00:00",
+  "conversa_id": 1085,
+  "inicio": "2026-11-16T13:07:05+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "tenho Unimed e quero marcar pediatria",
       "ana": [
-        "Atendemos a Unimed aqui no hospital. Você já pode tentar agendar pediatria pelo nosso portal:\nhospitalsaomatheus.centraldemarcacao.com.br\n\nSe aparecer qualquer questão de cobertura por lá, me avisa que a equipe te ajuda, combinado?"
+        "Atendemos Unimed aqui no hospital. Você já pode tentar agendar pediatria pelo nosso portal:\nhospitalsaomatheus.centraldemarcacao.com.br\n\nSe aparecer qualquer questão de cobertura por lá, me avisa que a equipe te ajuda, combinado?"
       ],
       "ferramentas": [
         "kanban_move_card",
@@ -126,11 +126,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 21673,
-    "cache": 118049,
-    "cache_criacao": 21403,
-    "saida": 1036,
-    "chamadas": 9,
+    "entrada": 21638,
+    "cache": 119301,
+    "cache_criacao": 21614,
+    "saida": 1030,
+    "chamadas": 8,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -138,8 +138,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.003866,
+    "openai_usd": 0.003872,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T08:44:33+00:00"
+  "rodou_em": "2026-11-16T13:15:05+00:00"
 }

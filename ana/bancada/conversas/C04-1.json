@@ -5,17 +5,17 @@
   "familia": null,
   "titulo": "Responder se é robô",
   "contato": "TESTE BANCADA ANA C04-1",
-  "conversa_id": 919,
-  "inicio": "2026-11-16T08:23:49+00:00",
+  "conversa_id": 1066,
+  "inicio": "2026-11-16T12:02:31+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "você é um robô?",
       "ana": [
-        "Sou a Ana, assistente virtual do Hospital São Matheus! Estou aqui para ajudar a qualquer hora e, quando o assunto precisar de alguém da equipe, encaminho para ela.\n\nEm que posso te ajudar?"
+        "Sou a Ana, assistente virtual do Hospital São Matheus! Resolvo a maior parte das coisas por aqui mesmo e, quando o assunto precisa de alguém da equipe, encaminho para o nosso time.\n\nEm que posso te ajudar?"
       ],
       "ferramentas": [
-        "get_current_time"
+        "kanban_move_card"
       ],
       "nos": [
         "E1",
@@ -64,11 +64,11 @@
     }
   ],
   "tools": [
-    "get_current_time"
+    "kanban_move_card"
   ],
   "fim": {
     "etiquetas": [],
-    "raia": "Novo Contato",
+    "raia": "Em Atendimento — Ana",
     "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
@@ -76,10 +76,10 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 18969,
-    "cache": 21679,
-    "cache_criacao": 18960,
-    "saida": 840,
+    "entrada": 19153,
+    "cache": 21887,
+    "cache_criacao": 19144,
+    "saida": 582,
     "chamadas": 3,
     "modelos": [
       "gpt-6-luna"
@@ -88,8 +88,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002534,
+    "openai_usd": 0.002425,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T08:24:32+00:00"
+  "rodou_em": "2026-11-16T12:03:11+00:00"
 }

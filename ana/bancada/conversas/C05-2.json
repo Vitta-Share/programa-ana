@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Preço de consulta particular",
   "contato": "TESTE BANCADA ANA C05-2",
-  "conversa_id": 921,
-  "inicio": "2026-11-16T08:25:18+00:00",
+  "conversa_id": 1068,
+  "inicio": "2026-11-16T12:03:57+00:00",
   "turnos": [
     {
       "n": 1,
@@ -16,8 +16,7 @@
       ],
       "ferramentas": [
         "consultar_precos_consultas",
-        "set_labels",
-        "kanban_move_card"
+        "set_labels"
       ],
       "nos": [
         "E1",
@@ -62,8 +61,7 @@
           "esperado": "consultar_precos_consultas",
           "veio": [
             "consultar_precos_consultas",
-            "set_labels",
-            "kanban_move_card"
+            "set_labels"
           ],
           "ok": true
         },
@@ -88,14 +86,13 @@
   ],
   "tools": [
     "consultar_precos_consultas",
-    "set_labels",
-    "kanban_move_card"
+    "set_labels"
   ],
   "fim": {
     "etiquetas": [
       "particular-aquecido"
     ],
-    "raia": "Em Atendimento — Ana",
+    "raia": "Novo Contato",
     "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
@@ -103,11 +100,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 20235,
-    "cache": 59991,
-    "cache_criacao": 19809,
-    "saida": 249,
-    "chamadas": 6,
+    "entrada": 19939,
+    "cache": 41224,
+    "cache_criacao": 19927,
+    "saida": 126,
+    "chamadas": 4,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -115,8 +112,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002748,
+    "openai_usd": 0.002469,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T08:25:57+00:00"
+  "rodou_em": "2026-11-16T12:04:34+00:00"
 }

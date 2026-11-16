@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Valor de exame particular",
   "contato": "TESTE BANCADA ANA C06-3",
-  "conversa_id": 925,
-  "inicio": "2026-11-16T08:27:59+00:00",
+  "conversa_id": 1072,
+  "inicio": "2026-11-16T12:06:40+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quais exames vocês fazem e quanto custa cada um particular?",
       "ana": [
-        "Estes são os exames com valores particulares disponíveis:\n\nColonoscopia: R$ 580  \nEcocardiograma: R$ 320  \nEletrocardiograma (ECG): R$ 80  \nEndoscopia Digestiva Alta: R$ 480  \nHemograma Completo: R$ 45  \nHolter 24h: R$ 280  \nMAPA 24h: R$ 260  \nRaio-X (RX): R$ 120  \nTomografia Computadorizada (TC): R$ 580  \nUltrassonografia Abdominal: R$ 220"
+        "Estes são os exames disponíveis para atendimento particular e seus valores:\n\nColonoscopia: R$ 580\nEcocardiograma: R$ 320\nEletrocardiograma (ECG): R$ 80\nEndoscopia Digestiva Alta: R$ 480\nHemograma Completo: R$ 45\nHolter 24h: R$ 280\nMAPA 24h: R$ 260\nRaio-X (RX): R$ 120\nTomografia Computadorizada (TC): R$ 580\nUltrassonografia Abdominal: R$ 220"
       ],
       "ferramentas": [
         "consultar_exames",
@@ -64,10 +64,10 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 19576,
-    "cache": 40689,
-    "cache_criacao": 19564,
-    "saida": 388,
+    "entrada": 19787,
+    "cache": 41105,
+    "cache_criacao": 19775,
+    "saida": 281,
     "chamadas": 4,
     "modelos": [
       "gpt-6-luna"
@@ -76,8 +76,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002558,
+    "openai_usd": 0.00253,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T08:28:35+00:00"
+  "rodou_em": "2026-11-16T12:07:17+00:00"
 }

@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Dúvidas gerais",
   "contato": "TESTE BANCADA ANA C27-1",
-  "conversa_id": 942,
-  "inicio": "2026-11-16T08:47:15+00:00",
+  "conversa_id": 1089,
+  "inicio": "2026-11-16T13:22:02+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "qual o endereço de vocês?",
       "ana": [
-        "O Hospital São Matheus fica na Rua Silva Cardoso, 689, Bangu, Rio de Janeiro/RJ. https://maps.app.goo.gl/T95BxBrVPiRKLtHq8"
+        "Ficamos na Rua Silva Cardoso, 689, em Bangu, Rio de Janeiro."
       ],
       "ferramentas": [
         "search_knowledge"
@@ -58,11 +58,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 20833,
-    "cache": 21679,
-    "cache_criacao": 20824,
-    "saida": 161,
-    "chamadas": 3,
+    "entrada": 21630,
+    "cache": 21887,
+    "cache_criacao": 21148,
+    "saida": 172,
+    "chamadas": 4,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -70,8 +70,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002381,
+    "openai_usd": 0.002468,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T08:47:51+00:00"
+  "rodou_em": "2026-11-16T13:24:13+00:00"
 }

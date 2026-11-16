@@ -5,17 +5,18 @@
   "familia": null,
   "titulo": "Dúvidas gerais",
   "contato": "TESTE BANCADA ANA C27-2",
-  "conversa_id": 943,
-  "inicio": "2026-11-16T08:47:55+00:00",
+  "conversa_id": 1090,
+  "inicio": "2026-11-16T13:24:17+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quais convênios vocês atendem?",
       "ana": [
-        "O Hospital São Matheus atende, entre outros: Amil, Assim Saúde, Bradesco Saúde, SulAmérica, Unimed do Brasil, Porto Seguro, Allianz, Intermédica/NotreDame, Caberj, Cemeru, Klini Saúde, Leve Saúde, Mediservice, Saúde Petrobras e Veritas.\n\nA cobertura pode variar conforme o plano e o serviço. Se você me disser qual convênio e especialidade ou exame precisa, verifico essa cobertura para você."
+        "Atendemos Porto Seguro, Postal Saúde (Correios), SAMOC, Sul América, Unimed do Brasil, Veritas, Assim Saúde, Allianz, Amacor (MH Vida), Amil, Blue Saúde, Bradesco Saúde, Bradesco Operadora, Brasil Assistência (Mapfre), Caberj, Cape Saúde, CAURJ, CNEN, CVRD/PASA, Castelo Branco, Eletros-Saúde, Telos-Amap, Furnas (Real Grandeza), Gama Saúde, HSMED Saúde, Health Med, Intermédica/NotreDame, Klini Saúde, Leve Saúde, Mediservice, AMEP, SV Saúde, AWP Brasil (Mondial), Nova Saúde, Oplan, Saúde Petrobras, Integral, CEMERU, Onix, Select e LLAK Medicina Neonatal.\n\nA cobertura pode variar conforme o plano e a especialidade ou exame. Tinha algum convênio específico em mente?"
       ],
       "ferramentas": [
-        "search_knowledge"
+        "search_knowledge",
+        "kanban_move_card"
       ],
       "nos": [
         "E1",
@@ -33,7 +34,8 @@
           "tipo": "ferramenta",
           "esperado": "search_knowledge",
           "veio": [
-            "search_knowledge"
+            "search_knowledge",
+            "kanban_move_card"
           ],
           "ok": true
         },
@@ -48,11 +50,12 @@
     }
   ],
   "tools": [
-    "search_knowledge"
+    "search_knowledge",
+    "kanban_move_card"
   ],
   "fim": {
     "etiquetas": [],
-    "raia": "Novo Contato",
+    "raia": "Em Atendimento — Ana",
     "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
@@ -60,11 +63,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 21217,
-    "cache": 21681,
-    "cache_criacao": 21208,
-    "saida": 447,
-    "chamadas": 3,
+    "entrada": 21592,
+    "cache": 41863,
+    "cache_criacao": 21580,
+    "saida": 717,
+    "chamadas": 4,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -72,8 +75,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002562,
+    "openai_usd": 0.002936,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T08:48:34+00:00"
+  "rodou_em": "2026-11-16T13:26:06+00:00"
 }

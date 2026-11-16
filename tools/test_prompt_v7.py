@@ -168,3 +168,57 @@ def test_caso_3_do_convenio_manda_o_portal_sem_narrar_a_verificacao():
     # bateria v71, rodada 1: C09-1 e C10-3 disseram "não consegui confirmar" e "agenda online"
     assert "não pôde ser confirmada, e sem citar a agenda" in V7
     assert "Proibido em todos os casos: narrar a verificação" in V7
+
+
+def test_turno_da_oferta_de_encaminhar_termina_na_pergunta():
+    # bateria v71, rodada 1: no C10-2 a Ana fez a oferta certa, mas chamou
+    # `get_current_time`, pôs `fora-horario` e escalou no mesmo turno
+    oferta = re.search(r"\*\*Oferta de encaminhar:\*\*.*", V7).group(0)
+    assert "O turno da oferta termina na pergunta" in oferta
+    assert "sem `get_current_time`" in oferta
+    assert "sem `fora-horario`" in oferta
+    secao_6b = V7.split("#### 6.B Valor de Exame Particular", 1)[1].split("####", 1)[0]
+    assert "o turno termina na pergunta" in secao_6b
+    # e a etiqueta do fora do horário não puxa a oferta para uma escalada
+    secao_10 = V7.split("### 10. Fora do Horário Comercial", 1)[1].split("###", 1)[0]
+    assert "no turno de uma oferta de encaminhar" in secao_10
+
+
+def test_oferta_de_encaminhar_nao_cita_a_tabela():
+    # bateria v71: "Não encontrei o valor ... na tabela oficial" é termo interno
+    modelo = V7.split("**Mensagem da oferta**", 1)[1].split("```", 2)[1]
+    assert "Não tenho o valor de [item]" in modelo
+    assert "tabela" not in modelo
+
+
+def test_regras_globais_dizem_que_oferecer_encaminhar_nao_e_escalar():
+    # bateria v72, rodada 1: só a Seção 6 não bastou; C10-1 e C10-2 seguiram a Regra 9
+    # (conferir o horário antes de escalar) e o "em dúvida, escalar" e escalaram na oferta
+    regras = V7.split("## Regras Globais", 1)[1].split("\n---", 1)[0]
+    regra_9 = re.search(r"^9\. .*", regras, re.MULTILINE).group(0)
+    regra_13 = re.search(r"^13\. .*", regras, re.MULTILINE).group(0)
+    assert "Oferecer encaminhar não é escalar" in regra_9
+    assert "a oferta de encaminhar da Seção 6" in regra_13
+
+
+def test_pergunta_da_oferta_nunca_vai_no_customer_message_do_handoff():
+    # bateria v72: a pergunta "Posso encaminhar...?" saiu pelo `customerMessage` do
+    # `handoff_to_human` (146 e 152 caracteres, iguais à resposta), e não como texto
+    handoff = re.search(r"^- `handoff_to_human`: .*", V7, re.MULTILINE).group(0)
+    assert "A pergunta da oferta de encaminhar (Seção 6) é resposta de texto" in handoff
+    assert "nunca vai no `customerMessage`" in handoff
+
+
+def test_oferta_de_encaminhar_tem_mensagem_modelo_e_lista_fechada_de_ferramentas():
+    # bateria v72, depois das regras 9 e 13: C10-1 e C10-2 ainda escalaram uma vez em
+    # duas, com `set_custom_attribute`, `update_kanban_task` e `set_labels` no caminho
+    oferta = re.search(r"\*\*Oferta de encaminhar:\*\*.*", V7).group(0)
+    assert "as ferramentas dele são só a consulta da fonte e o `kanban_move_card` para `EM ATENDIMENTO — ANA`" in oferta
+    modelo = V7.split("**Mensagem da oferta**", 1)[1]
+    assert "```\nNão tenho o valor de [item] para te passar agora. Quer que nossa equipe confirme para você?\n```" in modelo
+
+
+def test_voltar_devolve_a_v71_que_estava_no_ar_antes_da_v72():
+    # issue #19: a v7.2 subiu por cima da v7.1 (sha d76d3785c5d6); o `voltar` devolve ela
+    assert sha(pp.EXPORT_PROMPT.read_text(encoding="utf-8")).startswith("d76d3785c5d6")
+    assert pp.EXPORT_AGENTE.name == "export-ana-pre-prompt-v72.json"
