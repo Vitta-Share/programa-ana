@@ -78,3 +78,34 @@ def test_outra_sessao_mexeu_nas_settings_desde_o_export_a_aplicacao_para():
     atual["settings"]["split"]["enabled"] = True
     atual["settings"]["conversationNotes"] = {"toolsUsed": "activity"}
     assert nc.mudou_desde_o_export(export, atual) == ["conversationNotes", "split"]
+
+
+# Os dois textos que a plataforma escreve (docs/chatwoot.md da fazer.ai agents 1.59),
+# com o link de Logs de verdade: o UUID do turno tem dígito e não é dado de paciente.
+NOTA_FERRAMENTAS = (
+    "Ferramentas usadas pelo agente neste turno: buscar_paciente_por_cpf, get_current_time (2x)."
+)
+NOTA_ERROS = (
+    "Erros neste turno do agente:\n"
+    "- Ferramenta consultar_horarios_livres: falhou 2x (HTTP 500). Não se recuperou: o agente seguiu sem ela.\n"
+    "Detalhes do turno: https://agents.hospitalsaomatheus.cloud/logs?turnId=4f1c2a90-1234-4c5d-8e9f-012345678901"
+    "&switchTenant=108fe12c-e5ad-4a19-84be-06d5fb377f3f"
+)
+
+
+def test_nota_so_com_nomes_de_ferramenta_e_motivo_nao_tem_dado_de_paciente():
+    assert nc.dados_de_paciente(NOTA_FERRAMENTAS) == []
+    assert nc.dados_de_paciente(NOTA_ERROS) == []
+
+
+def test_cpf_inteiro_na_nota_e_apontado_com_ou_sem_mascara():
+    assert nc.dados_de_paciente("buscar_paciente(cpf=390.533.447-05)") == ["CPF"]
+    assert nc.dados_de_paciente("buscar_paciente(cpf=39053344705)") == ["CPF"]
+
+
+def test_o_que_o_paciente_disse_na_conversa_de_teste_nao_pode_aparecer_na_nota():
+    # nome e outros dados vêm da própria conversa de teste: a varredura procura por eles
+    achados = nc.dados_de_paciente(
+        "Ferramentas: buscar_paciente (TESTE GOLF HOTEL)", proibidos=["Teste Golf Hotel"]
+    )
+    assert achados == ["dado da conversa: Teste Golf Hotel"]

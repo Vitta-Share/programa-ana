@@ -10,6 +10,7 @@ fullDetailRetentionDays`, versão 1.59).
 from __future__ import annotations
 
 import copy
+import re
 
 NOTAS = {"toolsUsed": "note", "errors": "note"}
 # A plataforma aceita de 1 a 90 dias, mas a linha de log em que o detalhe se
@@ -39,3 +40,16 @@ def mudou_desde_o_export(export: dict, atual: dict) -> list[str]:
     """
     antes, agora = export["settings"], atual["settings"]
     return sorted(k for k in set(antes) | set(agora) if antes.get(k) != agora.get(k))
+
+
+# CPF inteiro, com ou sem máscara; os 11 dígitos não podem estar colados a outro dígito
+# (o trecho final do UUID do turno, no link de Logs, tem 12).
+CPF = re.compile(r"(?<!\d)\d{3}\.?\d{3}\.?\d{3}-?\d{2}(?!\d)")
+
+
+def dados_de_paciente(texto: str, proibidos: list[str] = ()) -> list[str]:
+    """O que a nota mostra de dado de paciente: CPF inteiro e o que a conversa de teste disse."""
+    achados = ["CPF"] if CPF.search(texto) else []
+    baixo = texto.casefold()
+    achados += [f"dado da conversa: {p}" for p in proibidos if p.casefold() in baixo]
+    return achados
