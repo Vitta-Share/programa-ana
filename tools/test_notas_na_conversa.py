@@ -99,8 +99,8 @@ def test_nota_so_com_nomes_de_ferramenta_e_motivo_nao_tem_dado_de_paciente():
 
 
 def test_cpf_inteiro_na_nota_e_apontado_com_ou_sem_mascara():
-    assert nc.dados_de_paciente("buscar_paciente(cpf=390.533.447-05)") == ["CPF"]
-    assert nc.dados_de_paciente("buscar_paciente(cpf=39053344705)") == ["CPF"]
+    assert nc.dados_de_paciente("buscar_paciente(cpf=123.456.789-09)") == ["CPF"]
+    assert nc.dados_de_paciente("buscar_paciente(cpf=12345678909)") == ["CPF"]
 
 
 def test_o_que_o_paciente_disse_na_conversa_de_teste_nao_pode_aparecer_na_nota():
