@@ -198,3 +198,11 @@ def test_regras_globais_dizem_que_oferecer_encaminhar_nao_e_escalar():
     regra_13 = re.search(r"^13\. .*", regras, re.MULTILINE).group(0)
     assert "Oferecer encaminhar não é escalar" in regra_9
     assert "a oferta de encaminhar da Seção 6" in regra_13
+
+
+def test_pergunta_da_oferta_nunca_vai_no_customer_message_do_handoff():
+    # bateria v72: a pergunta "Posso encaminhar...?" saiu pelo `customerMessage` do
+    # `handoff_to_human` (146 e 152 caracteres, iguais à resposta), e não como texto
+    handoff = re.search(r"^- `handoff_to_human`: .*", V7, re.MULTILINE).group(0)
+    assert "A pergunta da oferta de encaminhar (Seção 6) é resposta de texto" in handoff
+    assert "nunca vai no `customerMessage`" in handoff
