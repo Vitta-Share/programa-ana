@@ -168,6 +168,34 @@ def test_resolver_pede_toggle_status_resolved_ao_chatwoot():
     assert canal.chamadas == [("POST", "/conversations/691/toggle_status", {"status": "resolved"})]
 
 
+def test_com_card_a_raia_conferida_e_a_do_card_e_nao_a_do_trace():
+    # o trace diz que a Ana moveu para Encerrado, mas o card esta em Novo Contato: vale o card
+    r = rodar(CanalFalso(raia="Novo Contato", status="resolved", card=137))
+    assert r["fim"]["raia"] == "Novo Contato"
+    assert r["fim"]["raia_pelo_trace"] is None
+    assert r["veredito"] == "falhou"
+    assert any(c["tipo"] == "raia" and c["veio"] == "Novo Contato" for c in r["conferencias"])
+
+
+def test_sem_card_a_raia_vem_do_trace_como_plano_b_com_aviso(capsys):
+    r = rodar(CanalFalso(raia=None, status="resolved", card=None))
+    assert r["fim"]["raia_pelo_trace"] == ["ENCERRADO — RESOLVIDO"]
+    assert r["veredito"] == "passou", r["falhas"]
+    assert "sem card no kanban" in capsys.readouterr().out
+
+
+def test_com_card_nao_ha_aviso_de_plano_b(capsys):
+    rodar(CanalFalso(raia="Encerrado — Resolvido", status="resolved", card=137))
+    assert "sem card no kanban" not in capsys.readouterr().out
+
+
+def test_card_que_nao_deu_para_ler_nao_cai_no_trace():
+    # o plano B e so para conversa sem card: card existe e a leitura falhou = raia None
+    r = rodar(CanalFalso(raia=None, status="resolved", card=137))
+    assert r["fim"]["raia_pelo_trace"] is None
+    assert r["veredito"] == "falhou"
+
+
 def test_o_cenario_de_encerramento_da_bateria_pede_a_conversa_resolvida():
     dados = json.loads((RAIZ / "ana" / "bancada" / "cenarios" / "capacidades.json").read_text())
     c29 = next(c for c in dados["cenarios"] if c["id"] == "C29-1")
