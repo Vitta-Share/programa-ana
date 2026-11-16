@@ -16,7 +16,12 @@ REGRA = {"kind": "customer_choice"}
 
 
 def corpo_ligar(agente: dict) -> dict:
-    """O corpo do PATCH /api/v1/agents/:id que liga a trava."""
+    """O corpo do PATCH /api/v1/agents/:id que liga a trava.
+
+    O PATCH substitui o saco de settings inteiro, então o corpo leva todos os
+    blocos lidos (e as regras de outras ferramentas), e `expectedUpdatedAt` faz
+    a plataforma recusar (409) se outra sessão gravou o agente depois da leitura.
+    """
     settings = copy.deepcopy(agente["settings"])
-    settings["toolPreconditions"] = {FERRAMENTA: dict(REGRA)}
-    return {"settings": settings}
+    settings["toolPreconditions"] = {**settings.get("toolPreconditions", {}), FERRAMENTA: dict(REGRA)}
+    return {"settings": settings, "expectedUpdatedAt": agente["updatedAt"]}
