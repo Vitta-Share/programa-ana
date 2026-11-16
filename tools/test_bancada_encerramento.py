@@ -196,6 +196,14 @@ def test_card_que_nao_deu_para_ler_nao_cai_no_trace():
     assert r["veredito"] == "falhou"
 
 
+def test_conversa_que_nao_deu_para_ler_nao_cai_no_trace(capsys):
+    # GET /conversations/<id> falhou: nao se sabe se ha card, entao nao ha plano B
+    r = rodar(CanalFalso(raia=None, status=None, card=None))
+    assert r["fim"]["raia_pelo_trace"] is None
+    assert r["veredito"] == "falhou"
+    assert "sem card no kanban" not in capsys.readouterr().out
+
+
 def test_o_cenario_de_encerramento_da_bateria_pede_a_conversa_resolvida():
     dados = json.loads((RAIZ / "ana" / "bancada" / "cenarios" / "capacidades.json").read_text())
     c29 = next(c for c in dados["cenarios"] if c["id"] == "C29-1")

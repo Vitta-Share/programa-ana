@@ -621,15 +621,16 @@ def rodar_cenario(canal, trace, cenario, arquivo):
 
     notas = canal.notas_privadas(conversa_id)
     raia, status, card = canal.estado(conversa_id)
-    if card is None and status is not None:
+    # plano B (issue #26): so a conversa lida e sem card tem a raia lida do ultimo
+    # kanban_move_card do trace; conversa que nao deu para ler nao cai no trace
+    plano_b = card is None and status is not None
+    if plano_b:
         print(f"  AVISO: conversa #{conversa_id} sem card no kanban; "
               f"a raia vem do trace (plano B)")
     resultado["fim"] = {
         "etiquetas": canal.etiquetas(conversa_id),
         "raia": raia,
-        # plano B (issue #26): so a conversa sem card tem a raia lida do ultimo
-        # kanban_move_card do trace
-        "raia_pelo_trace": raia_pelo_trace(chamadas) if card is None else None,
+        "raia_pelo_trace": raia_pelo_trace(chamadas) if plano_b else None,
         "status": status,
         # handoff: a ferramenta no trace; sem trace, a conversa aberta para a equipe
         "handoff": ("handoff_to_human" in tools) if tools is not None
