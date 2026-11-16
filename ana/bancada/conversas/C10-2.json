@@ -5,18 +5,19 @@
   "familia": null,
   "titulo": "Item fora da tabela não vira negativa",
   "contato": "TESTE BANCADA ANA C10-2",
-  "conversa_id": 679,
-  "inicio": "2026-11-16T03:30:31+00:00",
+  "conversa_id": 825,
+  "inicio": "2026-11-16T06:24:03+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quanto custa a ressonância magnética?",
       "ana": [
-        "Não encontrei o valor da ressonância magnética na informação oficial disponível. Posso encaminhar sua dúvida para a equipe confirmar?"
+        "Não encontrei o valor da ressonância magnética na tabela oficial. Posso encaminhar sua solicitação para a equipe confirmar o preço para você. Como nossa equipe atende de segunda a sexta, das 7h às 18h, ela retorna no próximo expediente."
       ],
       "ferramentas": [
         "consultar_exames",
-        "handoff_to_human"
+        "set_labels",
+        "set_labels"
       ],
       "nos": [
         "E1",
@@ -57,7 +58,8 @@
           "esperado": "consultar_exames",
           "veio": [
             "consultar_exames",
-            "handoff_to_human"
+            "set_labels",
+            "set_labels"
           ],
           "ok": true
         },
@@ -65,33 +67,35 @@
           "turno": 1,
           "tipo": "handoff",
           "esperado": false,
-          "veio": true,
-          "ok": false
+          "veio": false,
+          "ok": true
         }
       ]
     }
   ],
   "tools": [
     "consultar_exames",
-    "handoff_to_human"
+    "set_labels",
+    "set_labels"
   ],
   "fim": {
-    "etiquetas": [],
+    "etiquetas": [
+      "agente-off",
+      "fora-horario"
+    ],
     "raia": null,
     "raia_pelo_trace": [],
-    "status": "open",
-    "handoff": true
+    "status": "pending",
+    "handoff": false
   },
-  "veredito": "falhou",
-  "falhas": [
-    "turno 1: FALHOU handoff false (veio: true)"
-  ],
+  "veredito": "passou",
+  "falhas": [],
   "uso": {
-    "entrada": 23618,
-    "cache": 46243,
-    "cache_criacao": 23371,
-    "saida": 130,
-    "chamadas": 4,
+    "entrada": 23880,
+    "cache": 72504,
+    "cache_criacao": 23865,
+    "saida": 1161,
+    "chamadas": 5,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -99,8 +103,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002889,
+    "openai_usd": 0.003694,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T03:31:05+00:00"
+  "rodou_em": "2026-11-16T06:24:52+00:00"
 }

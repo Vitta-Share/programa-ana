@@ -1,8 +1,10 @@
 # Trava da ouvidoria na plataforma (issue #53)
 
-Desde 16/nov/2026 a ferramenta 11 (`registrar_ouvidoria`) só roda depois que a plataforma confere que o paciente confirmou o que vai ser gravado. Antes, essa trava existia só no prompt (Seção 7.3, "Com todos os dados confirmados pelo paciente"), e o modelo decide de novo a cada turno se obedece.
+Em 16/nov/2026 a ferramenta 11 (`registrar_ouvidoria`) ganhou na plataforma uma trava para só rodar depois que o paciente confirma o que vai ser gravado. A trava existe só no prompt (Seção 7.3, "Com todos os dados confirmados pelo paciente"), e o modelo decide de novo a cada turno se obedece.
 
-## O que foi ligado
+**Estado hoje: desligada.** Na bateria, ela recusou o registro nas três rodadas mesmo com o paciente confirmando, e a Ana disse ao paciente que tinha registrado sem gravar nada (Placar, abaixo). O script e o export ficam para religar quando houver um jeito de a trava acertar.
+
+## O que foi ligado (e desligado)
 
 | Onde | Valor | Versão da plataforma |
 | --- | --- | --- |
@@ -26,9 +28,29 @@ Fonte: `docs/graph.md` (seção Tool preconditions) e `src/graph/tools/customer-
 
 O caminho para o C10-2 é o prompt: a proposta 1 do diagnóstico da v159 (Seções 6.B e 6.C, "só se o paciente aceitar"), que pertence à #25.
 
-## Placar
+## Placar: a trava piorou o registro e foi desligada
 
-BATERIA
+Bateria `p53`, 16/nov de 06:13Z a 06:28Z (madrugada de segunda, fora do horário comercial, como a v159), três rodadas de C21-1, C22-1 e C10-2 com `--com-escrita`, plataforma 1.59.0, prompt vivo sha `fdfadc07ff6e`. Comparação com o placar da 1.59 (#51): o C22-1 não roda na bateria sem escrita, então a referência dele é a conversa 606 da #52, na mesma 1.59.
+
+| Cenário | 1.59 (#51, #52) | Com a trava R1 | R2 | R3 | Sem a trava |
+| --- | --- | --- | --- | --- | --- |
+| C21-1 Acolher e coletar | ok ok ok | ok | ok | ok | |
+| C22-1 Registrar e devolver o protocolo | ok (1 de 1) | falhou | falhou | falhou | ok (protocolo 2026-0218) |
+| C10-2 Item fora da tabela | falhou ok falhou | ok | ok | ok | |
+
+O juiz recusou a `registrar_ouvidoria` nas três rodadas (linha `phase: precondition`, `preconditionKind: customer_choice`, em `info`, nas conversas 821, 824 e 827), sempre no turno em que o paciente diz "isso mesmo, pode registrar por favor". É recusa de mérito, não falha do juiz (essa seria `precondition_unreadable`, em `warn`). Na R3 a Ana tinha mostrado o resumo inteiro (solicitante, data, setor e relato) logo antes do sim; na R2 ela chegou a perguntar "posso classificar o relato como demora na recepção do ambulatório?" e o paciente confirmou. Mesmo assim, NO.
+
+Pior que a recusa foi o que veio depois. A plataforma manda o modelo perguntar de novo ao paciente, e a Ana não perguntou:
+
+- R1 (821): "Registrei sua solicitação e nosso time vai te contatar" sem gravar nada e sem encaminhar.
+- R2 (824): encaminhou para a equipe sem protocolo e sem mensagem que chegasse ao paciente em 150 s.
+- R3 (827): a mensagem sem protocolo da Seção 7.3 ("registrada com todo o cuidado") e o encaminhamento.
+
+Nenhuma das três gravou linha no painel da ouvidoria. O C10-2 passou nas três, mas isso não vem da trava (o `handoff_to_human` segue sem regra): é a mesma intermitência da v159. O C21-1 não chega ao registro e ficou igual.
+
+Pela regra da issue ("se a trava piorar o placar, ela é desligada"), a trava foi desligada às 06:29Z (`desligar`, `toolPreconditions: {}`) e uma rodada de conferência do C22-1 sem ela gravou o protocolo 2026-0218 na conversa 828 e passou.
+
+Por que o juiz recusa: a plataforma não expõe a resposta do juiz nos Logs, e daqui não dá para repetir a chamada dele. A hipótese mais forte está no próprio `CHOICE_JUDGE_PROMPT`: ele exige que cada valor que "escolhe uma opção" esteja nas palavras do paciente, e os argumentos da ferramenta 11 são todos escritos pela Ana (o `resumo` em "paciente relata que...", a `categoria` de uma lista de sete que o paciente nunca vê, o `setor` normalizado). O tipo `customer_choice` foi medido pela fazer.ai em catálogo, pedido e agenda, onde o paciente escolhe um valor; a ouvidoria registra um relato, e "confirmou o resumo" não é o que o juiz confere. Para religar, o caminho é pedir à fazer.ai um modo "o paciente confirmou a ação" (o mesmo que o handoff precisaria) ou testar a trava com a Ana repetindo `categoria` e `setor` no resumo que o paciente confirma, o que mexe no prompt e é da #25.
 
 ## Como repetir
 
