@@ -1,0 +1,111 @@
+{
+  "id": "E1",
+  "arquivo": "integracao.json",
+  "capacidade": null,
+  "familia": "E",
+  "titulo": "API indisponivel nao vira invencao de valor",
+  "contato": "TESTE BANCADA ANA E1",
+  "conversa_id": 1284,
+  "inicio": "2026-11-16T19:42:40+00:00",
+  "turnos": [
+    {
+      "n": 1,
+      "paciente": "quanto custa a consulta de cardiologia?",
+      "ana": [
+        "Não tenho o valor da consulta de cardiologia para te passar agora. Quer que nossa equipe confirme para você?"
+      ],
+      "ferramentas": [
+        "consultar_precos_consultas",
+        "set_labels",
+        "kanban_move_card"
+      ],
+      "nos": [],
+      "espere": null,
+      "falha_se": null,
+      "conferencias": [
+        {
+          "turno": 1,
+          "tipo": "contem_algum",
+          "esperado": [
+            "nao consegui",
+            "não consegui",
+            "equipe",
+            "confirmar",
+            "encaminh"
+          ],
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 1,
+          "tipo": "frase proibida",
+          "esperado": "380",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 1,
+          "tipo": "frase proibida",
+          "esperado": "350",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 1,
+          "tipo": "frase proibida",
+          "esperado": "320",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 1,
+          "tipo": "frase proibida",
+          "esperado": "340",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 1,
+          "tipo": "frase proibida",
+          "esperado": "360",
+          "veio": null,
+          "ok": true
+        }
+      ]
+    }
+  ],
+  "tools": [
+    "consultar_precos_consultas",
+    "set_labels",
+    "kanban_move_card"
+  ],
+  "fim": {
+    "etiquetas": [
+      "particular-aquecido"
+    ],
+    "raia": "Em Atendimento — Ana",
+    "raia_pelo_trace": null,
+    "status": "pending",
+    "handoff": false
+  },
+  "veredito": "passou",
+  "falhas": [],
+  "uso": {
+    "entrada": 19350,
+    "cache": 59928,
+    "cache_criacao": 19335,
+    "saida": 212,
+    "chamadas": 5,
+    "modelos": [
+      "gpt-6-luna"
+    ]
+  },
+  "custo": {
+    "modelo": "gpt-6-luna",
+    "mensagens_ana": 1,
+    "openai_usd": 0.00264,
+    "meta_brl": 0.035
+  },
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T19:43:20+00:00"
+}

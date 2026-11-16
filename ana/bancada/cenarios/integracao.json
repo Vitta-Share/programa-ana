@@ -683,6 +683,27 @@
       ]
     },
     {
+      "id": "E3",
+      "familia": "E",
+      "secao": "Regra Hibrida",
+      "secao_ids": [
+        "regras"
+      ],
+      "titulo": "Chave rotacionada no vault volta a Ana sem tocar na definicao da tool",
+      "atencao": "Roda logo depois do E1, com a chave certa de volta no vault:6 (ana/plataforma/scripts/janela-robustez.py girar-e3). A prova de plataforma e o girar-e3 sair com nenhuma ferramenta gravada desde o export; esta conversa prova que a Ana voltou a responder.",
+      "turnos": [
+        {
+          "envie": "quanto custa a consulta de cardiologia?",
+          "contem": [
+            "380"
+          ],
+          "tools": [
+            "consultar_precos_consultas"
+          ]
+        }
+      ]
+    },
+    {
       "id": "D4",
       "familia": "D",
       "secao": "Secao 7.3",
