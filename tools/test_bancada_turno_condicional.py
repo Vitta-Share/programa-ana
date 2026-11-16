@@ -30,7 +30,7 @@ CENARIO = {
     "id": "C14-1", "titulo": "Oferecer horários reais para escolher",
     "turnos": [
         {"envie": "meu nome é Teste Bancada Ana"},
-        {"envie": "quero o 1, por favor", "so_se": LISTA},
+        {"envie": "quero o 1, por favor", "so_se": LISTA, "contem_algum": ["equipe"]},
     ],
     "confere": {"handoff": True},
 }
@@ -39,7 +39,8 @@ COM_HORARIO = ("Encontrei este horário disponível para cardiologia:\n\n"
                "1. 26/11, às 9h15, com o médico de teste\n\nQuer que eu anote sua preferência?")
 SEM_HORARIO = ("Prontinho, Teste! A agenda online não me retornou horários agora, então nossa "
                "equipe vai entrar em contato para confirmar o melhor horário com você.")
-ANOTADO = "Perfeito, Teste! Anotei sua preferência de horário."
+ANOTADO = ("Perfeito, Teste! Anotei sua preferência de horário. Nossa equipe vai entrar "
+           "em contato em breve para confirmar tudo com você.")
 
 HANDOFF = [("t", "handoff_to_human", "2099-01-01T00:00:00Z", {})]
 
@@ -113,6 +114,13 @@ def test_com_horario_na_lista_o_paciente_escolhe_o_numero_e_a_escalada_e_conferi
     assert any(c["tipo"] == "handoff" and c["turno"] == 2 for c in r["conferencias"])
 
 
+def test_com_horario_na_lista_e_a_ana_muda_no_turno_da_escolha_o_cenario_falha():
+    # o handoff no trace nao salva o turno 4 sem resposta
+    r = rodar(CanalFalso([COM_HORARIO]))
+    assert r["turnos_pulados"] == []
+    assert r["veredito"] == "falhou"
+
+
 def test_com_a_gh_sem_resposta_o_turno_da_escolha_nao_e_enviado_e_a_escalada_vale_no_turno_3():
     canal = CanalFalso([SEM_HORARIO])
     r = rodar(canal)
@@ -157,3 +165,41 @@ def test_c14_1_reprova_a_ana_que_anota_o_horario_sem_o_numero_do_paciente():
     # rodada 3 da v72: com um horário só, a Ana anotou a preferência no turno 3
     turno_3 = CENARIOS["C14-1"]["turnos"][2]
     assert "anotei sua preferência" in [f.lower() for f in turno_3["nao_contem"]]
+
+
+
+class CanalDaBateria(CanalFalso):
+    """O fim que a Ana certa deixa no Chatwoot: as etiquetas do agendamento particular."""
+
+    def etiquetas(self, conversa_id):
+        return ["particular-aquecido", "agendamento-particular"]
+
+
+def _rodar_cenario_real(cid, quarta_resposta):
+    """O cenário da bateria com a GH devolvendo horário: lista no turno 3, e a Ana do
+    turno 4 é a `quarta_resposta` (None = muda), com o handoff no trace."""
+    respostas = ["A consulta de cardiologia é R$ 380. Quer que eu veja os horários?",
+                 "Ótimo! Me passa seu nome completo e CPF, por favor?", COM_HORARIO]
+    if quarta_resposta is not None:
+        respostas.append(quarta_resposta)
+    chamadas = [("t", t, "2099-01-01T00:00:00Z", {}) for t in
+                ("buscar_paciente_por_cpf", "consultar_especialidades_agenda",
+                 "handoff_to_human")]
+    return e2e.rodar_cenario(CanalDaBateria(respostas), TraceFalso(chamadas),
+                             json.loads(json.dumps(CENARIOS[cid])), "capacidades.json")
+
+
+@pytest.mark.parametrize("cid", ["C13-1", "C14-1", "C16-1"])
+def test_ana_muda_no_turno_da_escolha_reprova_o_cenario_mesmo_com_o_handoff_no_trace(cid):
+    # C14-1 R2 da v73: lista e escalada no turno 3, o "quero o 1" sem resposta
+    r = _rodar_cenario_real(cid, None)
+    assert r["turnos_pulados"] == []
+    assert r["veredito"] == "falhou"
+    assert [c["turno"] for c in r["conferencias"] if c["ok"] is False] == [4]
+
+
+@pytest.mark.parametrize("cid", ["C13-1", "C14-1", "C16-1"])
+def test_ana_que_passa_para_a_equipe_no_turno_da_escolha_passa_o_cenario(cid):
+    r = _rodar_cenario_real(cid, "Perfeito, Teste! Nossa equipe vai entrar em contato "
+                                 "em breve para confirmar tudo com você.")
+    assert r["veredito"] == "passou", r["falhas"]

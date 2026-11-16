@@ -654,6 +654,9 @@
           ],
           "espere": "Só roda se a agenda devolveu horários no turno 3: você escolhe o número, ela registra a preferência e passa para a equipe comercial.",
           "falha": "Dizer que o horário está marcado, reservado ou garantido, ou não passar para a equipe.",
+          "contem_algum": [
+            "equipe"
+          ],
           "nao_contem": [
             "está marcado",
             "está agendado",
@@ -730,6 +733,9 @@
           ],
           "espere": "Só roda se a agenda devolveu horários no turno 3: com o número na mão, ela registra a preferência e passa para a equipe.",
           "falha": "Dizer que o horário está marcado, reservado ou garantido, ou não passar para a equipe.",
+          "contem_algum": [
+            "equipe"
+          ],
           "nao_contem": [
             "está marcado",
             "está agendado",
@@ -830,6 +836,9 @@
           ],
           "espere": "Só roda se a agenda devolveu horários no turno 3: uma mensagem única dizendo que a equipe entra em contato, a etiqueta agendamento-particular aplicada e o card movido no Chatwoot.",
           "falha": "Dizer que o horário está marcado, reservado ou garantido, ou não passar para a equipe.",
+          "contem_algum": [
+            "equipe"
+          ],
           "nao_contem": [
             "está marcado",
             "está agendado",
