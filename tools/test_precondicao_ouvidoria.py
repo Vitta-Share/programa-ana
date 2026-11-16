@@ -51,3 +51,21 @@ def test_ligar_a_trava_preserva_as_outras_settings_e_as_outras_regras():
 def test_a_escrita_so_vale_sobre_o_estado_lido():
     # a plataforma responde 409 se outra sessão gravou o agente depois desta leitura
     assert po.corpo_ligar(agente())["expectedUpdatedAt"] == "2026-11-16T04:19:43.630Z"
+
+
+def test_regra_mexida_por_outra_sessao_desde_o_export_para_a_escrita():
+    export = agente()
+    mexido = agente(toolPreconditions={"handoff_to_human": {"kind": "customer_choice"}})
+    assert po.mudou_desde_o_export(export, mexido) == ["toolPreconditions"]
+    # o prompt publicado por outra sessão não é a mesma coisa: só as settings contam
+    publicado = {**agente(), "updatedAt": "2026-11-16T05:00:00.000Z", "systemPrompt": "v7.1"}
+    assert po.mudou_desde_o_export(export, publicado) == []
+
+
+def test_desligar_tira_so_a_trava_da_ouvidoria():
+    outra = {"kind": "attribute", "scope": "contact", "key": "cpf"}
+    ligado = agente(toolPreconditions={"buscar_paciente_por_cpf": outra, "registrar_ouvidoria": {"kind": "customer_choice"}})
+    corpo = po.corpo_desligar(ligado)
+    assert corpo["settings"]["toolPreconditions"] == {"buscar_paciente_por_cpf": outra}
+    assert corpo["settings"]["handoff"] == {"mode": "route", "instructions": "Escale quando..."}
+    assert corpo["expectedUpdatedAt"] == "2026-11-16T04:19:43.630Z"
