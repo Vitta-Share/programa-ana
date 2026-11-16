@@ -34,3 +34,31 @@ def agente(**settings):
 def test_notas_de_ferramentas_e_erros_ficam_ligadas_como_nota_privada():
     corpo = nc.corpo_da_escrita(agente(), dias=14)
     assert corpo["settings"]["conversationNotes"] == {"toolsUsed": "note", "errors": "note"}
+
+
+def test_a_escrita_preserva_os_outros_blocos_e_guarda_o_detalhe_pelos_dias_escolhidos():
+    # o PATCH da plataforma SUBSTITUI o saco de settings: bloco omitido é bloco perdido
+    antes = agente(observability={"logToolValues": False})
+    corpo = nc.corpo_da_escrita(antes, dias=14)
+    s = corpo["settings"]
+    assert s["split"] == {"enabled": False, "maxChars": 320}
+    assert s["handoff"] == {"mode": "route", "instructions": "Escale quando..."}
+    assert s["attributeContext"] == {"contact": ["cpf", "nome_completo"]}
+    assert s["observability"] == {"logToolValues": False, "fullDetailRetentionDays": 14}
+    assert "conversationNotes" not in antes["settings"]  # o export guardado não muda
+
+
+def test_a_escrita_so_vale_sobre_o_estado_lido():
+    # a plataforma responde 409 se outra sessão gravou o agente depois desta leitura
+    corpo = nc.corpo_da_escrita(agente(), dias=14)
+    assert corpo["expectedUpdatedAt"] == "2026-11-15T23:33:59.488Z"
+
+
+def test_dias_de_guarda_fora_da_janela_dos_logs_sao_recusados():
+    # a plataforma aceita 1 a 90, mas os logs somem em 30 (FLOWLOG_RETENTION_DAYS)
+    for dias in (0, 31, 90):
+        try:
+            nc.corpo_da_escrita(agente(), dias=dias)
+        except ValueError:
+            continue
+        raise AssertionError(f"{dias} dias deveria ser recusado")
