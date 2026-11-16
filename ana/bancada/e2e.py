@@ -389,8 +389,8 @@ ETAPAS = ["NOVO CONTATO", "EM ATENDIMENTO — ANA", "AGUARDANDO CONFIRMAÇÃO",
 
 
 def raia_pelo_trace(chamadas):
-    """A raia lida do trace, para a conversa sem card no kanban (a de API nunca tem:
-    o move responde "nothing to move"). Devolve as etapas compativeis com o ultimo
+    """A raia lida do trace, plano B para a conversa sem card no kanban (ate 13/out/2026
+    a de API nunca tinha; desde entao tem, issue #26). Devolve as etapas compativeis com o ultimo
     kanban_move_card, [] se a Ana nao moveu, None se o trace nao foi coletado.
 
     O log da plataforma mascara os argumentos como "string(<n>)": so o comprimento

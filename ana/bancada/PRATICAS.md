@@ -12,7 +12,7 @@ O que a skill `/testes` lê antes de montar ou revisar um cenário. Edite quando
 
 4. **Ferramenta esperada e ferramenta proibida.** Declare `tools` que precisam aparecer no trace. Para regra do tipo "não chama ferramenta sem pedido explícito" (nó E9), o cenário espera `tools: []` no turno.
 
-5. **Estado final conferido.** Etiqueta, raia pelo trace e handoff no `confere`. Conversa de API não tem card no kanban: a raia vem do último `kanban_move_card` do trace (armadilha 6 do README).
+5. **Estado final conferido.** Etiqueta, raia, handoff e, no encerramento, `resolvida: true` no `confere`. A raia vem do card da conversa no kanban; o trace só entra quando a conversa vem sem card, com aviso no log (armadilha 6 do README). No fim de cada cenário o runner resolve a conversa que ficou aberta, depois de conferir.
 
 6. **Dados de teste, nunca de paciente.** CPF e nome de teste, contato `TESTE BANCADA ANA <id>`. A conversa gravada vai para o git.
 

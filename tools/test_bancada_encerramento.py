@@ -25,8 +25,8 @@ e2e = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(e2e)
 
 # o board 2 como o Chatwoot devolve em GET /kanban/tasks/<id> (16/nov/2026)
-PASSOS = [{"id": 2, "name": "Novo Contato"}, {"id": 3, "name": "Em Atendimento — Ana"},
-          {"id": 9, "name": "Agendado"}, {"id": 10, "name": "Encerrado — Resolvido"}]
+PASSOS = [{"id": 2, "name": "Novo Contato"}, {"id": 3, "name": "Em Atendimento \u2014 Ana"},
+          {"id": 9, "name": "Agendado"}, {"id": 10, "name": "Encerrado \u2014 Resolvido"}]
 
 
 def chatwoot(conversa_status="pending", card=137, passo=10):
@@ -57,7 +57,7 @@ def canal_de_api(respostas):
 def test_a_raia_vem_do_card_do_kanban_da_conversa():
     canal = canal_de_api(chatwoot(conversa_status="resolved", card=137, passo=10))
     raia, status, card = canal.estado(691)
-    assert raia == "Encerrado — Resolvido"
+    assert raia == "Encerrado \u2014 Resolvido"
     assert status == "resolved"
     assert card == 137
 
@@ -133,21 +133,21 @@ def rodar(canal, chamadas=(MOVE_ENCERRADO,), cenario=C29):
 
 
 def test_encerramento_reprova_quando_a_conversa_nao_ficou_resolvida():
-    r = rodar(CanalFalso(raia="Encerrado — Resolvido", status="pending", card=137))
+    r = rodar(CanalFalso(raia="Encerrado \u2014 Resolvido", status="pending", card=137))
     assert r["fim"]["status"] == "pending"
     assert r["veredito"] == "falhou"
     assert any("resolvida" in f for f in r["falhas"])
 
 
 def test_encerramento_passa_com_o_card_encerrado_e_a_conversa_resolvida():
-    r = rodar(CanalFalso(raia="Encerrado — Resolvido", status="resolved", card=137))
+    r = rodar(CanalFalso(raia="Encerrado \u2014 Resolvido", status="resolved", card=137))
     assert r["veredito"] == "passou", r["falhas"]
     assert any(c["tipo"] == "resolvida" and c["ok"] for c in r["conferencias"])
 
 
 @pytest.mark.parametrize("status", ["open", "pending"])
 def test_no_fim_o_runner_resolve_a_conversa_que_ficou_aberta(status):
-    canal = CanalFalso(raia="Em Atendimento — Ana", status=status, card=110)
+    canal = CanalFalso(raia="Em Atendimento \u2014 Ana", status=status, card=110)
     r = rodar(canal, cenario={"id": "C02-1", "turnos": [{"envie": "oi"}]})
     assert ("resolver", 691) in canal.eventos
     # o estado conferido e o que a Ana deixou, lido antes de o runner fechar a conversa
@@ -156,7 +156,7 @@ def test_no_fim_o_runner_resolve_a_conversa_que_ficou_aberta(status):
 
 
 def test_o_runner_nao_mexe_na_conversa_que_a_ana_ja_resolveu():
-    canal = CanalFalso(raia="Encerrado — Resolvido", status="resolved", card=137)
+    canal = CanalFalso(raia="Encerrado \u2014 Resolvido", status="resolved", card=137)
     rodar(canal)
     assert ("resolver", 691) not in canal.eventos
 
@@ -179,13 +179,13 @@ def test_com_card_a_raia_conferida_e_a_do_card_e_nao_a_do_trace():
 
 def test_sem_card_a_raia_vem_do_trace_como_plano_b_com_aviso(capsys):
     r = rodar(CanalFalso(raia=None, status="resolved", card=None))
-    assert r["fim"]["raia_pelo_trace"] == ["ENCERRADO — RESOLVIDO"]
+    assert r["fim"]["raia_pelo_trace"] == ["ENCERRADO \u2014 RESOLVIDO"]
     assert r["veredito"] == "passou", r["falhas"]
     assert "sem card no kanban" in capsys.readouterr().out
 
 
 def test_com_card_nao_ha_aviso_de_plano_b(capsys):
-    rodar(CanalFalso(raia="Encerrado — Resolvido", status="resolved", card=137))
+    rodar(CanalFalso(raia="Encerrado \u2014 Resolvido", status="resolved", card=137))
     assert "sem card no kanban" not in capsys.readouterr().out
 
 
