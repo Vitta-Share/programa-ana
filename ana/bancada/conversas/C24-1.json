@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Paciente volta citando o protocolo",
   "contato": "TESTE BANCADA ANA C24-1",
-  "conversa_id": 940,
-  "inicio": "2026-11-16T08:45:22+00:00",
+  "conversa_id": 1087,
+  "inicio": "2026-11-16T13:15:55+00:00",
   "turnos": [
     {
       "n": 1,
@@ -17,7 +17,6 @@
       "ferramentas": [
         "set_labels",
         "consultar_protocolo_ouvidoria",
-        "set_custom_attribute",
         "kanban_move_card",
         "handoff_to_human"
       ],
@@ -53,7 +52,6 @@
           "veio": [
             "set_labels",
             "consultar_protocolo_ouvidoria",
-            "set_custom_attribute",
             "kanban_move_card",
             "handoff_to_human"
           ],
@@ -88,7 +86,6 @@
   "tools": [
     "set_labels",
     "consultar_protocolo_ouvidoria",
-    "set_custom_attribute",
     "kanban_move_card",
     "handoff_to_human"
   ],
@@ -104,11 +101,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 19580,
-    "cache": 94632,
-    "cache_criacao": 19266,
-    "saida": 328,
-    "chamadas": 7,
+    "entrada": 19418,
+    "cache": 76350,
+    "cache_criacao": 19403,
+    "saida": 221,
+    "chamadas": 5,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -116,8 +113,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.003068,
+    "openai_usd": 0.002816,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T08:45:58+00:00"
+  "rodou_em": "2026-11-16T13:19:20+00:00"
 }

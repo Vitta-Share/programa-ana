@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Oferecer horários reais para escolher",
   "contato": "TESTE BANCADA ANA C14-1",
-  "conversa_id": 935,
-  "inicio": "2026-11-16T08:37:59+00:00",
+  "conversa_id": 1082,
+  "inicio": "2026-11-16T12:33:24+00:00",
   "turnos": [
     {
       "n": 1,
@@ -58,7 +58,7 @@
       "n": 3,
       "paciente": "meu nome é Teste Bancada Ana, CPF ***.***.***-**",
       "ana": [
-        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você."
+        "Perfeito, Teste! Anotei sua preferência para 26/11, às 9h15. Nossa equipe vai entrar em contato em breve para confirmar tudo com você."
       ],
       "ferramentas": [
         "set_custom_attribute",
@@ -66,11 +66,11 @@
         "buscar_paciente_por_cpf",
         "consultar_especialidades_agenda",
         "consultar_convenios_agenda",
+        "consultar_planos_convenio",
+        "consultar_horarios_livres",
+        "update_kanban_task",
         "set_labels",
-        "kanban_move_card",
-        "handoff_to_human",
-        "get_current_time",
-        "set_labels"
+        "kanban_move_card"
       ],
       "nos": [
         "S1",
@@ -97,11 +97,11 @@
             "buscar_paciente_por_cpf",
             "consultar_especialidades_agenda",
             "consultar_convenios_agenda",
+            "consultar_planos_convenio",
+            "consultar_horarios_livres",
+            "update_kanban_task",
             "set_labels",
-            "kanban_move_card",
-            "handoff_to_human",
-            "get_current_time",
-            "set_labels"
+            "kanban_move_card"
           ],
           "ok": true
         },
@@ -116,8 +116,8 @@
           "turno": 3,
           "tipo": "handoff",
           "esperado": true,
-          "veio": true,
-          "ok": true
+          "veio": false,
+          "ok": false
         }
       ]
     }
@@ -133,31 +133,32 @@
     "buscar_paciente_por_cpf",
     "consultar_especialidades_agenda",
     "consultar_convenios_agenda",
+    "consultar_planos_convenio",
+    "consultar_horarios_livres",
+    "update_kanban_task",
     "set_labels",
-    "kanban_move_card",
-    "handoff_to_human",
-    "get_current_time",
-    "set_labels"
+    "kanban_move_card"
   ],
   "fim": {
     "etiquetas": [
       "particular-aquecido",
-      "agendamento-particular",
-      "fora-horario"
+      "agendamento-particular"
     ],
     "raia": "Fila Comercial",
     "raia_pelo_trace": null,
-    "status": "open",
-    "handoff": true
+    "status": "pending",
+    "handoff": false
   },
-  "veredito": "passou",
-  "falhas": [],
+  "veredito": "falhou",
+  "falhas": [
+    "turno 3: FALHOU handoff true (veio: false)"
+  ],
   "uso": {
-    "entrada": 54313,
-    "cache": 296051,
-    "cache_criacao": 53241,
-    "saida": 1426,
-    "chamadas": 24,
+    "entrada": 57371,
+    "cache": 245975,
+    "cache_criacao": 57164,
+    "saida": 2018,
+    "chamadas": 18,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -165,8 +166,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 3,
-    "openai_usd": 0.009105,
+    "openai_usd": 0.009206,
     "meta_brl": 0.105
   },
-  "rodou_em": "2026-11-16T08:40:27+00:00"
+  "rodou_em": "2026-11-16T12:39:52+00:00"
 }

@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Levar o caso para a equipe com resumo",
   "contato": "TESTE BANCADA ANA C16-1",
-  "conversa_id": 937,
-  "inicio": "2026-11-16T08:41:13+00:00",
+  "conversa_id": 1084,
+  "inicio": "2026-11-16T12:56:54+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quero marcar uma consulta de cardiologia particular",
       "ana": [
-        "A consulta particular de cardiologia é R$ 380. Quer que eu veja os horários disponíveis para você?"
+        "A consulta de cardiologia é R$ 380. Quer que eu veja os horários disponíveis para você?"
       ],
       "ferramentas": [
         "kanban_move_card",
@@ -40,7 +40,7 @@
       "n": 2,
       "paciente": "pode ser, quero marcar sim",
       "ana": [
-        "Ótimo! Me passa seu CPF, por favor? Assim já deixo tudo pronto para o agendamento."
+        "Ótimo! Me passa seu nome completo e CPF, por favor? Assim já deixo tudo pronto para o agendamento."
       ],
       "ferramentas": [
         "set_custom_attribute",
@@ -58,7 +58,7 @@
       "n": 3,
       "paciente": "meu nome é Teste Bancada Ana, CPF ***.***.***-**",
       "ana": [
-        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você."
+        "Encontrei este horário para sua consulta de cardiologia:\n\n1. 26/11, às 9h15, com Ricardo Cesar Simoes Chaves.\n\nQuer que eu anote essa opção como sua preferência?"
       ],
       "ferramentas": [
         "set_custom_attribute",
@@ -66,9 +66,8 @@
         "buscar_paciente_por_cpf",
         "consultar_especialidades_agenda",
         "consultar_convenios_agenda",
-        "set_labels",
-        "kanban_move_card",
-        "handoff_to_human",
+        "consultar_planos_convenio",
+        "consultar_horarios_livres",
         "update_kanban_task"
       ],
       "nos": [
@@ -118,24 +117,23 @@
           "tipo": "etiqueta",
           "esperado": "agendamento-particular",
           "veio": [
-            "particular-aquecido",
-            "agendamento-particular"
+            "particular-aquecido"
           ],
-          "ok": true
+          "ok": false
         },
         {
           "turno": 3,
           "tipo": "raia",
           "esperado": "FILA COMERCIAL",
-          "veio": "Fila Comercial",
-          "ok": true
+          "veio": "Em Atendimento — Ana",
+          "ok": false
         },
         {
           "turno": 3,
           "tipo": "handoff",
           "esperado": true,
-          "veio": true,
-          "ok": true
+          "veio": false,
+          "ok": false
         }
       ]
     }
@@ -151,29 +149,31 @@
     "buscar_paciente_por_cpf",
     "consultar_especialidades_agenda",
     "consultar_convenios_agenda",
-    "set_labels",
-    "kanban_move_card",
-    "handoff_to_human",
+    "consultar_planos_convenio",
+    "consultar_horarios_livres",
     "update_kanban_task"
   ],
   "fim": {
     "etiquetas": [
-      "particular-aquecido",
-      "agendamento-particular"
+      "particular-aquecido"
     ],
-    "raia": "Fila Comercial",
+    "raia": "Em Atendimento — Ana",
     "raia_pelo_trace": null,
-    "status": "open",
-    "handoff": true
+    "status": "pending",
+    "handoff": false
   },
-  "veredito": "passou",
-  "falhas": [],
+  "veredito": "falhou",
+  "falhas": [
+    "turno 3: FALHOU etiqueta \"agendamento-particular\" (veio: [\"particular-aquecido\"])",
+    "turno 3: FALHOU raia \"FILA COMERCIAL\" (veio: \"Em Atendimento — Ana\")",
+    "turno 3: FALHOU handoff true (veio: false)"
+  ],
   "uso": {
-    "entrada": 60206,
-    "cache": 276955,
-    "cache_criacao": 59297,
-    "saida": 1114,
-    "chamadas": 22,
+    "entrada": 62396,
+    "cache": 264347,
+    "cache_criacao": 62291,
+    "saida": 1092,
+    "chamadas": 19,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -181,8 +181,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 3,
-    "openai_usd": 0.009347,
+    "openai_usd": 0.009429,
     "meta_brl": 0.105
   },
-  "rodou_em": "2026-11-16T08:43:38+00:00"
+  "rodou_em": "2026-11-16T13:07:02+00:00"
 }

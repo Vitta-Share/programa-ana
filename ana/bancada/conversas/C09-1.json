@@ -5,22 +5,23 @@
   "familia": null,
   "titulo": "Cobertura de convênio por especialidade",
   "contato": "TESTE BANCADA ANA C09-1",
-  "conversa_id": 929,
-  "inicio": "2026-11-16T08:30:40+00:00",
+  "conversa_id": 1076,
+  "inicio": "2026-11-16T12:09:18+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "meu convênio é a Unimed, vocês cobrem cardiologia?",
       "ana": [
-        "Atendemos Unimed aqui no hospital. Você já pode tentar agendar cardiologia pelo nosso portal:\nhospitalsaomatheus.centraldemarcacao.com.br\n\nSe aparecer qualquer questão de cobertura por lá, me avisa que a equipe te ajuda, combinado?"
+        "Sim, a Unimed do Brasil está na lista de convênios para cardiologia. Encontrei este horário disponível:\n\n1. 26/11, às 9h15, com Ricardo Cesar Simoes Chaves\n\nQuer que eu encaminhe sua preferência para a equipe confirmar?"
       ],
       "ferramentas": [
         "kanban_move_card",
         "consultar_especialidades_agenda",
         "consultar_convenios_agenda",
-        "search_knowledge",
         "set_labels",
-        "kanban_move_card"
+        "consultar_planos_convenio",
+        "consultar_horarios_livres",
+        "set_custom_attribute"
       ],
       "nos": [
         "E1",
@@ -60,9 +61,10 @@
             "kanban_move_card",
             "consultar_especialidades_agenda",
             "consultar_convenios_agenda",
-            "search_knowledge",
             "set_labels",
-            "kanban_move_card"
+            "consultar_planos_convenio",
+            "consultar_horarios_livres",
+            "set_custom_attribute"
           ],
           "ok": true
         },
@@ -74,9 +76,10 @@
             "kanban_move_card",
             "consultar_especialidades_agenda",
             "consultar_convenios_agenda",
-            "search_knowledge",
             "set_labels",
-            "kanban_move_card"
+            "consultar_planos_convenio",
+            "consultar_horarios_livres",
+            "set_custom_attribute"
           ],
           "ok": true
         },
@@ -103,15 +106,16 @@
     "kanban_move_card",
     "consultar_especialidades_agenda",
     "consultar_convenios_agenda",
-    "search_knowledge",
     "set_labels",
-    "kanban_move_card"
+    "consultar_planos_convenio",
+    "consultar_horarios_livres",
+    "set_custom_attribute"
   ],
   "fim": {
     "etiquetas": [
       "agendamento-convenio"
     ],
-    "raia": "Aguardando Confirmação",
+    "raia": "Em Atendimento — Ana",
     "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
@@ -119,10 +123,10 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 21993,
-    "cache": 118474,
-    "cache_criacao": 21725,
-    "saida": 867,
+    "entrada": 21674,
+    "cache": 139494,
+    "cache_criacao": 21647,
+    "saida": 603,
     "chamadas": 9,
     "modelos": [
       "gpt-6-luna"
@@ -131,8 +135,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.003818,
+    "openai_usd": 0.003864,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T08:32:03+00:00"
+  "rodou_em": "2026-11-16T12:10:29+00:00"
 }

@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Achar o cadastro do paciente",
   "contato": "TESTE BANCADA ANA C13-1",
-  "conversa_id": 934,
-  "inicio": "2026-11-16T08:35:21+00:00",
+  "conversa_id": 1081,
+  "inicio": "2026-11-16T12:13:37+00:00",
   "turnos": [
     {
       "n": 1,
@@ -44,8 +44,6 @@
       ],
       "ferramentas": [
         "set_custom_attribute",
-        "set_custom_attribute",
-        "set_custom_attribute",
         "set_custom_attribute"
       ],
       "nos": [
@@ -60,18 +58,16 @@
       "n": 3,
       "paciente": "meu nome é Teste Bancada Ana, CPF ***.***.***-**",
       "ana": [
-        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você."
+        "Encontrei este horário disponível para cardiologia:\n\n1. 26/11, às 9h15, com Ricardo Cesar Simoes Chaves\n\nQuer que eu anote sua preferência por esse horário?"
       ],
       "ferramentas": [
         "set_custom_attribute",
         "set_custom_attribute",
-        "set_custom_attribute",
-        "consultar_especialidades_agenda",
         "buscar_paciente_por_cpf",
+        "consultar_especialidades_agenda",
         "consultar_convenios_agenda",
-        "set_labels",
-        "kanban_move_card",
-        "handoff_to_human"
+        "consultar_planos_convenio",
+        "consultar_horarios_livres"
       ],
       "nos": [
         "S1",
@@ -101,15 +97,11 @@
             "set_custom_attribute",
             "set_custom_attribute",
             "set_custom_attribute",
-            "set_custom_attribute",
-            "set_custom_attribute",
-            "set_custom_attribute",
-            "consultar_especialidades_agenda",
             "buscar_paciente_por_cpf",
+            "consultar_especialidades_agenda",
             "consultar_convenios_agenda",
-            "set_labels",
-            "kanban_move_card",
-            "handoff_to_human"
+            "consultar_planos_convenio",
+            "consultar_horarios_livres"
           ],
           "ok": true
         },
@@ -118,8 +110,7 @@
           "tipo": "etiqueta",
           "esperado": "particular-aquecido",
           "veio": [
-            "particular-aquecido",
-            "agendamento-particular"
+            "particular-aquecido"
           ],
           "ok": true
         },
@@ -128,24 +119,23 @@
           "tipo": "etiqueta",
           "esperado": "agendamento-particular",
           "veio": [
-            "particular-aquecido",
-            "agendamento-particular"
+            "particular-aquecido"
           ],
-          "ok": true
+          "ok": false
         },
         {
           "turno": 3,
           "tipo": "raia",
           "esperado": "FILA COMERCIAL",
-          "veio": "Fila Comercial",
-          "ok": true
+          "veio": "Em Atendimento — Ana",
+          "ok": false
         },
         {
           "turno": 3,
           "tipo": "handoff",
           "esperado": true,
-          "veio": true,
-          "ok": true
+          "veio": false,
+          "ok": false
         }
       ]
     }
@@ -158,34 +148,33 @@
     "set_custom_attribute",
     "set_custom_attribute",
     "set_custom_attribute",
-    "set_custom_attribute",
-    "set_custom_attribute",
-    "set_custom_attribute",
-    "consultar_especialidades_agenda",
     "buscar_paciente_por_cpf",
+    "consultar_especialidades_agenda",
     "consultar_convenios_agenda",
-    "set_labels",
-    "kanban_move_card",
-    "handoff_to_human"
+    "consultar_planos_convenio",
+    "consultar_horarios_livres"
   ],
   "fim": {
     "etiquetas": [
-      "particular-aquecido",
-      "agendamento-particular"
+      "particular-aquecido"
     ],
-    "raia": "Fila Comercial",
+    "raia": "Em Atendimento — Ana",
     "raia_pelo_trace": null,
-    "status": "open",
-    "handoff": true
+    "status": "pending",
+    "handoff": false
   },
-  "veredito": "passou",
-  "falhas": [],
+  "veredito": "falhou",
+  "falhas": [
+    "turno 3: FALHOU etiqueta \"agendamento-particular\" (veio: [\"particular-aquecido\"])",
+    "turno 3: FALHOU raia \"FILA COMERCIAL\" (veio: \"Em Atendimento — Ana\")",
+    "turno 3: FALHOU handoff true (veio: false)"
+  ],
   "uso": {
-    "entrada": 40558,
-    "cache": 257056,
-    "cache_criacao": 40195,
-    "saida": 1316,
-    "chamadas": 18,
+    "entrada": 47159,
+    "cache": 224275,
+    "cache_criacao": 42905,
+    "saida": 1964,
+    "chamadas": 32,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -193,8 +182,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 3,
-    "openai_usd": 0.007284,
+    "openai_usd": 0.007941,
     "meta_brl": 0.105
   },
-  "rodou_em": "2026-11-16T08:37:56+00:00"
+  "rodou_em": "2026-11-16T12:33:20+00:00"
 }

@@ -5,20 +5,24 @@
   "familia": null,
   "titulo": "Item fora da tabela não vira negativa",
   "contato": "TESTE BANCADA ANA C10-2",
-  "conversa_id": 932,
-  "inicio": "2026-11-16T08:33:44+00:00",
+  "conversa_id": 1079,
+  "inicio": "2026-11-16T12:12:02+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quanto custa a ressonância magnética?",
       "ana": [
-        "Não encontrei o valor da ressonância magnética. Posso encaminhar seu pedido para a equipe confirmar o valor e a disponibilidade?"
+        "Não tenho o valor da ressonância magnética para te passar agora. Quer que nossa equipe confirme para você?"
       ],
       "ferramentas": [
         "consultar_exames",
-        "consultar_exames",
-        "set_custom_attribute",
-        "set_labels"
+        "set_labels",
+        "kanban_move_card",
+        "kanban_move_card",
+        "set_labels",
+        "set_labels",
+        "kanban_move_card",
+        "handoff_to_human"
       ],
       "nos": [
         "E1",
@@ -59,9 +63,13 @@
           "esperado": "consultar_exames",
           "veio": [
             "consultar_exames",
-            "consultar_exames",
-            "set_custom_attribute",
-            "set_labels"
+            "set_labels",
+            "kanban_move_card",
+            "kanban_move_card",
+            "set_labels",
+            "set_labels",
+            "kanban_move_card",
+            "handoff_to_human"
           ],
           "ok": true
         },
@@ -69,35 +77,43 @@
           "turno": 1,
           "tipo": "handoff",
           "esperado": false,
-          "veio": false,
-          "ok": true
+          "veio": true,
+          "ok": false
         }
       ]
     }
   ],
   "tools": [
     "consultar_exames",
-    "consultar_exames",
-    "set_custom_attribute",
-    "set_labels"
+    "set_labels",
+    "kanban_move_card",
+    "kanban_move_card",
+    "set_labels",
+    "set_labels",
+    "kanban_move_card",
+    "handoff_to_human"
   ],
   "fim": {
     "etiquetas": [
-      "fora-horario"
+      "agente-off",
+      "fora-horario",
+      "emergencia"
     ],
-    "raia": "Novo Contato",
+    "raia": "Fila Atendimento",
     "raia_pelo_trace": null,
-    "status": "pending",
-    "handoff": false
+    "status": "open",
+    "handoff": true
   },
-  "veredito": "passou",
-  "falhas": [],
+  "veredito": "falhou",
+  "falhas": [
+    "turno 1: FALHOU handoff false (veio: true)"
+  ],
   "uso": {
-    "entrada": 19888,
-    "cache": 79050,
-    "cache_criacao": 19870,
-    "saida": 242,
-    "chamadas": 6,
+    "entrada": 19723,
+    "cache": 154519,
+    "cache_criacao": 19648,
+    "saida": 237,
+    "chamadas": 9,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -105,8 +121,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.0029,
+    "openai_usd": 0.003636,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T08:34:23+00:00"
+  "rodou_em": "2026-11-16T12:12:45+00:00"
 }
