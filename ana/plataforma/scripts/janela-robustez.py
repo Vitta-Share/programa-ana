@@ -12,7 +12,8 @@ Um cenário por vez, com a Ana parada para todo o resto, porque a credencial
     python3 ana/plataforma/scripts/janela-robustez.py conferir      # tudo igual ao export?
 
 As quebras param se o prompt no ar não é a v7.2 ou se alguma ferramenta mudou
-desde o export. O segredo nunca é impresso nem gravado: a chave certa vem do
+desde o export; o E1 para também se a chave de volta falta ou a API do hospital
+a recusa, porque o vault não devolve o valor guardado. O segredo nunca é impresso nem gravado: a chave certa vem do
 mesmo lugar que o `smoke-hospital.py` usa.
 """
 
@@ -72,6 +73,7 @@ def motivo_para_parar(sha_prompt: str, export: list[dict], atuais: list[dict]) -
 RAIZ = Path(__file__).resolve().parents[3]
 EXPORT = RAIZ / "ana" / "plataforma" / "export-ana-pre-janela-robustez.json"
 API = "https://agents.hospitalsaomatheus.cloud/api/v1"
+API_HOSPITAL_PROVA = "https://api.hospitalsaomatheus.cloud/api/ana/consultas-particulares"
 
 
 def _ler(arquivo: Path, nome: str) -> str | None:
@@ -88,13 +90,31 @@ def _env() -> Path:
     return next(p / ".env" for p in (RAIZ, *RAIZ.parents) if (p / ".env").is_file())
 
 
-def _chave_hospital() -> str:
-    chave = _ler(_env(), "HOSPITAL_ANA_API_KEY") or _ler(
+def _chave_de_volta() -> str | None:
+    return _ler(_env(), "HOSPITAL_ANA_API_KEY") or _ler(
         Path.home() / "PedroDev" / "Hospital" / "tokens" / ".env", "ANA_API_KEY"
     )
+
+
+def _chave_hospital() -> str:
+    chave = _chave_de_volta()
     if not chave:
         sys.exit("ERRO: chave da API do hospital ausente (a mesma do smoke-hospital.py)")
     return chave
+
+
+def _status_chave(chave: str) -> int | None:
+    """O HTTP que a API do hospital devolve para a chave (a mesma rota do smoke), ou None sem rede."""
+    pedido = urllib.request.Request(
+        API_HOSPITAL_PROVA, headers={"Accept": "application/json", "X-API-Key": chave}
+    )
+    try:
+        with urllib.request.urlopen(pedido, timeout=30) as resposta:
+            return resposta.status
+    except urllib.error.HTTPError as erro:
+        return erro.code
+    except OSError:
+        return None
 
 
 def _pedir(caminho: str, metodo: str = "GET", corpo: dict | None = None) -> dict:
@@ -136,6 +156,16 @@ def _trava() -> None:
         sys.exit(f"PARADO: {motivo}. Nada foi quebrado.")
 
 
+def _trava_volta_do_vault() -> None:
+    """O E1 só sobrescreve o vault:6 se a chave de volta existe e a API do hospital a aceita."""
+    chave = _chave_de_volta()
+    if not chave:
+        sys.exit("PARADO: sem a chave de volta (HOSPITAL_ANA_API_KEY no .env). Nada foi quebrado.")
+    status = _status_chave(chave)
+    if status != 200:
+        sys.exit(f"PARADO: a API do hospital devolveu {status} para a chave de volta. Nada foi quebrado.")
+
+
 def _conferir() -> int:
     export, atuais = _export()["ferramentas"], _ferramentas()
     antes = {f["id"]: f for f in export}
@@ -165,6 +195,7 @@ def main() -> int:
         return _conferir()
     if cmd == "quebrar-e1":
         _trava()
+        _trava_volta_do_vault()
         _pedir(f"/vault/{VAULT}", "PUT", {"value": f"bancada-e1-{secrets.token_hex(16)}"})
         print(f"vault:{VAULT} com chave errada. Rode o E1 e depois girar-e3.")
         return 0

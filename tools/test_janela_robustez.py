@@ -65,3 +65,36 @@ def test_nada_se_quebra_com_outro_prompt_no_ar_ou_ferramenta_mexida_desde_o_expo
     assert "prompt" in jr.motivo_para_parar("abc123", export, export)
     mexida = [ferramenta(url="https://api.hospitalsaomatheus.cloud/api/ana/outra")]
     assert "11" in jr.motivo_para_parar(jr.PROMPT_V72, export, mexida)
+
+
+def _rodar_quebrar_e1(monkeypatch, chave, status):
+    """Roda `quebrar-e1` com a rede trocada; devolve (saída, pedidos à plataforma)."""
+    pedidos = []
+    monkeypatch.setattr(jr, "_trava", lambda: None)
+    monkeypatch.setattr(jr, "_chave_de_volta", lambda: chave)
+    monkeypatch.setattr(jr, "_status_chave", lambda _chave: status)
+    monkeypatch.setattr(jr, "_pedir", lambda caminho, metodo="GET", corpo=None: pedidos.append((metodo, caminho)) or {})
+    monkeypatch.setattr("sys.argv", ["janela-robustez.py", "quebrar-e1"])
+    try:
+        saida = jr.main()
+    except SystemExit as fim:
+        saida = fim.code
+    return saida, pedidos
+
+
+def test_e1_nao_quebra_o_vault_sem_a_chave_de_volta(monkeypatch):
+    saida, pedidos = _rodar_quebrar_e1(monkeypatch, chave=None, status=None)
+    assert ("PUT", "/vault/6") not in pedidos
+    assert "Nada foi quebrado" in str(saida)
+
+
+def test_e1_nao_quebra_o_vault_se_a_api_do_hospital_recusa_a_chave_de_volta(monkeypatch):
+    saida, pedidos = _rodar_quebrar_e1(monkeypatch, chave="chave-velha", status=401)
+    assert ("PUT", "/vault/6") not in pedidos
+    assert "401" in str(saida)
+
+
+def test_e1_quebra_o_vault_quando_a_chave_de_volta_e_aceita(monkeypatch):
+    saida, pedidos = _rodar_quebrar_e1(monkeypatch, chave="chave-certa", status=200)
+    assert pedidos == [("PUT", "/vault/6")]
+    assert saida == 0
