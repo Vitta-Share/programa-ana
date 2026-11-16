@@ -156,4 +156,4 @@ def test_cenarios_da_agenda_cobrem_a_gh_sem_resposta_e_a_gh_com_horario(cid):
 def test_c14_1_reprova_a_ana_que_anota_o_horario_sem_o_numero_do_paciente():
     # rodada 3 da v72: com um horário só, a Ana anotou a preferência no turno 3
     turno_3 = CENARIOS["C14-1"]["turnos"][2]
-    assert "anotei" in [f.lower() for f in turno_3["nao_contem"]]
+    assert "anotei sua preferência" in [f.lower() for f in turno_3["nao_contem"]]
