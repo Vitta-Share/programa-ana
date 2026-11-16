@@ -66,7 +66,9 @@ python3 ana/bancada/e2e.py cenarios/capacidades.json --bateria v69 --rodada 1
 
 Com `--bateria` e `--rodada` (sempre juntos) o runner grava `resultados/bateria-v69-rodada1.log`,
 copia as conversas para `resultados/conversas-v69-rodada1/` e anota as janelas em
-`resultados/janelas-v69.txt`. A skill `bancada` roda as três rodadas e escreve o diagnóstico em
+`resultados/janelas-v69.txt`. O log e as janelas dizem também qual agente respondeu pela inbox
+de teste, com o modelo e o reasoning (issue #19: a bateria de um clone não se confunde com a da
+Ana 1). A skill `bancada` roda as três rodadas e escreve o diagnóstico em
 `ana/bancada/diagnosticos/`, versionado.
 
 ## O custo de cada conversa (#24)
