@@ -258,18 +258,30 @@ class Canal:
         return d.get("payload", [])
 
     def estado(self, conversa_id):
-        """(raia do kanban, status da conversa). A raia e o nome da coluna em que o
-        card da conversa esta; None quando a conversa nao tem card."""
+        """(raia do kanban, status da conversa, id do card). A raia e o nome da coluna
+        em que o card da conversa esta. O detalhe da conversa traz so o id do card
+        ({"id": 137}); a coluna vem de GET /kanban/tasks/<id>. Card None = a conversa
+        nao tem card (issue #26: a inbox de API entrou no funil em 13/out/2026)."""
         status, d = self._admin(f"/conversations/{conversa_id}")
         if status != 200 or not isinstance(d, dict):
-            return None, None
+            return None, None, None
+        card_id = (d.get("kanban_task") or {}).get("id")
+        if not card_id:
+            return None, d.get("status"), None
         raia = None
-        card = d.get("kanban_task") or {}
-        passo = card.get("board_step_id")
-        for s in (card.get("board") or {}).get("steps", []):
-            if s.get("id") == passo:
-                raia = s.get("name")
-        return raia, d.get("status")
+        st, card = self._admin(f"/kanban/tasks/{card_id}")
+        if st == 200 and isinstance(card, dict):
+            passo = card.get("board_step_id")
+            for s in (card.get("board") or {}).get("steps", []):
+                if s.get("id") == passo:
+                    raia = s.get("name")
+        return raia, d.get("status"), card_id
+
+    def resolver(self, conversa_id):
+        """Resolve a conversa (toggle_status). True se o Chatwoot aceitou."""
+        status, _ = self._admin(f"/conversations/{conversa_id}/toggle_status", "POST",
+                                {"status": "resolved"})
+        return status == 200
 
 
 # --------------------------------------------------------------------- trace
@@ -404,8 +416,8 @@ ETAPAS = ["NOVO CONTATO", "EM ATENDIMENTO — ANA", "AGUARDANDO CONFIRMAÇÃO",
 
 
 def raia_pelo_trace(chamadas):
-    """A raia lida do trace, para a conversa sem card no kanban (a de API nunca tem:
-    o move responde "nothing to move"). Devolve as etapas compativeis com o ultimo
+    """A raia lida do trace, plano B para a conversa sem card no kanban (ate 13/out/2026
+    a de API nunca tinha; desde entao tem, issue #26). Devolve as etapas compativeis com o ultimo
     kanban_move_card, [] se a Ana nao moveu, None se o trace nao foi coletado.
 
     O log da plataforma mascara os argumentos como "string(<n>)": so o comprimento
@@ -512,6 +524,10 @@ def checar_fim(cenario, ultimo, fim, tools, notas):
     elif confere.get("raia"):
         saida.append(conf(ultimo, "raia", confere["raia"], fim["raia"],
                           normalizar(confere["raia"]) == normalizar(fim["raia"])))
+    if confere.get("resolvida"):
+        # o board tem auto_resolve_conversation_on_task_end: card no fim = conversa resolvida
+        saida.append(conf(ultimo, "resolvida", "resolved", fim["status"],
+                          fim["status"] == "resolved"))
     if "handoff" in confere:
         saida.append(conf(ultimo, "handoff", confere["handoff"], fim["handoff"],
                           None if fim["handoff"] is None else fim["handoff"] == confere["handoff"]))
@@ -631,17 +647,28 @@ def rodar_cenario(canal, trace, cenario, arquivo):
     emitir("custo", id=cid, uso=uso, custo=resultado["custo"])
 
     notas = canal.notas_privadas(conversa_id)
-    raia, status = canal.estado(conversa_id)
+    raia, status, card = canal.estado(conversa_id)
+    # plano B (issue #26): so a conversa lida e sem card tem a raia lida do ultimo
+    # kanban_move_card do trace; conversa que nao deu para ler nao cai no trace
+    plano_b = card is None and status is not None
+    if plano_b:
+        print(f"  AVISO: conversa #{conversa_id} sem card no kanban; "
+              f"a raia vem do trace (plano B)")
     resultado["fim"] = {
         "etiquetas": canal.etiquetas(conversa_id),
         "raia": raia,
-        # conversa de API nao tem card: a raia vem do ultimo kanban_move_card do trace
-        "raia_pelo_trace": raia_pelo_trace(chamadas) if raia is None else None,
+        "raia_pelo_trace": raia_pelo_trace(chamadas) if plano_b else None,
         "status": status,
         # handoff: a ferramenta no trace; sem trace, a conversa aberta para a equipe
         "handoff": ("handoff_to_human" in tools) if tools is not None
                    else (None if status is None else status == "open"),
     }
+    # a inbox de teste nao acumula conversa aberta (issue #26): o runner fecha o que a
+    # Ana deixou aberto, DEPOIS de ler o estado, para a conferencia ver o que ela fez
+    if status is not None and status != "resolved":
+        fechou = canal.resolver(conversa_id)
+        print(f"  conversa #{conversa_id} ficou {status}: "
+              + ("resolvida pelo runner" if fechou else "NAO consegui resolver (toggle_status)"))
 
     for n, turno in enumerate(cenario["turnos"]):
         if n >= len(resultado["turnos"]):
