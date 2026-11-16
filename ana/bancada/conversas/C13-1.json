@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Achar o cadastro do paciente",
   "contato": "TESTE BANCADA ANA C13-1",
-  "conversa_id": 681,
-  "inicio": "2026-11-16T03:31:54+00:00",
+  "conversa_id": 731,
+  "inicio": "2026-11-16T04:32:49+00:00",
   "turnos": [
     {
       "n": 1,
@@ -17,7 +17,7 @@
       "ferramentas": [
         "kanban_move_card",
         "consultar_precos_consultas",
-        "set_labels",
+        "set_custom_attribute",
         "set_labels"
       ],
       "nos": [
@@ -45,7 +45,7 @@
       ],
       "ferramentas": [
         "set_custom_attribute",
-        "set_custom_attribute"
+        "set_labels"
       ],
       "nos": [
         "P7",
@@ -59,7 +59,7 @@
       "n": 3,
       "paciente": "meu nome é Teste Bancada Ana, CPF ***.***.***-**",
       "ana": [
-        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você."
+        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você.\n\nNossa equipe de atendimento funciona de segunda a sexta, das 7h às 18h.\n\nRegistrei sua solicitação e nosso time vai te contatar assim que iniciar o próximo expediente."
       ],
       "ferramentas": [
         "set_custom_attribute",
@@ -68,10 +68,8 @@
         "consultar_especialidades_agenda",
         "consultar_convenios_agenda",
         "set_labels",
-        "set_labels",
         "kanban_move_card",
-        "handoff_to_human",
-        "consultar_convenios_agenda"
+        "handoff_to_human"
       ],
       "nos": [
         "S1",
@@ -96,20 +94,18 @@
           "veio": [
             "kanban_move_card",
             "consultar_precos_consultas",
-            "set_labels",
+            "set_custom_attribute",
             "set_labels",
             "set_custom_attribute",
-            "set_custom_attribute",
+            "set_labels",
             "set_custom_attribute",
             "set_custom_attribute",
             "buscar_paciente_por_cpf",
             "consultar_especialidades_agenda",
             "consultar_convenios_agenda",
             "set_labels",
-            "set_labels",
             "kanban_move_card",
-            "handoff_to_human",
-            "consultar_convenios_agenda"
+            "handoff_to_human"
           ],
           "ok": true
         },
@@ -153,20 +149,18 @@
   "tools": [
     "kanban_move_card",
     "consultar_precos_consultas",
-    "set_labels",
+    "set_custom_attribute",
     "set_labels",
     "set_custom_attribute",
-    "set_custom_attribute",
+    "set_labels",
     "set_custom_attribute",
     "set_custom_attribute",
     "buscar_paciente_por_cpf",
     "consultar_especialidades_agenda",
     "consultar_convenios_agenda",
     "set_labels",
-    "set_labels",
     "kanban_move_card",
-    "handoff_to_human",
-    "consultar_convenios_agenda"
+    "handoff_to_human"
   ],
   "fim": {
     "etiquetas": [
@@ -184,11 +178,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 47572,
-    "cache": 306196,
-    "cache_criacao": 47479,
-    "saida": 475,
-    "chamadas": 15,
+    "entrada": 197157,
+    "cache": 842823,
+    "cache_criacao": 196959,
+    "saida": 4825,
+    "chamadas": 50,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -196,8 +190,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 3,
-    "openai_usd": 0.008057,
+    "openai_usd": 0.030556,
     "meta_brl": 0.105
   },
-  "rodou_em": "2026-11-16T03:34:10+00:00"
+  "rodou_em": "2026-11-16T04:35:25+00:00"
 }

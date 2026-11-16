@@ -72,9 +72,11 @@ PAUSA_ENTRE_CENARIOS_S = 3
 
 # ferramentas de escrituracao da propria plataforma: repetir estas num turno e normal
 # (o fluxo da ouvidoria, por exemplo, chama private_note duas vezes de proposito).
-# A repeticao que interessa e a de tool HTTP de dado, sintoma do teto de 4.000 chars.
+# A repeticao que interessa e a de tool HTTP de dado; a causa se le no trace do turno
+# (issue #55). A 1.59 trocou assign_label por set_labels; o nome velho fica para
+# ler as baterias antigas.
 TOOLS_DE_ESCRITURACAO = {
-    "private_note", "assign_label", "kanban_move_card", "set_custom_attribute",
+    "private_note", "assign_label", "set_labels", "kanban_move_card", "set_custom_attribute",
     "get_current_time", "handoff_to_human", "skip_reply", "search_knowledge",
 }
 
@@ -272,6 +274,26 @@ class Canal:
 
 # --------------------------------------------------------------------- trace
 
+def chamadas_do_log(itens, conversa_chatwoot):
+    """[(turnId, nome_da_tool, createdAt, args)] da conversa, do mais velho ao mais novo.
+
+    Na 1.59 a etapa `tool` do log traz linhas que nao sao chamadas: a de etapa
+    (`detail.phase`, como a das etiquetas do set_labels e a do atributo recusado) e
+    o resumo do fim do turno quando a ferramenta falhou em todas as chamadas
+    (`detail.failedCalls`). Contadas como chamada, viravam "tool repetida" (issue #55)."""
+    sufixo = f":{conversa_chatwoot}"
+    saida = []
+    for i in reversed(itens):                                  # a API devolve do mais novo
+        detalhe = i.get("detail") or {}                        # ao mais velho
+        if not str(i.get("threadId") or "").endswith(sufixo):
+            continue
+        if "phase" in detalhe or "failedCalls" in detalhe:
+            continue
+        saida.append((i.get("turnId"), detalhe.get("tool"), i.get("createdAt"),
+                      detalhe.get("args") or {}))
+    return saida
+
+
 class Trace:
     """As ferramentas que a Ana chamou, lidas dos logs da plataforma."""
 
@@ -296,12 +318,7 @@ class Trace:
         status, d = pedir(url, headers={"Authorization": f"Bearer {self.token}"})
         if status != 200 or not isinstance(d, dict):
             return None
-        sufixo = f":{conversa_chatwoot}"
-        itens = [i for i in reversed(d.get("items", []))          # a API devolve do mais novo
-                 if str(i.get("threadId") or "").endswith(sufixo)]  # ao mais velho
-        return [(i.get("turnId"), (i.get("detail") or {}).get("tool"), i.get("createdAt"),
-                 (i.get("detail") or {}).get("args") or {})
-                for i in itens]
+        return chamadas_do_log(d.get("items", []), conversa_chatwoot)
 
 
     def uso(self, desde_iso):
@@ -367,6 +384,16 @@ def resumir_trace(chamadas):
         for t in set(tools) - TOOLS_DE_ESCRITURACAO:
             pior = max(pior, tools.count(t))
     return nomes, pior, por_turno
+
+
+def aviso_de_repeticao(pior):
+    """A linha de ATENCAO quando uma tool de dado repetiu no turno; None se nao repetiu.
+    Nao aponta causa: resposta cortada, GH lenta, nova tentativa e o proprio modelo
+    deixam a mesma marca, e so o trace do turno separa (issue #55)."""
+    if not pior or pior < 2:
+        return None
+    return (f"ATENCAO: uma tool de dado foi repetida {pior}x no mesmo turno "
+            f"(a causa se le no trace do turno: outputCut, tempo da resposta ou o modelo)")
 
 
 # As etapas do kanban, com o nome exato que a Ana passa ao kanban_move_card (o prompt
@@ -585,9 +612,9 @@ def rodar_cenario(canal, trace, cenario, arquivo):
     else:
         emitir("trace", id=cid, tools=tools, pior=pior, por_turno=por_turno)
         print(f"\n  trace: {len(tools)} chamada(s) -> {', '.join(tools) if tools else 'nenhuma'}")
-        if pior and pior > 1:
-            print(f"  ATENCAO: uma tool de dado foi repetida {pior}x no mesmo turno "
-                  f"(assinatura do truncamento de 4.000 chars)")
+        aviso = aviso_de_repeticao(pior)
+        if aviso:
+            print(f"  {aviso}")
 
     # tokens e custo (issue #24): a janela vai do inicio da conversa ate agora
     uso = trace.uso(resultado["inicio"])
