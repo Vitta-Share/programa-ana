@@ -20,7 +20,9 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 CATALOGO = Path(__file__).resolve().parent.parent / "mapa-gh.json"
 HOMOLOG = "https://dem.agenda.globalhealth.mv/rest/whatsapp"
@@ -103,14 +105,34 @@ def escritas_registradas(cat, historico):
     return escritas
 
 
-def resumo_historico(cat, historico):
-    linhas = []
+def diferenca(antes, depois):
+    """O que mudou de uma Execucao para a seguinte: numeros e estado de cada capacidade."""
+    if antes is None:
+        return None
+    numeros = {k: {"antes": antes["numeros"].get(k), "depois": depois["numeros"].get(k)}
+               for k in dict.fromkeys([*antes["numeros"], *depois["numeros"]])
+               if antes["numeros"].get(k) != depois["numeros"].get(k)}
+    ra, rd = antes.get("resultados", {}), depois.get("resultados", {})
+    estados = {c: {"antes": ra[c]["estado"], "depois": rd[c]["estado"]}
+               for c in rd if c in ra and ra[c]["estado"] != rd[c]["estado"]}
+    return {"numeros": numeros, "estados": estados}
+
+
+def completar(cat, historico):
+    """Cada Execucao com as escritas registradas ate ela (a semente nao as traz escritas)."""
+    completas = []
     for i, execucao in enumerate(historico):
         numeros = {**execucao["numeros"]}
         numeros.setdefault("escritas", escritas_registradas(cat, historico[:i + 1]))
-        linhas.append({k: execucao.get(k) for k in ("id", "data", "quem", "registro_de_sessao", "duracao_ms", "nota")}
-                      | {"numeros": numeros})
-    return linhas
+        completas.append({**execucao, "numeros": numeros})
+    return completas
+
+
+def resumo_historico(cat, historico):
+    completas = completar(cat, historico)
+    return [{k: e.get(k) for k in ("id", "data", "quem", "registro_de_sessao", "duracao_ms", "nota")}
+            | {"numeros": e["numeros"], "diferenca": diferenca(completas[i - 1] if i else None, e)}
+            for i, e in enumerate(completas)]
 
 
 # Global Health
@@ -472,12 +494,59 @@ def cmd_testar(cap_id):
             "ids": ids_da_cadeia(ctx)})
 
 
+def contagem(resultados, cap):
+    res = resultados.get(cap) or {}
+    return res.get("contagem") if res.get("estado") in ("ok", "vazio") else None
+
+
+def cmd_rodada(quem):
+    cat = catalogo()
+    historico = ler_historico(cat)
+    gh = GH()
+    t0 = time.monotonic()
+    leituras = [c["id"] for caminho in cat["caminhos"]
+                for c in sorted(cat["capacidades"], key=lambda c: c["ordem"])
+                if c["caminho"] == caminho["id"] and c["tipo"] == "leitura"]
+    ctx, resultados = rodar_leituras(gh, leituras)
+    agora = datetime.now(ZoneInfo("America/Sao_Paulo")).isoformat(timespec="seconds")
+    erros = [f"{c}: HTTP {r['status']}" if r["estado"] == "erro" else f"{c}: fora do ar"
+             for c, r in resultados.items() if r["estado"] in ("erro", "fora_do_ar")]
+    execucao = {
+        "id": agora, "data": agora, "quem": quem, "registro_de_sessao": False,
+        "duracao_ms": int((time.monotonic() - t0) * 1000), "nota": None,
+        "numeros": {
+            "especialidades_publicadas": contagem(resultados, "especialidades"),
+            "exames_publicados": contagem(resultados, "exames"),
+            "medicos_por_especialidade": ctx.get("medicos_por_especialidade", {}),
+            "convenios": contagem(resultados, "convenios"),
+            "planos": contagem(resultados, "planos"),
+            "horarios_14_dias": contagem(resultados, "horarios"),
+            "ultimo_horario": ctx.get("ultimo_horario"),
+            "escritas": escritas_registradas(cat, historico),
+            "erros": erros,
+        },
+        "ids": ids_da_cadeia(ctx),
+        "resultados": resultados,
+    }
+    execucao = limpar(execucao)
+    with arquivo_historico().open("a", encoding="utf-8") as f:
+        f.write(json.dumps(execucao, ensure_ascii=False) + "\n")
+    anterior = completar(cat, historico)[-1] if historico else None
+    emitir({"execucao": execucao, "anterior": anterior and anterior["id"],
+            "diferenca": diferenca(anterior, execucao)})
+
+
 def main(argv):
     try:
         if argv[:1] == ["mapa"]:
             cmd_mapa()
         if argv[:1] == ["testar"] and len(argv) == 2:
             cmd_testar(argv[1])
+        if argv[:1] == ["rodada"]:
+            quem = argv[argv.index("--quem") + 1] if "--quem" in argv[:-1] else "sessao"
+            if quem not in ("botao", "sessao"):
+                raise Recusa("--quem aceita botao ou sessao")
+            cmd_rodada(quem)
     except Recusa as e:
         emitir({"erro": str(e)}, 2)
     emitir({"erro": "uso: mapa | testar <capacidade> | rodada [--quem botao|sessao]"}, 2)

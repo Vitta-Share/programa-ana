@@ -280,3 +280,83 @@ def test_testar_uma_escrita_recusa_sem_chamar_e_devolve_o_ultimo_registro(gh, hi
     assert res["ultimo_registro"]["data"].startswith("2026-11-16")
     assert res["ultimo_registro"]["registro_de_sessao"] is True
     assert gh.pedidos == []
+
+
+# Critério 3: rodada
+
+
+def pedidos_de(gh, caminho):
+    return [p for p in gh.pedidos if p[1] == caminho]
+
+
+def test_rodada_monta_os_ids_ao_vivo_e_nao_de_memoria(gh, historico):
+    rotas = gh.rotas
+    rotas["GET /consultas"] = (200, lista({"id": 2001, "nome": "Consulta Dermatologica", "bloqueado": False,
+                                           "ordem": 1}), 0)
+    rotas["GET /convenios"] = (200, lista({"id": 8, "nome": "Unimed Do Brasil", "particular": False, "ordem": 1},
+                                          {"id": 7, "nome": "Particular", "particular": True, "ordem": 2}), 0)
+    rotas["GET /convenios/7/planos"] = (200, lista({"id": 9, "nome": "Particular Unico", "ordem": 1}), 0)
+    rotas["GET /convenios/7/planos/9/subPlanos"] = (200, lista(), 0)
+    rotas["GET /agendas/v2"][1]["agendas"][0]["prestadores"][0]["horarios"][0].update(idHorario=777, idAgenda=55)
+    rotas["GET /horarios/777/instrucoes"] = rotas.pop("GET /horarios/68754/instrucoes")
+
+    r = rodar("rodada", base=gh.base, historico=historico)
+    assert r.returncode == 0, r.stderr
+
+    assert pedidos_de(gh, "/prestadores")[0][2]["idItemAgendamento"] == ["2001"]
+    agenda = pedidos_de(gh, "/agendas/v2")[0][2]
+    assert (agenda["idItemAgendamento"], agenda["idConvenio"], agenda["idPlano"]) == (["2001"], ["7"], ["9"])
+    assert pedidos_de(gh, "/consultas/tipos")[0][2]["idAgenda"] == ["55"]
+    assert pedidos_de(gh, "/horarios/777/instrucoes")
+    assert saida(r)["execucao"]["ids"] == {"idItemAgendamento": 2001, "idConvenio": 7, "idPlano": 9,
+                                           "idHorario": 777, "idAgenda": 55}
+
+
+def test_rodada_grava_uma_execucao_com_os_numeros_e_nao_escreve_nada(gh, historico):
+    r = rodar("rodada", "--quem", "botao", base=gh.base, historico=historico)
+    assert r.returncode == 0, r.stderr
+    execucao = saida(r)["execucao"]
+
+    assert execucao["quem"] == "botao" and execucao["registro_de_sessao"] is False
+    assert isinstance(execucao["duracao_ms"], int)
+    n = execucao["numeros"]
+    assert n["especialidades_publicadas"] == 1
+    assert n["exames_publicados"] == 0
+    assert n["medicos_por_especialidade"] == {"Consulta Cardiologica": 4}
+    assert n["convenios"] == 2
+    assert n["planos"] == 2
+    assert n["horarios_14_dias"] == 1
+    assert n["ultimo_horario"] == "26/11"
+    assert n["escritas"]["agendar"]["status"] == 417
+    assert n["escritas"]["agendar"]["data"].startswith("2026-11-16")
+    assert "instrucoes_horario: HTTP 500" in n["erros"]
+
+    linhas = [json.loads(l) for l in historico.read_text().splitlines() if l.strip()]
+    assert len(linhas) == 4 and linhas[-1]["id"] == execucao["id"]
+    assert linhas[-1]["resultados"]["especialidades"]["estado"] == "ok"
+
+    escritas = {"POST /pessoas", "POST /carteiras", "DELETE /carteiras", "POST /horarios/agendar",
+                "POST /horarios/reagendar", "POST /anexos/upload"}
+    feitas = {f"{m} {c}" for m, c, _, _ in gh.pedidos}
+    assert not feitas & escritas
+    assert all(m == "GET" or c == "/anexos/agendamento" for m, c, _, _ in gh.pedidos)
+
+
+def test_rodada_devolve_a_diferenca_contra_a_execucao_anterior(gh, historico):
+    primeira = saida(rodar("rodada", base=gh.base, historico=historico))
+    # contra a semente de 16/11: 25 convênios lá, 2 aqui; horário igual (1)
+    assert primeira["anterior"] == "2026-11-16-sessao"
+    assert primeira["diferenca"]["numeros"]["convenios"] == {"antes": 25, "depois": 2}
+    assert "horarios_14_dias" not in primeira["diferenca"]["numeros"]
+
+    gh.rotas["GET /agendas/v2"] = (200, {"diasPesquisados": 14, "agendas": []}, 0)
+    segunda = saida(rodar("rodada", base=gh.base, historico=historico))
+    assert segunda["anterior"] == primeira["execucao"]["id"]
+    assert segunda["diferenca"]["numeros"]["horarios_14_dias"] == {"antes": 1, "depois": 0}
+    assert segunda["diferenca"]["estados"]["horarios"] == {"antes": "ok", "depois": "vazio"}
+    assert "convenios" not in segunda["diferenca"]["numeros"]
+
+    mapa = saida(rodar("mapa", historico=historico))
+    assert mapa["historico"][-1]["diferenca"]["numeros"]["horarios_14_dias"] == {"antes": 1, "depois": 0}
+    horarios = next(c for c in capacidades(mapa) if c["id"] == "horarios")
+    assert horarios["ultimo_estado"]["estado"] == "vazio" and horarios["ultimo_estado"]["cor"] == "amarelo"
