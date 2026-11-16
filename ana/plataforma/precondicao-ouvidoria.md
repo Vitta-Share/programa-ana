@@ -30,7 +30,7 @@ O caminho para o C10-2 é o prompt: a proposta 1 do diagnóstico da v159 (Seçõ
 
 ## Placar: a trava piorou o registro e foi desligada
 
-Bateria `p53`, 16/nov de 06:13Z a 06:28Z (madrugada de segunda, fora do horário comercial, como a v159), três rodadas de C21-1, C22-1 e C10-2 com `--com-escrita`, plataforma 1.59.0, prompt vivo sha `fdfadc07ff6e`. Comparação com o placar da 1.59 (#51): o C22-1 não roda na bateria sem escrita, então a referência dele é a conversa 606 da #52, na mesma 1.59.
+Bateria `p53`, 16/nov de 06:13Z a 06:28Z (madrugada de segunda, fora do horário comercial, como a v159), três rodadas de C21-1, C22-1 e C10-2 com `--com-escrita`, plataforma 1.59.0, prompt vivo sha `fdfadc07ff6e`, com a checagem de fatos da #54 já ligada em só registrar (ela anota no log e não muda resposta; a bateria dela acabou às 05:55Z, antes desta). Comparação com o placar da 1.59 (#51): o C22-1 não roda na bateria sem escrita, então a referência dele é a conversa 606 da #52, na mesma 1.59.
 
 | Cenário | 1.59 (#51, #52) | Com a trava R1 | R2 | R3 | Sem a trava |
 | --- | --- | --- | --- | --- | --- |
