@@ -5,20 +5,20 @@
   "familia": null,
   "titulo": "Cobertura de convênio por especialidade",
   "contato": "TESTE BANCADA ANA C09-2",
-  "conversa_id": 677,
-  "inicio": "2026-11-16T03:29:13+00:00",
+  "conversa_id": 930,
+  "inicio": "2026-11-16T08:32:06+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "tenho Unimed, quais especialidades vocês cobrem por ela?",
       "ana": [
-        "A Unimed do Brasil está entre os convênios aceitos pelo hospital, mas a cobertura varia conforme a especialidade e o plano. Qual especialidade você precisa? Assim verifico para você.\n\nNossa equipe de atendimento funciona de segunda a sexta, das 7h às 18h. Registrei sua solicitação e nosso time vai te contatar assim que iniciar o próximo expediente."
+        "A Unimed do Brasil é aceita no hospital, mas a cobertura varia conforme a especialidade e o seu plano. Qual especialidade você precisa? Assim verifico para você."
       ],
       "ferramentas": [
         "search_knowledge",
         "kanban_move_card",
+        "set_custom_attribute",
         "get_current_time",
-        "set_labels",
         "set_labels"
       ],
       "nos": [
@@ -44,8 +44,8 @@
           "veio": [
             "search_knowledge",
             "kanban_move_card",
+            "set_custom_attribute",
             "get_current_time",
-            "set_labels",
             "set_labels"
           ],
           "ok": true
@@ -63,29 +63,27 @@
   "tools": [
     "search_knowledge",
     "kanban_move_card",
+    "set_custom_attribute",
     "get_current_time",
-    "set_labels",
     "set_labels"
   ],
   "fim": {
     "etiquetas": [
       "fora-horario"
     ],
-    "raia": null,
-    "raia_pelo_trace": [
-      "EM ATENDIMENTO — ANA"
-    ],
+    "raia": "Em Atendimento — Ana",
+    "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 24327,
-    "cache": 95590,
-    "cache_criacao": 24312,
-    "saida": 191,
-    "chamadas": 5,
+    "entrada": 21655,
+    "cache": 101081,
+    "cache_criacao": 21322,
+    "saida": 547,
+    "chamadas": 8,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -93,8 +91,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.003484,
+    "openai_usd": 0.00345,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T03:29:50+00:00"
+  "rodou_em": "2026-11-16T08:32:52+00:00"
 }

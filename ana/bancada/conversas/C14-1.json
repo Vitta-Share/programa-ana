@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Oferecer horários reais para escolher",
   "contato": "TESTE BANCADA ANA C14-1",
-  "conversa_id": 682,
-  "inicio": "2026-11-16T03:34:13+00:00",
+  "conversa_id": 935,
+  "inicio": "2026-11-16T08:37:59+00:00",
   "turnos": [
     {
       "n": 1,
@@ -17,7 +17,6 @@
       "ferramentas": [
         "kanban_move_card",
         "consultar_precos_consultas",
-        "set_labels",
         "set_labels"
       ],
       "nos": [
@@ -44,7 +43,8 @@
         "Ótimo! Me passa seu nome completo e CPF, por favor? Assim já deixo tudo pronto para o agendamento."
       ],
       "ferramentas": [
-        "get_current_time"
+        "set_custom_attribute",
+        "set_custom_attribute"
       ],
       "nos": [
         "P7",
@@ -58,7 +58,7 @@
       "n": 3,
       "paciente": "meu nome é Teste Bancada Ana, CPF ***.***.***-**",
       "ana": [
-        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você.\n\nNossa equipe de atendimento funciona de segunda a sexta, das 7h às 18h.\n\nJá registrei sua solicitação aqui.\n\nNossa equipe retorna na segunda-feira às 7h da manhã e vai entrar em contato assim que o expediente iniciar."
+        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você."
       ],
       "ferramentas": [
         "set_custom_attribute",
@@ -67,12 +67,10 @@
         "consultar_especialidades_agenda",
         "consultar_convenios_agenda",
         "set_labels",
-        "set_labels",
         "kanban_move_card",
         "handoff_to_human",
-        "skip_reply",
-        "skip_reply",
-        "consultar_convenios_agenda"
+        "get_current_time",
+        "set_labels"
       ],
       "nos": [
         "S1",
@@ -92,20 +90,18 @@
             "kanban_move_card",
             "consultar_precos_consultas",
             "set_labels",
-            "set_labels",
-            "get_current_time",
+            "set_custom_attribute",
+            "set_custom_attribute",
             "set_custom_attribute",
             "set_custom_attribute",
             "buscar_paciente_por_cpf",
             "consultar_especialidades_agenda",
             "consultar_convenios_agenda",
             "set_labels",
-            "set_labels",
             "kanban_move_card",
             "handoff_to_human",
-            "skip_reply",
-            "skip_reply",
-            "consultar_convenios_agenda"
+            "get_current_time",
+            "set_labels"
           ],
           "ok": true
         },
@@ -113,7 +109,7 @@
           "turno": 3,
           "tipo": "repeticao de ferramenta",
           "esperado": "no maximo 2x por turno",
-          "veio": 2,
+          "veio": 1,
           "ok": true
         },
         {
@@ -130,42 +126,38 @@
     "kanban_move_card",
     "consultar_precos_consultas",
     "set_labels",
-    "set_labels",
-    "get_current_time",
+    "set_custom_attribute",
+    "set_custom_attribute",
     "set_custom_attribute",
     "set_custom_attribute",
     "buscar_paciente_por_cpf",
     "consultar_especialidades_agenda",
     "consultar_convenios_agenda",
     "set_labels",
-    "set_labels",
     "kanban_move_card",
     "handoff_to_human",
-    "skip_reply",
-    "skip_reply",
-    "consultar_convenios_agenda"
+    "get_current_time",
+    "set_labels"
   ],
   "fim": {
     "etiquetas": [
       "particular-aquecido",
-      "agendamento-particular"
+      "agendamento-particular",
+      "fora-horario"
     ],
-    "raia": null,
-    "raia_pelo_trace": [
-      "FILA COMERCIAL",
-      "FILA OUVIDORIA"
-    ],
+    "raia": "Fila Comercial",
+    "raia_pelo_trace": null,
     "status": "open",
     "handoff": true
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 47722,
-    "cache": 330326,
-    "cache_criacao": 47626,
-    "saida": 614,
-    "chamadas": 16,
+    "entrada": 54313,
+    "cache": 296051,
+    "cache_criacao": 53241,
+    "saida": 1426,
+    "chamadas": 24,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -173,8 +165,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 3,
-    "openai_usd": 0.008382,
+    "openai_usd": 0.009105,
     "meta_brl": 0.105
   },
-  "rodou_em": "2026-11-16T03:36:32+00:00"
+  "rodou_em": "2026-11-16T08:40:27+00:00"
 }

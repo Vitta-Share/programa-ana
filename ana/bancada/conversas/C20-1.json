@@ -5,21 +5,20 @@
   "familia": null,
   "titulo": "Agendamento por convênio: orientar o portal",
   "contato": "TESTE BANCADA ANA C20-1",
-  "conversa_id": 685,
-  "inicio": "2026-11-16T03:39:31+00:00",
+  "conversa_id": 938,
+  "inicio": "2026-11-16T08:43:42+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "tenho Unimed e quero marcar pediatria",
       "ana": [
-        "A Unimed é aceita no hospital, mas não consegui confirmar a cobertura da pediatria. Você pode tentar agendar pelo portal: hospitalsaomatheus.centraldemarcacao.com.br. Se surgir alguma dúvida de cobertura por lá, me avisa que a equipe te ajuda."
+        "Atendemos a Unimed aqui no hospital. Você já pode tentar agendar pediatria pelo nosso portal:\nhospitalsaomatheus.centraldemarcacao.com.br\n\nSe aparecer qualquer questão de cobertura por lá, me avisa que a equipe te ajuda, combinado?"
       ],
       "ferramentas": [
         "kanban_move_card",
         "set_custom_attribute",
         "consultar_especialidades_agenda",
         "search_knowledge",
-        "set_labels",
         "set_labels",
         "kanban_move_card"
       ],
@@ -63,7 +62,6 @@
             "consultar_especialidades_agenda",
             "search_knowledge",
             "set_labels",
-            "set_labels",
             "kanban_move_card"
           ],
           "ok": true
@@ -77,7 +75,6 @@
             "set_custom_attribute",
             "consultar_especialidades_agenda",
             "search_knowledge",
-            "set_labels",
             "set_labels",
             "kanban_move_card"
           ],
@@ -96,7 +93,7 @@
           "turno": 1,
           "tipo": "raia",
           "esperado": "AGUARDANDO CONFIRMAÇÃO",
-          "veio": "trace: kanban_move_card para AGUARDANDO CONFIRMAÇÃO",
+          "veio": "Aguardando Confirmação",
           "ok": true
         },
         {
@@ -115,28 +112,25 @@
     "consultar_especialidades_agenda",
     "search_knowledge",
     "set_labels",
-    "set_labels",
     "kanban_move_card"
   ],
   "fim": {
     "etiquetas": [
       "agendamento-convenio"
     ],
-    "raia": null,
-    "raia_pelo_trace": [
-      "AGUARDANDO CONFIRMAÇÃO"
-    ],
+    "raia": "Aguardando Confirmação",
+    "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 24363,
-    "cache": 140697,
-    "cache_criacao": 24342,
-    "saida": 289,
-    "chamadas": 7,
+    "entrada": 21673,
+    "cache": 118049,
+    "cache_criacao": 21403,
+    "saida": 1036,
+    "chamadas": 9,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -144,8 +138,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.003988,
+    "openai_usd": 0.003866,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T03:40:14+00:00"
+  "rodou_em": "2026-11-16T08:44:33+00:00"
 }

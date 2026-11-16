@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Encerramento",
   "contato": "TESTE BANCADA ANA C29-1",
-  "conversa_id": 691,
-  "inicio": "2026-11-16T03:43:59+00:00",
+  "conversa_id": 944,
+  "inicio": "2026-11-16T08:48:37+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "qual o endereço de vocês?",
       "ana": [
-        "Estamos na Rua Silva Cardoso, 689, em Bangu, Rio de Janeiro."
+        "O endereço é Rua Silva Cardoso, 689, Bangu, Rio de Janeiro/RJ."
       ],
       "ferramentas": [
         "search_knowledge"
@@ -47,7 +47,14 @@
           "turno": 2,
           "tipo": "raia",
           "esperado": "ENCERRADO RESOLVIDO",
-          "veio": "trace: kanban_move_card para ENCERRADO — RESOLVIDO",
+          "veio": "Encerrado — Resolvido",
+          "ok": true
+        },
+        {
+          "turno": 2,
+          "tipo": "resolvida",
+          "esperado": "resolved",
+          "veio": "resolved",
           "ok": true
         },
         {
@@ -66,21 +73,19 @@
   ],
   "fim": {
     "etiquetas": [],
-    "raia": null,
-    "raia_pelo_trace": [
-      "ENCERRADO — RESOLVIDO"
-    ],
+    "raia": "Encerrado — Resolvido",
+    "raia_pelo_trace": null,
     "status": "resolved",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 24085,
-    "cache": 70977,
-    "cache_criacao": 24073,
-    "saida": 100,
-    "chamadas": 4,
+    "entrada": 21738,
+    "cache": 61158,
+    "cache_criacao": 20892,
+    "saida": 310,
+    "chamadas": 8,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -88,8 +93,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.003168,
+    "openai_usd": 0.00294,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T03:47:06+00:00"
+  "rodou_em": "2026-11-16T08:51:46+00:00"
 }

@@ -5,18 +5,19 @@
   "familia": null,
   "titulo": "Item fora da tabela não vira negativa",
   "contato": "TESTE BANCADA ANA C10-2",
-  "conversa_id": 825,
-  "inicio": "2026-11-16T06:24:03+00:00",
+  "conversa_id": 932,
+  "inicio": "2026-11-16T08:33:44+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quanto custa a ressonância magnética?",
       "ana": [
-        "Não encontrei o valor da ressonância magnética na tabela oficial. Posso encaminhar sua solicitação para a equipe confirmar o preço para você. Como nossa equipe atende de segunda a sexta, das 7h às 18h, ela retorna no próximo expediente."
+        "Não encontrei o valor da ressonância magnética. Posso encaminhar seu pedido para a equipe confirmar o valor e a disponibilidade?"
       ],
       "ferramentas": [
         "consultar_exames",
-        "set_labels",
+        "consultar_exames",
+        "set_custom_attribute",
         "set_labels"
       ],
       "nos": [
@@ -58,7 +59,8 @@
           "esperado": "consultar_exames",
           "veio": [
             "consultar_exames",
-            "set_labels",
+            "consultar_exames",
+            "set_custom_attribute",
             "set_labels"
           ],
           "ok": true
@@ -75,27 +77,27 @@
   ],
   "tools": [
     "consultar_exames",
-    "set_labels",
+    "consultar_exames",
+    "set_custom_attribute",
     "set_labels"
   ],
   "fim": {
     "etiquetas": [
-      "agente-off",
       "fora-horario"
     ],
-    "raia": null,
-    "raia_pelo_trace": [],
+    "raia": "Novo Contato",
+    "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 23880,
-    "cache": 72504,
-    "cache_criacao": 23865,
-    "saida": 1161,
-    "chamadas": 5,
+    "entrada": 19888,
+    "cache": 79050,
+    "cache_criacao": 19870,
+    "saida": 242,
+    "chamadas": 6,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -103,8 +105,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.003694,
+    "openai_usd": 0.0029,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T06:24:52+00:00"
+  "rodou_em": "2026-11-16T08:34:23+00:00"
 }

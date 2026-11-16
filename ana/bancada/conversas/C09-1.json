@@ -5,25 +5,22 @@
   "familia": null,
   "titulo": "Cobertura de convênio por especialidade",
   "contato": "TESTE BANCADA ANA C09-1",
-  "conversa_id": 676,
-  "inicio": "2026-11-16T03:27:47+00:00",
+  "conversa_id": 929,
+  "inicio": "2026-11-16T08:30:40+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "meu convênio é a Unimed, vocês cobrem cardiologia?",
       "ana": [
-        "A Unimed é atendida no hospital. Você já pode tentar agendar cardiologia pelo nosso portal: hospitalsaomatheus.centraldemarcacao.com.br\n\nSe aparecer alguma questão de cobertura por lá, me avisa que a equipe te ajuda, combinado?"
+        "Atendemos Unimed aqui no hospital. Você já pode tentar agendar cardiologia pelo nosso portal:\nhospitalsaomatheus.centraldemarcacao.com.br\n\nSe aparecer qualquer questão de cobertura por lá, me avisa que a equipe te ajuda, combinado?"
       ],
       "ferramentas": [
         "kanban_move_card",
-        "set_custom_attribute",
         "consultar_especialidades_agenda",
         "consultar_convenios_agenda",
         "search_knowledge",
         "set_labels",
-        "set_labels",
-        "kanban_move_card",
-        "consultar_convenios_agenda"
+        "kanban_move_card"
       ],
       "nos": [
         "E1",
@@ -61,14 +58,11 @@
           "esperado": "consultar_especialidades_agenda",
           "veio": [
             "kanban_move_card",
-            "set_custom_attribute",
             "consultar_especialidades_agenda",
             "consultar_convenios_agenda",
             "search_knowledge",
             "set_labels",
-            "set_labels",
-            "kanban_move_card",
-            "consultar_convenios_agenda"
+            "kanban_move_card"
           ],
           "ok": true
         },
@@ -78,14 +72,11 @@
           "esperado": "consultar_convenios_agenda",
           "veio": [
             "kanban_move_card",
-            "set_custom_attribute",
             "consultar_especialidades_agenda",
             "consultar_convenios_agenda",
             "search_knowledge",
             "set_labels",
-            "set_labels",
-            "kanban_move_card",
-            "consultar_convenios_agenda"
+            "kanban_move_card"
           ],
           "ok": true
         },
@@ -110,34 +101,29 @@
   ],
   "tools": [
     "kanban_move_card",
-    "set_custom_attribute",
     "consultar_especialidades_agenda",
     "consultar_convenios_agenda",
     "search_knowledge",
     "set_labels",
-    "set_labels",
-    "kanban_move_card",
-    "consultar_convenios_agenda"
+    "kanban_move_card"
   ],
   "fim": {
     "etiquetas": [
       "agendamento-convenio"
     ],
-    "raia": null,
-    "raia_pelo_trace": [
-      "AGUARDANDO CONFIRMAÇÃO"
-    ],
+    "raia": "Aguardando Confirmação",
+    "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 24356,
-    "cache": 164016,
-    "cache_criacao": 24332,
-    "saida": 250,
-    "chamadas": 8,
+    "entrada": 21993,
+    "cache": 118474,
+    "cache_criacao": 21725,
+    "saida": 867,
+    "chamadas": 9,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -145,8 +131,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.004201,
+    "openai_usd": 0.003818,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T03:29:09+00:00"
+  "rodou_em": "2026-11-16T08:32:03+00:00"
 }

@@ -5,19 +5,17 @@
   "familia": null,
   "titulo": "Preço de consulta particular",
   "contato": "TESTE BANCADA ANA C05-3",
-  "conversa_id": 669,
-  "inicio": "2026-11-16T03:23:22+00:00",
+  "conversa_id": 922,
+  "inicio": "2026-11-16T08:26:00+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quais especialidades vocês atendem particular?",
       "ana": [
-        "Atendemos particular em Cardiologia, Cirurgia Geral, Dermatologia, Ginecologia, Neurologia, Obstetrícia, Oftalmologia, Ortopedia, Pediatria e Urologia."
+        "Atendemos particular em Cardiologia (R$ 380), Cirurgia Geral (R$ 350), Dermatologia (R$ 320), Ginecologia (R$ 340), Neurologia (R$ 380), Obstetrícia (R$ 360), Oftalmologia (R$ 320), Ortopedia (R$ 350), Pediatria (R$ 55,60) e Urologia (R$ 350)."
       ],
       "ferramentas": [
         "consultar_precos_consultas",
-        "kanban_move_card",
-        "set_labels",
         "set_labels"
       ],
       "nos": [
@@ -41,8 +39,6 @@
           "esperado": "consultar_precos_consultas",
           "veio": [
             "consultar_precos_consultas",
-            "kanban_move_card",
-            "set_labels",
             "set_labels"
           ],
           "ok": true
@@ -59,29 +55,25 @@
   ],
   "tools": [
     "consultar_precos_consultas",
-    "kanban_move_card",
-    "set_labels",
     "set_labels"
   ],
   "fim": {
     "etiquetas": [
-      "particular-aquecido"
+      "fora-horario"
     ],
-    "raia": null,
-    "raia_pelo_trace": [
-      "EM ATENDIMENTO — ANA"
-    ],
+    "raia": "Novo Contato",
+    "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 23330,
-    "cache": 69457,
-    "cache_criacao": 23318,
-    "saida": 114,
-    "chamadas": 4,
+    "entrada": 19731,
+    "cache": 40638,
+    "cache_criacao": 19449,
+    "saida": 290,
+    "chamadas": 5,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -89,8 +81,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.003085,
+    "openai_usd": 0.002524,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T03:23:58+00:00"
+  "rodou_em": "2026-11-16T08:26:36+00:00"
 }

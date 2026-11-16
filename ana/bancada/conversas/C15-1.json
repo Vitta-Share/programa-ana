@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Dizer quem atende uma especialidade",
   "contato": "TESTE BANCADA ANA C15-1",
-  "conversa_id": 683,
-  "inicio": "2026-11-16T03:36:36+00:00",
+  "conversa_id": 936,
+  "inicio": "2026-11-16T08:40:30+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quem são os cardiologistas de vocês?",
       "ana": [
-        "Os cardiologistas que atendem aqui são Amanda Pinheiro Santos, Charles dos Santos Dallier, Norvandia Gomes de Oliveira Baião e Ricardo Cesar Simões Chaves. Posso consultar os horários disponíveis para você?"
+        "Os cardiologistas publicados na agenda são Amanda Pinheiro Santos, Charles dos Santos Dallier, Norvandia Gomes de Oliveira Baião e Ricardo Cesar Simões Chaves. A lista não confirma disponibilidade de horários. Quer que eu consulte as vagas?"
       ],
       "ferramentas": [
         "kanban_move_card",
@@ -58,21 +58,19 @@
   ],
   "fim": {
     "etiquetas": [],
-    "raia": null,
-    "raia_pelo_trace": [
-      "EM ATENDIMENTO — ANA"
-    ],
+    "raia": "Em Atendimento — Ana",
+    "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 23266,
-    "cache": 69137,
-    "cache_criacao": 23254,
-    "saida": 129,
-    "chamadas": 4,
+    "entrada": 19622,
+    "cache": 59324,
+    "cache_criacao": 19368,
+    "saida": 302,
+    "chamadas": 6,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -80,8 +78,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.003082,
+    "openai_usd": 0.002706,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T03:37:12+00:00"
+  "rodou_em": "2026-11-16T08:41:10+00:00"
 }

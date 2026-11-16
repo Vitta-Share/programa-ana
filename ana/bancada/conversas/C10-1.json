@@ -5,18 +5,22 @@
   "familia": null,
   "titulo": "Item fora da tabela não vira negativa",
   "contato": "TESTE BANCADA ANA C10-1",
-  "conversa_id": 678,
-  "inicio": "2026-11-16T03:29:53+00:00",
+  "conversa_id": 931,
+  "inicio": "2026-11-16T08:32:55+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quanto custa a consulta de reumatologia?",
       "ana": [
-        "Não encontrei o valor da consulta de reumatologia. Posso encaminhar sua solicitação à equipe para confirmar?"
+        "Não encontrei o valor da consulta de reumatologia nas informações disponíveis. Posso encaminhar seu pedido para a equipe confirmar o valor e a disponibilidade?"
       ],
       "ferramentas": [
         "consultar_precos_consultas",
-        "kanban_move_card"
+        "set_custom_attribute",
+        "set_custom_attribute",
+        "search_knowledge",
+        "get_current_time",
+        "set_labels"
       ],
       "nos": [
         "E1",
@@ -60,7 +64,11 @@
           "esperado": "consultar_precos_consultas",
           "veio": [
             "consultar_precos_consultas",
-            "kanban_move_card"
+            "set_custom_attribute",
+            "set_custom_attribute",
+            "search_knowledge",
+            "get_current_time",
+            "set_labels"
           ],
           "ok": true
         },
@@ -76,25 +84,29 @@
   ],
   "tools": [
     "consultar_precos_consultas",
-    "kanban_move_card"
+    "set_custom_attribute",
+    "set_custom_attribute",
+    "search_knowledge",
+    "get_current_time",
+    "set_labels"
   ],
   "fim": {
-    "etiquetas": [],
-    "raia": null,
-    "raia_pelo_trace": [
-      "EM ATENDIMENTO — ANA"
+    "etiquetas": [
+      "fora-horario"
     ],
+    "raia": "Novo Contato",
+    "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 23800,
-    "cache": 46107,
-    "cache_criacao": 23171,
-    "saida": 122,
-    "chamadas": 4,
+    "entrada": 21573,
+    "cache": 118467,
+    "cache_criacao": 21549,
+    "saida": 400,
+    "chamadas": 8,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -102,8 +114,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002902,
+    "openai_usd": 0.003542,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T03:30:28+00:00"
+  "rodou_em": "2026-11-16T08:33:40+00:00"
 }
