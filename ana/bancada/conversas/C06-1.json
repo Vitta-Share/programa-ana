@@ -5,18 +5,18 @@
   "familia": null,
   "titulo": "Valor de exame particular",
   "contato": "TESTE BANCADA ANA C06-1",
-  "conversa_id": 1070,
-  "inicio": "2026-11-16T12:05:17+00:00",
+  "conversa_id": 1172,
+  "inicio": "2026-11-16T15:54:18+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quanto custa a colonoscopia particular?",
       "ana": [
-        "A colonoscopia particular custa R$ 580. Quer que eu te ajude com o agendamento?"
+        "A colonoscopia particular custa R$ 580. Quer agendar?"
       ],
       "ferramentas": [
-        "kanban_move_card",
         "consultar_exames",
+        "kanban_move_card",
         "set_labels"
       ],
       "nos": [
@@ -50,8 +50,8 @@
           "tipo": "ferramenta",
           "esperado": "consultar_exames",
           "veio": [
-            "kanban_move_card",
             "consultar_exames",
+            "kanban_move_card",
             "set_labels"
           ],
           "ok": true
@@ -67,8 +67,8 @@
     }
   ],
   "tools": [
-    "kanban_move_card",
     "consultar_exames",
+    "kanban_move_card",
     "set_labels"
   ],
   "fim": {
@@ -83,11 +83,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 19809,
-    "cache": 60145,
-    "cache_criacao": 19794,
-    "saida": 184,
-    "chamadas": 5,
+    "entrada": 20102,
+    "cache": 60592,
+    "cache_criacao": 19843,
+    "saida": 249,
+    "chamadas": 6,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -95,8 +95,9 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002674,
+    "openai_usd": 0.002741,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T12:05:57+00:00"
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T15:54:58+00:00"
 }

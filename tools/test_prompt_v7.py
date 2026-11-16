@@ -218,7 +218,8 @@ def test_oferta_de_encaminhar_tem_mensagem_modelo_e_lista_fechada_de_ferramentas
     assert "```\nNão tenho o valor de [item] para te passar agora. Quer que nossa equipe confirme para você?\n```" in modelo
 
 
-def test_voltar_devolve_a_v71_que_estava_no_ar_antes_da_v72():
-    # issue #19: a v7.2 subiu por cima da v7.1 (sha d76d3785c5d6); o `voltar` devolve ela
-    assert sha(pp.EXPORT_PROMPT.read_text(encoding="utf-8")).startswith("d76d3785c5d6")
-    assert pp.EXPORT_AGENTE.name == "export-ana-pre-prompt-v72.json"
+def test_voltar_devolve_a_v72_que_esta_no_ar():
+    # issue #19, tentativa 2: a v7.3 subiu por cima da v7.2 (sha 5331eb0a977b), o placar caiu
+    # e o `voltar` devolveu a v7.2; o export dela é a base da próxima publicação
+    assert sha(pp.EXPORT_PROMPT.read_text(encoding="utf-8")).startswith("5331eb0a977b")
+    assert pp.EXPORT_AGENTE.name == "export-ana-pre-prompt-v73.json"

@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Achar o cadastro do paciente",
   "contato": "TESTE BANCADA ANA C13-1",
-  "conversa_id": 1081,
-  "inicio": "2026-11-16T12:13:37+00:00",
+  "conversa_id": 1183,
+  "inicio": "2026-11-16T16:03:06+00:00",
   "turnos": [
     {
       "n": 1,
@@ -58,7 +58,7 @@
       "n": 3,
       "paciente": "meu nome é Teste Bancada Ana, CPF ***.***.***-**",
       "ana": [
-        "Encontrei este horário disponível para cardiologia:\n\n1. 26/11, às 9h15, com Ricardo Cesar Simoes Chaves\n\nQuer que eu anote sua preferência por esse horário?"
+        "Encontrei este horário para cardiologia:\n\n1. 26/11, às 9h15, com Ricardo Cesar Simoes Chaves.\n\nQual opção você prefere?"
       ],
       "ferramentas": [
         "set_custom_attribute",
@@ -67,7 +67,9 @@
         "consultar_especialidades_agenda",
         "consultar_convenios_agenda",
         "consultar_planos_convenio",
-        "consultar_horarios_livres"
+        "consultar_horarios_livres",
+        "update_kanban_task",
+        "set_custom_attribute"
       ],
       "nos": [
         "S1",
@@ -75,7 +77,7 @@
         "P13",
         "P14"
       ],
-      "espere": "Ela informa o valor, você aceita, e ela pede nome e CPF. Depois disso ela busca seu cadastro na agenda online.",
+      "espere": "Ela informa o valor, você aceita, e ela pede nome e CPF. Depois disso ela busca seu cadastro na agenda online. Se a agenda não responde, ela já passa para a equipe neste turno; se devolve horários, mostra a lista numerada e espera o número.",
       "falha_se": "Pedir data de nascimento ou telefone. Desde o ADR-0014 o bloco cadastral é só nome e CPF.",
       "conferencias": [
         {
@@ -101,41 +103,101 @@
             "consultar_especialidades_agenda",
             "consultar_convenios_agenda",
             "consultar_planos_convenio",
-            "consultar_horarios_livres"
+            "consultar_horarios_livres",
+            "update_kanban_task",
+            "set_custom_attribute",
+            "private_note",
+            "set_labels",
+            "kanban_move_card",
+            "handoff_to_human"
           ],
+          "ok": true
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "paciente": "quero o 1, por favor",
+      "ana": [
+        "Perfeito, Teste! Anotei sua preferência de horário. Nossa equipe vai entrar em contato em breve para confirmar tudo com você."
+      ],
+      "ferramentas": [
+        "private_note",
+        "set_labels",
+        "kanban_move_card",
+        "handoff_to_human"
+      ],
+      "nos": [
+        "P16",
+        "P10",
+        "S4",
+        "S6",
+        "S8"
+      ],
+      "espere": "Só roda se a agenda devolveu horários no turno 3: você escolhe o número, ela registra a preferência e passa para a equipe comercial.",
+      "falha_se": "Dizer que o horário está marcado, reservado ou garantido, ou não passar para a equipe.",
+      "conferencias": [
+        {
+          "turno": 4,
+          "tipo": "frase proibida",
+          "esperado": "está marcado",
+          "veio": null,
           "ok": true
         },
         {
-          "turno": 3,
+          "turno": 4,
+          "tipo": "frase proibida",
+          "esperado": "está agendado",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 4,
+          "tipo": "frase proibida",
+          "esperado": "garantido",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 4,
+          "tipo": "frase proibida",
+          "esperado": "reservado",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 4,
           "tipo": "etiqueta",
           "esperado": "particular-aquecido",
           "veio": [
-            "particular-aquecido"
+            "particular-aquecido",
+            "agendamento-particular"
           ],
           "ok": true
         },
         {
-          "turno": 3,
+          "turno": 4,
           "tipo": "etiqueta",
           "esperado": "agendamento-particular",
           "veio": [
-            "particular-aquecido"
+            "particular-aquecido",
+            "agendamento-particular"
           ],
-          "ok": false
+          "ok": true
         },
         {
-          "turno": 3,
+          "turno": 4,
           "tipo": "raia",
           "esperado": "FILA COMERCIAL",
-          "veio": "Em Atendimento — Ana",
-          "ok": false
+          "veio": "Fila Comercial",
+          "ok": true
         },
         {
-          "turno": 3,
+          "turno": 4,
           "tipo": "handoff",
           "esperado": true,
-          "veio": false,
-          "ok": false
+          "veio": true,
+          "ok": true
         }
       ]
     }
@@ -152,38 +214,42 @@
     "consultar_especialidades_agenda",
     "consultar_convenios_agenda",
     "consultar_planos_convenio",
-    "consultar_horarios_livres"
+    "consultar_horarios_livres",
+    "update_kanban_task",
+    "set_custom_attribute",
+    "private_note",
+    "set_labels",
+    "kanban_move_card",
+    "handoff_to_human"
   ],
   "fim": {
     "etiquetas": [
-      "particular-aquecido"
+      "particular-aquecido",
+      "agendamento-particular"
     ],
-    "raia": "Em Atendimento — Ana",
+    "raia": "Fila Comercial",
     "raia_pelo_trace": null,
-    "status": "pending",
-    "handoff": false
+    "status": "open",
+    "handoff": true
   },
-  "veredito": "falhou",
-  "falhas": [
-    "turno 3: FALHOU etiqueta \"agendamento-particular\" (veio: [\"particular-aquecido\"])",
-    "turno 3: FALHOU raia \"FILA COMERCIAL\" (veio: \"Em Atendimento — Ana\")",
-    "turno 3: FALHOU handoff true (veio: false)"
-  ],
+  "veredito": "passou",
+  "falhas": [],
   "uso": {
-    "entrada": 47159,
-    "cache": 224275,
-    "cache_criacao": 42905,
-    "saida": 1964,
-    "chamadas": 32,
+    "entrada": 64868,
+    "cache": 390354,
+    "cache_criacao": 64481,
+    "saida": 1387,
+    "chamadas": 26,
     "modelos": [
       "gpt-6-luna"
     ]
   },
   "custo": {
     "modelo": "gpt-6-luna",
-    "mensagens_ana": 3,
-    "openai_usd": 0.007941,
-    "meta_brl": 0.105
+    "mensagens_ana": 4,
+    "openai_usd": 0.011084,
+    "meta_brl": 0.14
   },
-  "rodou_em": "2026-11-16T12:33:20+00:00"
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T16:05:46+00:00"
 }

@@ -5,21 +5,21 @@
   "familia": null,
   "titulo": "Item fora da tabela não vira negativa",
   "contato": "TESTE BANCADA ANA C10-3",
-  "conversa_id": 1080,
-  "inicio": "2026-11-16T12:12:48+00:00",
+  "conversa_id": 1182,
+  "inicio": "2026-11-16T16:02:13+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "meu plano é a Porto Seguro Saúde, vocês cobrem dermatologia?",
       "ana": [
-        "Atendemos Porto Seguro aqui no hospital. Você já pode tentar agendar dermatologia pelo nosso portal:\nhospitalsaomatheus.centraldemarcacao.com.br\n\nSe aparecer qualquer questão de cobertura por lá, me avisa que a equipe te ajuda, combinado?"
+        "Atendemos Porto Seguro Saúde aqui no hospital. Você já pode tentar agendar dermatologia pelo nosso portal:\nhospitalsaomatheus.centraldemarcacao.com.br\n\nSe aparecer qualquer questão de cobertura por lá, me avisa que a equipe te ajuda, combinado?"
       ],
       "ferramentas": [
         "kanban_move_card",
         "consultar_especialidades_agenda",
         "search_knowledge",
-        "set_labels",
-        "kanban_move_card"
+        "kanban_move_card",
+        "set_labels"
       ],
       "nos": [
         "E1",
@@ -79,8 +79,8 @@
             "kanban_move_card",
             "consultar_especialidades_agenda",
             "search_knowledge",
-            "set_labels",
-            "kanban_move_card"
+            "kanban_move_card",
+            "set_labels"
           ],
           "ok": true
         },
@@ -92,8 +92,8 @@
             "kanban_move_card",
             "consultar_especialidades_agenda",
             "search_knowledge",
-            "set_labels",
-            "kanban_move_card"
+            "kanban_move_card",
+            "set_labels"
           ],
           "ok": true
         },
@@ -127,8 +127,8 @@
     "kanban_move_card",
     "consultar_especialidades_agenda",
     "search_knowledge",
-    "set_labels",
-    "kanban_move_card"
+    "kanban_move_card",
+    "set_labels"
   ],
   "fim": {
     "etiquetas": [
@@ -142,11 +142,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 21609,
-    "cache": 100233,
-    "cache_criacao": 21588,
-    "saida": 669,
-    "chamadas": 7,
+    "entrada": 21962,
+    "cache": 100623,
+    "cache_criacao": 21671,
+    "saida": 657,
+    "chamadas": 8,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -154,8 +154,9 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.003498,
+    "openai_usd": 0.003531,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T12:13:34+00:00"
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T16:03:03+00:00"
 }

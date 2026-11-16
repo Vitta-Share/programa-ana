@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Item fora da tabela não vira negativa",
   "contato": "TESTE BANCADA ANA C10-1",
-  "conversa_id": 1078,
-  "inicio": "2026-11-16T12:11:15+00:00",
+  "conversa_id": 1180,
+  "inicio": "2026-11-16T16:00:36+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quanto custa a consulta de reumatologia?",
       "ana": [
-        "Não encontrei o valor da consulta de reumatologia. Posso encaminhar sua solicitação à equipe para confirmarem o valor e a disponibilidade. Quer que eu encaminhe?"
+        "Não encontrei o valor da consulta de reumatologia. Quer que nossa equipe confirme para você?"
       ],
       "ferramentas": [
         "consultar_precos_consultas",
@@ -88,11 +88,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 19415,
-    "cache": 40965,
-    "cache_criacao": 19403,
-    "saida": 831,
-    "chamadas": 4,
+    "entrada": 19685,
+    "cache": 41121,
+    "cache_criacao": 19465,
+    "saida": 255,
+    "chamadas": 5,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -100,8 +100,9 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002767,
+    "openai_usd": 0.002507,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T12:11:58+00:00"
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T16:01:16+00:00"
 }

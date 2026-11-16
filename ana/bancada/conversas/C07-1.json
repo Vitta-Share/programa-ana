@@ -5,17 +5,19 @@
   "familia": null,
   "titulo": "Preparo de exame, sem perder passo clínico",
   "contato": "TESTE BANCADA ANA C07-1",
-  "conversa_id": 1073,
-  "inicio": "2026-11-16T12:07:20+00:00",
+  "conversa_id": 1175,
+  "inicio": "2026-11-16T15:56:31+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "qual o preparo da colonoscopia?",
       "ana": [
-        "Para a colonoscopia, é necessário fazer dieta sem resíduos por 2 dias antes e usar o laxativo prescrito pelo médico. Também é preciso jejum absoluto de 8 horas antes do exame e ir com acompanhante, pois o procedimento é feito com sedação."
+        "Para a colonoscopia, o preparo é uma dieta sem resíduos por 2 dias antes, além de um laxativo prescrito pelo médico. Também é necessário jejum absoluto de 8 horas antes do exame. Como é feita com sedação, você precisa ir acompanhado."
       ],
       "ferramentas": [
-        "consultar_exames"
+        "kanban_move_card",
+        "consultar_exames",
+        "search_knowledge"
       ],
       "nos": [
         "E1",
@@ -34,7 +36,9 @@
           "tipo": "ferramenta",
           "esperado": "consultar_exames",
           "veio": [
-            "consultar_exames"
+            "kanban_move_card",
+            "consultar_exames",
+            "search_knowledge"
           ],
           "ok": true
         },
@@ -49,11 +53,13 @@
     }
   ],
   "tools": [
-    "consultar_exames"
+    "kanban_move_card",
+    "consultar_exames",
+    "search_knowledge"
   ],
   "fim": {
     "etiquetas": [],
-    "raia": "Novo Contato",
+    "raia": "Em Atendimento — Ana",
     "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
@@ -61,11 +67,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 19636,
-    "cache": 21889,
-    "cache_criacao": 19627,
-    "saida": 199,
-    "chamadas": 3,
+    "entrada": 21566,
+    "cache": 60379,
+    "cache_criacao": 21551,
+    "saida": 243,
+    "chamadas": 5,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -73,8 +79,9 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002282,
+    "openai_usd": 0.002882,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T12:07:54+00:00"
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T15:57:11+00:00"
 }

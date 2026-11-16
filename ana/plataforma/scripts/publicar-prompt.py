@@ -68,8 +68,8 @@ def travessoes_fora_das_colunas(prompt: str) -> list[str]:
 # ---------------------------------------------------------------- casca (rede)
 
 RAIZ = Path(__file__).resolve().parents[3]
-EXPORT_PROMPT = RAIZ / "ana" / "plataforma" / "export-prompt-v71.md"
-EXPORT_AGENTE = RAIZ / "ana" / "plataforma" / "export-ana-pre-prompt-v72.json"
+EXPORT_PROMPT = RAIZ / "ana" / "plataforma" / "export-prompt-v72.md"
+EXPORT_AGENTE = RAIZ / "ana" / "plataforma" / "export-ana-pre-prompt-v73.json"
 COMPILADO = RAIZ / "ana" / "prompt" / "prompt-compilado.md"
 AGENTE = "https://agents.hospitalsaomatheus.cloud/api/v1/agents/1"
 

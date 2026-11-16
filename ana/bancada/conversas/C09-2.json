@@ -5,19 +5,20 @@
   "familia": null,
   "titulo": "Cobertura de convênio por especialidade",
   "contato": "TESTE BANCADA ANA C09-2",
-  "conversa_id": 1077,
-  "inicio": "2026-11-16T12:10:32+00:00",
+  "conversa_id": 1179,
+  "inicio": "2026-11-16T15:59:41+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "tenho Unimed, quais especialidades vocês cobrem por ela?",
       "ana": [
-        "A Unimed do Brasil está entre os convênios aceitos pelo hospital, mas a cobertura varia conforme a especialidade e o plano. Qual especialidade você precisa? Assim verifico a cobertura certinho para você."
+        "O Hospital São Matheus atende Unimed, mas a cobertura depende do seu plano e da especialidade. Qual especialidade você precisa? Assim verifico a cobertura certinho para você."
       ],
       "ferramentas": [
         "search_knowledge",
         "kanban_move_card",
-        "consultar_especialidades_agenda"
+        "search_knowledge",
+        "set_custom_attribute"
       ],
       "nos": [
         "E1",
@@ -42,7 +43,8 @@
           "veio": [
             "search_knowledge",
             "kanban_move_card",
-            "consultar_especialidades_agenda"
+            "search_knowledge",
+            "set_custom_attribute"
           ],
           "ok": true
         },
@@ -59,7 +61,8 @@
   "tools": [
     "search_knowledge",
     "kanban_move_card",
-    "consultar_especialidades_agenda"
+    "search_knowledge",
+    "set_custom_attribute"
   ],
   "fim": {
     "etiquetas": [],
@@ -71,11 +74,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 21336,
-    "cache": 61887,
-    "cache_criacao": 21321,
-    "saida": 457,
-    "chamadas": 5,
+    "entrada": 23610,
+    "cache": 83238,
+    "cache_criacao": 23373,
+    "saida": 693,
+    "chamadas": 7,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -83,8 +86,9 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002981,
+    "openai_usd": 0.00354,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T12:11:12+00:00"
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T16:00:33+00:00"
 }

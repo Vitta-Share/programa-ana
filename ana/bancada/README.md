@@ -40,6 +40,12 @@ turno, nós do SOP, o `espere`), conferências com esperado e veio, e o veredito
 das rodadas é o log desses arquivos; é o que o player do Ana OS toca. Contatos são de teste,
 sem dado de paciente.
 
+Turno com `so_se` (uma regex, multilinha) só é enviado se a resposta da Ana ao turno anterior
+casa com ela; senão fica em `turnos_pulados` na conversa gravada e as conferências do fim vão
+para o último turno enviado. É assim que o C13-1, o C14-1 e o C16-1 cobrem os dois caminhos da
+agenda (issue #19): a Global Health sem resposta (escalada no turno 3) e com horário (a lista
+no turno 3, o paciente escolhe o número no turno 4 e a escalada vem nele).
+
 Cenário `manual` não roda (mostra só os passos). Cenário com `grava_producao` (o `C22-1`
 registra ouvidoria de verdade) só roda com `--com-escrita`.
 

@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Oferecer horários reais para escolher",
   "contato": "TESTE BANCADA ANA C14-1",
-  "conversa_id": 1082,
-  "inicio": "2026-11-16T12:33:24+00:00",
+  "conversa_id": 1184,
+  "inicio": "2026-11-16T16:05:50+00:00",
   "turnos": [
     {
       "n": 1,
@@ -58,7 +58,7 @@
       "n": 3,
       "paciente": "meu nome é Teste Bancada Ana, CPF ***.***.***-**",
       "ana": [
-        "Perfeito, Teste! Anotei sua preferência para 26/11, às 9h15. Nossa equipe vai entrar em contato em breve para confirmar tudo com você."
+        "Encontrei este horário para cardiologia:\n\n1. 26/11, às 9h15, com Ricardo Cesar Simoes Chaves\n\nQual opção você prefere?"
       ],
       "ferramentas": [
         "set_custom_attribute",
@@ -67,10 +67,7 @@
         "consultar_especialidades_agenda",
         "consultar_convenios_agenda",
         "consultar_planos_convenio",
-        "consultar_horarios_livres",
-        "update_kanban_task",
-        "set_labels",
-        "kanban_move_card"
+        "consultar_horarios_livres"
       ],
       "nos": [
         "S1",
@@ -79,9 +76,16 @@
         "P14",
         "P15"
       ],
-      "espere": "Hoje: ela avisa com transparência que a agenda online não retornou horários e passa para a equipe. Isso é o comportamento CERTO com o catálogo vazio.",
-      "falha_se": "Ela inventar horários, ou insistir chamando a ferramenta várias vezes. Quando a GH19 destravar, aqui aparece uma lista numerada de até 5 horários reais.",
+      "espere": "Agenda sem resposta: ela avisa com transparência que a agenda online não retornou horários e passa para a equipe. Agenda com horários: a lista numerada de até 5 horários reais (mesmo com um horário só) e a pergunta, sem anotar nada antes do número.",
+      "falha_se": "Inventar horários, insistir chamando a ferramenta várias vezes, ou anotar a preferência por um horário que o paciente ainda não escolheu.",
       "conferencias": [
+        {
+          "turno": 3,
+          "tipo": "frase proibida",
+          "esperado": "anotei sua preferência",
+          "veio": null,
+          "ok": true
+        },
         {
           "turno": 3,
           "tipo": "ferramenta",
@@ -99,9 +103,10 @@
             "consultar_convenios_agenda",
             "consultar_planos_convenio",
             "consultar_horarios_livres",
-            "update_kanban_task",
+            "private_note",
             "set_labels",
-            "kanban_move_card"
+            "kanban_move_card",
+            "handoff_to_human"
           ],
           "ok": true
         },
@@ -111,13 +116,65 @@
           "esperado": "no maximo 2x por turno",
           "veio": 1,
           "ok": true
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "paciente": "quero o 1, por favor",
+      "ana": [
+        "Perfeito, Teste! Anotei sua preferência de horário. Nossa equipe vai entrar em contato em breve para confirmar tudo com você."
+      ],
+      "ferramentas": [
+        "private_note",
+        "set_labels",
+        "kanban_move_card",
+        "handoff_to_human"
+      ],
+      "nos": [
+        "P16",
+        "P10",
+        "S4",
+        "S6",
+        "S8"
+      ],
+      "espere": "Só roda se a agenda devolveu horários no turno 3: com o número na mão, ela registra a preferência e passa para a equipe.",
+      "falha_se": "Dizer que o horário está marcado, reservado ou garantido, ou não passar para a equipe.",
+      "conferencias": [
+        {
+          "turno": 4,
+          "tipo": "frase proibida",
+          "esperado": "está marcado",
+          "veio": null,
+          "ok": true
         },
         {
-          "turno": 3,
+          "turno": 4,
+          "tipo": "frase proibida",
+          "esperado": "está agendado",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 4,
+          "tipo": "frase proibida",
+          "esperado": "garantido",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 4,
+          "tipo": "frase proibida",
+          "esperado": "reservado",
+          "veio": null,
+          "ok": true
+        },
+        {
+          "turno": 4,
           "tipo": "handoff",
           "esperado": true,
-          "veio": false,
-          "ok": false
+          "veio": true,
+          "ok": true
         }
       ]
     }
@@ -135,9 +192,10 @@
     "consultar_convenios_agenda",
     "consultar_planos_convenio",
     "consultar_horarios_livres",
-    "update_kanban_task",
+    "private_note",
     "set_labels",
-    "kanban_move_card"
+    "kanban_move_card",
+    "handoff_to_human"
   ],
   "fim": {
     "etiquetas": [
@@ -146,28 +204,27 @@
     ],
     "raia": "Fila Comercial",
     "raia_pelo_trace": null,
-    "status": "pending",
-    "handoff": false
+    "status": "open",
+    "handoff": true
   },
-  "veredito": "falhou",
-  "falhas": [
-    "turno 3: FALHOU handoff true (veio: false)"
-  ],
+  "veredito": "passou",
+  "falhas": [],
   "uso": {
-    "entrada": 57371,
-    "cache": 245975,
-    "cache_criacao": 57164,
-    "saida": 2018,
-    "chamadas": 18,
+    "entrada": 65285,
+    "cache": 347824,
+    "cache_criacao": 64061,
+    "saida": 1561,
+    "chamadas": 28,
     "modelos": [
       "gpt-6-luna"
     ]
   },
   "custo": {
     "modelo": "gpt-6-luna",
-    "mensagens_ana": 3,
-    "openai_usd": 0.009206,
-    "meta_brl": 0.105
+    "mensagens_ana": 4,
+    "openai_usd": 0.010787,
+    "meta_brl": 0.14
   },
-  "rodou_em": "2026-11-16T12:39:52+00:00"
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T16:08:48+00:00"
 }

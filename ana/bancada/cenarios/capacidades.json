@@ -633,13 +633,35 @@
             "P13",
             "P14"
           ],
-          "espere": "Ela informa o valor, você aceita, e ela pede nome e CPF. Depois disso ela busca seu cadastro na agenda online.",
+          "espere": "Ela informa o valor, você aceita, e ela pede nome e CPF. Depois disso ela busca seu cadastro na agenda online. Se a agenda não responde, ela já passa para a equipe neste turno; se devolve horários, mostra a lista numerada e espera o número.",
           "falha": "Pedir data de nascimento ou telefone. Desde o ADR-0014 o bloco cadastral é só nome e CPF.",
           "tools": [
             "buscar_paciente_por_cpf"
           ],
           "nao_contem": [
             "data de nascimento"
+          ]
+        },
+        {
+          "envie": "quero o 1, por favor",
+          "so_se": "^\\s*1[.)]\\s",
+          "nos": [
+            "P16",
+            "P10",
+            "S4",
+            "S6",
+            "S8"
+          ],
+          "espere": "Só roda se a agenda devolveu horários no turno 3: você escolhe o número, ela registra a preferência e passa para a equipe comercial.",
+          "falha": "Dizer que o horário está marcado, reservado ou garantido, ou não passar para a equipe.",
+          "contem_algum": [
+            "equipe"
+          ],
+          "nao_contem": [
+            "está marcado",
+            "está agendado",
+            "garantido",
+            "reservado"
           ]
         }
       ],
@@ -689,12 +711,37 @@
             "P14",
             "P15"
           ],
-          "espere": "Hoje: ela avisa com transparência que a agenda online não retornou horários e passa para a equipe. Isso é o comportamento CERTO com o catálogo vazio.",
-          "falha": "Ela inventar horários, ou insistir chamando a ferramenta várias vezes. Quando a GH19 destravar, aqui aparece uma lista numerada de até 5 horários reais.",
+          "espere": "Agenda sem resposta: ela avisa com transparência que a agenda online não retornou horários e passa para a equipe. Agenda com horários: a lista numerada de até 5 horários reais (mesmo com um horário só) e a pergunta, sem anotar nada antes do número.",
+          "falha": "Inventar horários, insistir chamando a ferramenta várias vezes, ou anotar a preferência por um horário que o paciente ainda não escolheu.",
           "tools": [
             "consultar_especialidades_agenda"
           ],
-          "tools_max_por_turno": 2
+          "tools_max_por_turno": 2,
+          "nao_contem": [
+            "anotei sua preferência"
+          ]
+        },
+        {
+          "envie": "quero o 1, por favor",
+          "so_se": "^\\s*1[.)]\\s",
+          "nos": [
+            "P16",
+            "P10",
+            "S4",
+            "S6",
+            "S8"
+          ],
+          "espere": "Só roda se a agenda devolveu horários no turno 3: com o número na mão, ela registra a preferência e passa para a equipe.",
+          "falha": "Dizer que o horário está marcado, reservado ou garantido, ou não passar para a equipe.",
+          "contem_algum": [
+            "equipe"
+          ],
+          "nao_contem": [
+            "está marcado",
+            "está agendado",
+            "garantido",
+            "reservado"
+          ]
         }
       ],
       "confere": {
@@ -768,8 +815,30 @@
             "S6",
             "S8"
           ],
-          "espere": "Uma mensagem única dizendo que a equipe entra em contato, a etiqueta agendamento-particular aplicada e o card movido no Chatwoot.",
+          "espere": "Agenda sem resposta: uma mensagem única dizendo que a equipe entra em contato, a etiqueta agendamento-particular aplicada e o card movido no Chatwoot. Agenda com horários: a lista numerada, e a escalada vem no turno 4.",
           "falha": "Prometer que o horário está marcado, reservado ou garantido. Quem confirma é a equipe.",
+          "nao_contem": [
+            "está marcado",
+            "está agendado",
+            "garantido",
+            "reservado"
+          ]
+        },
+        {
+          "envie": "quero o 1, por favor",
+          "so_se": "^\\s*1[.)]\\s",
+          "nos": [
+            "P16",
+            "P10",
+            "S4",
+            "S6",
+            "S8"
+          ],
+          "espere": "Só roda se a agenda devolveu horários no turno 3: uma mensagem única dizendo que a equipe entra em contato, a etiqueta agendamento-particular aplicada e o card movido no Chatwoot.",
+          "falha": "Dizer que o horário está marcado, reservado ou garantido, ou não passar para a equipe.",
+          "contem_algum": [
+            "equipe"
+          ],
           "nao_contem": [
             "está marcado",
             "está agendado",

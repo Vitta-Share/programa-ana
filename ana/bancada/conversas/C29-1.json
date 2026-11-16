@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Encerramento",
   "contato": "TESTE BANCADA ANA C29-1",
-  "conversa_id": 1091,
-  "inicio": "2026-11-16T13:26:09+00:00",
+  "conversa_id": 1193,
+  "inicio": "2026-11-16T16:17:26+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "qual o endereço de vocês?",
       "ana": [
-        "Ficamos na Rua Silva Cardoso, 689, em Bangu, Rio de Janeiro. https://maps.app.goo.gl/T95BxBrVPiRKLtHq8"
+        "Nosso endereço é Rua Silva Cardoso, 689, em Bangu, Rio de Janeiro. https://maps.app.goo.gl/T95BxBrVPiRKLtHq8"
       ],
       "ferramentas": [
         "search_knowledge"
@@ -81,11 +81,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 21312,
-    "cache": 61959,
-    "cache_criacao": 21297,
-    "saida": 193,
-    "chamadas": 5,
+    "entrada": 21540,
+    "cache": 62043,
+    "cache_criacao": 21225,
+    "saida": 251,
+    "chamadas": 6,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -93,8 +93,9 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002847,
+    "openai_usd": 0.0029,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T13:29:19+00:00"
+  "turnos_pulados": [],
+  "rodou_em": "2026-11-16T16:20:35+00:00"
 }
