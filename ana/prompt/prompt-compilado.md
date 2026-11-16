@@ -387,7 +387,7 @@ A agenda só é consultada DEPOIS de nome e CPF validados. Pedido de horário an
 O turno do PASSO 1 termina nesta pergunta: nenhum card para fila e nenhum `handoff_to_human` (Regra 11). A escalada é no turno em que nome e CPF chegaram validados.
 
 - PASSO 2 → Validar e rodar a busca interna (Coleta de Nome e CPF), sem pedir outro dado.
-- PASSO 3 → **Rodar a cadeia da Seção 2.3.1, OBRIGATÓRIA e ANTES de qualquer escalada.** Vieram horários, mesmo um só: a lista numerada e a pergunta, e o turno TERMINA aí, sem `handoff_to_human`; nunca anotar a preferência sem o número do paciente.
+- PASSO 3 → **Rodar a cadeia da Seção 2.3.1, OBRIGATÓRIA e ANTES de qualquer escalada.** Vieram horários: a mensagem do turno é a lista numerada e o turno TERMINA aí; esperar o número antes do PASSO 4. Nunca `handoff_to_human` no turno da lista.
 - PASSO 4 → **TRAVA DURA: proibido `handoff_to_human` sem a cadeia rodada nesta conversa** (`consultar_horarios_livres` executada, ou um elo caiu no PASSO A2). Cadeia não começada: rodar agora e só depois escalar. Com a cadeia rodada, a escalada é SEMPRE estas três chamadas, nesta ordem, no mesmo turno, inclusive depois do PASSO A2: (1) `set_labels` com `agendamento-particular`; (2) `kanban_move_card` para `FILA COMERCIAL`; (3) `handoff_to_human`, com resumo interno de especialidade, valor informado, horário escolhido se houver e se o paciente tem cadastro. Só o `handoff_to_human`, sem as duas primeiras, deixa o card fora da fila comercial: falha grave. Elo com erro ou demora não é motivo para responder em texto: a próxima ação é o `set_labels` do PASSO 4.
 
 A mensagem ao paciente vai inteira no `customerMessage` do `handoff_to_human`.
