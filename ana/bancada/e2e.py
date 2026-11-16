@@ -497,6 +497,10 @@ def checar_fim(cenario, ultimo, fim, tools, notas):
     elif confere.get("raia"):
         saida.append(conf(ultimo, "raia", confere["raia"], fim["raia"],
                           normalizar(confere["raia"]) == normalizar(fim["raia"])))
+    if confere.get("resolvida"):
+        # o board tem auto_resolve_conversation_on_task_end: card no fim = conversa resolvida
+        saida.append(conf(ultimo, "resolvida", "resolved", fim["status"],
+                          fim["status"] == "resolved"))
     if "handoff" in confere:
         saida.append(conf(ultimo, "handoff", confere["handoff"], fim["handoff"],
                           None if fim["handoff"] is None else fim["handoff"] == confere["handoff"]))

@@ -60,3 +60,93 @@ def test_a_raia_vem_do_card_do_kanban_da_conversa():
     assert raia == "Encerrado — Resolvido"
     assert status == "resolved"
     assert card == 137
+
+
+# ------------------------------------------------------- o cenario inteiro, ponta a ponta
+
+C29 = {"id": "C29-1", "titulo": "Encerramento",
+       "turnos": [{"envie": "qual o endereço de vocês?"}, {"envie": "obrigado, era só isso"}],
+       "confere": {"raia": "ENCERRADO RESOLVIDO", "handoff": False, "resolvida": True}}
+
+# o log da plataforma mascara o argumento: "Encerrado, Resolvido" com travessao tem 21 caracteres
+MOVE_ENCERRADO = ("t2", "kanban_move_card", "2099-01-01T00:00:00Z", {"targetStep": "string(21)"})
+
+
+class CanalFalso:
+    """O paciente e a API admin do Chatwoot, sem rede: grava a ordem do que o runner faz."""
+
+    def __init__(self, raia=None, status="pending", card=None):
+        self.fim = (raia, status, card)
+        self.eventos = []
+
+    def link(self, conversa_id):
+        return f"chatwoot/{conversa_id}"
+
+    def abrir_conversa(self, nome):
+        return "src", 691
+
+    def enviar(self, source_id, conversa_id, texto):
+        self.eventos.append(("enviar", texto))
+
+    def mensagens(self, source_id, conversa_id):
+        return []
+
+    def esperar_resposta(self, source_id, conversa_id, vistos):
+        return ["Imagina! Até logo."]
+
+    def notas_privadas(self, conversa_id):
+        return []
+
+    def etiquetas(self, conversa_id):
+        return []
+
+    def estado(self, conversa_id):
+        self.eventos.append(("estado", conversa_id))
+        return self.fim
+
+    def resolver(self, conversa_id):
+        self.eventos.append(("resolver", conversa_id))
+        return True
+
+
+class TraceFalso:
+    ligado = True
+
+    def __init__(self, chamadas):
+        self.chamadas = chamadas
+
+    def por_conversa(self, conversa_chatwoot, desde_iso):
+        return self.chamadas
+
+    def uso(self, desde_iso):
+        return None
+
+
+@pytest.fixture(autouse=True)
+def sem_espera(monkeypatch):
+    monkeypatch.setattr(e2e.time, "sleep", lambda s: None)
+
+
+def rodar(canal, chamadas=(MOVE_ENCERRADO,), cenario=C29):
+    return e2e.rodar_cenario(canal, TraceFalso(list(chamadas)), json.loads(json.dumps(cenario)),
+                             "capacidades.json")
+
+
+def test_encerramento_reprova_quando_a_conversa_nao_ficou_resolvida():
+    r = rodar(CanalFalso(raia="Encerrado — Resolvido", status="pending", card=137))
+    assert r["fim"]["status"] == "pending"
+    assert r["veredito"] == "falhou"
+    assert any("resolvida" in f for f in r["falhas"])
+
+
+def test_encerramento_passa_com_o_card_encerrado_e_a_conversa_resolvida():
+    r = rodar(CanalFalso(raia="Encerrado — Resolvido", status="resolved", card=137))
+    assert r["veredito"] == "passou", r["falhas"]
+    assert any(c["tipo"] == "resolvida" and c["ok"] for c in r["conferencias"])
+
+
+def test_o_cenario_de_encerramento_da_bateria_pede_a_conversa_resolvida():
+    dados = json.loads((RAIZ / "ana" / "bancada" / "cenarios" / "capacidades.json").read_text())
+    c29 = next(c for c in dados["cenarios"] if c["id"] == "C29-1")
+    assert c29["confere"]["resolvida"] is True
+    assert c29["confere"]["raia"] == "ENCERRADO RESOLVIDO"

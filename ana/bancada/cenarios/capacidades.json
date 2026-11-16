@@ -1093,7 +1093,8 @@
       ],
       "confere": {
         "raia": "ENCERRADO RESOLVIDO",
-        "handoff": false
+        "handoff": false,
+        "resolvida": true
       }
     },
     {
