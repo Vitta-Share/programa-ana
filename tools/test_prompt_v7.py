@@ -188,3 +188,13 @@ def test_oferta_de_encaminhar_nao_cita_a_tabela():
     # bateria v71: "Não encontrei o valor ... na tabela oficial" é termo interno
     oferta = re.search(r"\*\*Oferta de encaminhar:\*\*.*", V7).group(0)
     assert "sem citar tabela" in oferta
+
+
+def test_regras_globais_dizem_que_oferecer_encaminhar_nao_e_escalar():
+    # bateria v72, rodada 1: só a Seção 6 não bastou; C10-1 e C10-2 seguiram a Regra 9
+    # (conferir o horário antes de escalar) e o "em dúvida, escalar" e escalaram na oferta
+    regras = V7.split("## Regras Globais", 1)[1].split("\n---", 1)[0]
+    regra_9 = re.search(r"^9\. .*", regras, re.MULTILINE).group(0)
+    regra_13 = re.search(r"^13\. .*", regras, re.MULTILINE).group(0)
+    assert "Oferecer encaminhar não é escalar" in regra_9
+    assert "a oferta de encaminhar da Seção 6" in regra_13
