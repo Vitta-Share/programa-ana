@@ -7,6 +7,7 @@ Só `status: accepted` vale como decisão; `superseded` é histórico. Supersess
 | ADR | Status | Título |
 |---|---|---|
 | [0035](0035-o-programa-ana-adota-o-fluxo-do-iae-e-do-hospital.md) | accepted | O programa Ana adota o fluxo de trabalho do IAE e do Hospital |
+| [0036](0036-pedido-a-terceiro-ganha-selo-de-comunicacao.md) | accepted | Pedido a terceiro ganha o selo de comunicação |
 
 ## Contrato e comercial
 

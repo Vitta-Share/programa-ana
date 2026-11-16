@@ -23,6 +23,7 @@ LABELS_DO_REPO = {
     "fatia:P", "fatia:M", "fatia:G",
     "type:feature", "type:fix", "type:chore", "type:refactor", "type:docs", "type:spec", "type:test",
     "area:ana", "area:global-health", "area:fazer-ai", "area:chatwoot", "area:app-hospital", "area:os",
+    "com:global-health", "com:ti-hospital", "com:fazer-ai", "com:hospital",
     "wayfinder:map", "wayfinder:research", "wayfinder:prototype", "wayfinder:grilling", "wayfinder:task",
 }
 
