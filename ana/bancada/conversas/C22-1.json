@@ -5,17 +5,16 @@
   "familia": null,
   "titulo": "Registrar e devolver o protocolo real",
   "contato": "TESTE BANCADA ANA C22-1",
-  "conversa_id": 606,
-  "inicio": "2026-11-16T02:17:56+00:00",
+  "conversa_id": 828,
+  "inicio": "2026-11-16T06:28:55+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "TESTE BANCADA ANA: quero fazer uma reclamação, esperei três horas na recepção ontem e fui muito mal atendido",
       "ana": [
-        "Sinto muito que essa espera tenha sido difícil. Obrigada por nos contar.\n\nVou registrar seu relato com todo o cuidado para que seja apurado pelos setores responsáveis.\n\nMe conta o que aconteceu, estou aqui para ouvir com atenção."
+        "Sinto muito que você tenha passado por isso. Obrigada por nos contar.\n\nVou registrar seu relato com todo o cuidado para que seja apurado pelos setores responsáveis.\n\nMe conta o que aconteceu, estou aqui para ouvir com atenção."
       ],
       "ferramentas": [
-        "set_labels",
         "set_labels",
         "kanban_move_card"
       ],
@@ -36,11 +35,9 @@
       "n": 2,
       "paciente": "foi comigo mesmo, ontem por volta das 14h, na recepção do ambulatório",
       "ana": [
-        "Para registrar direitinho, me passa seu nome completo e seu CPF?"
+        "Para registrar direitinho, me passa seu nome completo e seu CPF? E me diz também: aconteceu com você ou com outra pessoa?"
       ],
       "ferramentas": [
-        "set_custom_attribute",
-        "set_custom_attribute",
         "set_custom_attribute",
         "set_custom_attribute"
       ],
@@ -56,12 +53,12 @@
       "n": 3,
       "paciente": "meu nome é Teste Bancada Ana, CPF ***.***.***-**",
       "ana": [
-        "Obrigada, Teste Bancada Ana. Como o ocorrido foi com você, vou seguir com o registro. Foi na recepção do ambulatório, ontem por volta das 14h, e você relata que esperou três horas e foi muito mal atendido. Tem mais algum detalhe que queira acrescentar antes de eu registrar?"
+        "Deixa eu confirmar o que vou registrar:\n\nSolicitante: TESTE BANCADA ANA\nPaciente: TESTE BANCADA ANA\nData e hora: ontem, por volta das 14h\nSetor: Recepção do ambulatório\nOcorrido: Você relata que esperou três horas na recepção e foi muito mal atendido.\n\nTem mais algum detalhe que queira acrescentar antes de eu registrar?"
       ],
       "ferramentas": [
         "set_custom_attribute",
-        "set_custom_attribute",
-        "set_custom_attribute"
+        "buscar_paciente_por_cpf",
+        "private_note"
       ],
       "nos": [
         "O4",
@@ -75,7 +72,7 @@
       "n": 4,
       "paciente": "isso mesmo, pode registrar por favor",
       "ana": [
-        "Obrigada por confiar isso a nós.\n\nSua manifestação foi registrada com o protocolo 2026-0217.\n\nNossa equipe entrará em contato em até 5 dias úteis."
+        "Obrigada por confiar isso a nós.\n\nSua manifestação foi registrada com o protocolo 2026-0218.\n\nNossa equipe entrará em contato em até 5 dias úteis."
       ],
       "ferramentas": [
         "private_note",
@@ -99,15 +96,12 @@
           "esperado": "registrar_ouvidoria",
           "veio": [
             "set_labels",
-            "set_labels",
             "kanban_move_card",
             "set_custom_attribute",
             "set_custom_attribute",
             "set_custom_attribute",
-            "set_custom_attribute",
-            "set_custom_attribute",
-            "set_custom_attribute",
-            "set_custom_attribute",
+            "buscar_paciente_por_cpf",
+            "private_note",
             "private_note",
             "registrar_ouvidoria",
             "private_note",
@@ -144,15 +138,12 @@
   ],
   "tools": [
     "set_labels",
-    "set_labels",
     "kanban_move_card",
     "set_custom_attribute",
     "set_custom_attribute",
     "set_custom_attribute",
-    "set_custom_attribute",
-    "set_custom_attribute",
-    "set_custom_attribute",
-    "set_custom_attribute",
+    "buscar_paciente_por_cpf",
+    "private_note",
     "private_note",
     "registrar_ouvidoria",
     "private_note",
@@ -174,11 +165,11 @@
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 188450,
-    "cache": 606758,
-    "cache_criacao": 188348,
-    "saida": 1260,
-    "chamadas": 34,
+    "entrada": 95884,
+    "cache": 291645,
+    "cache_criacao": 95827,
+    "saida": 2130,
+    "chamadas": 19,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -186,8 +177,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 4,
-    "openai_usd": 0.025543,
+    "openai_usd": 0.01357,
     "meta_brl": 0.14
   },
-  "rodou_em": "2026-11-16T02:20:07+00:00"
+  "rodou_em": "2026-11-16T06:31:25+00:00"
 }
