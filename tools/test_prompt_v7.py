@@ -134,6 +134,17 @@ def test_oferta_de_encaminhar_espera_o_sim_do_paciente():
     assert "nem fora do horário comercial" in V7
 
 
+def test_exame_particular_sem_valor_vai_ao_setor_responsavel_depois_do_sim():
+    # revisão do PR #69: a 2.4A é o fluxo da consulta (agenda, FILA COMERCIAL); o exame
+    # particular segue a 5.B, SETOR RESPONSÁVEL, como na v7.0
+    oferta = re.search(r"\*\*Oferta de encaminhar:\*\*.*", V7).group(0)
+    assert "exame: Seção 5.B" in oferta
+    assert "consulta: Seção 2.4A" in oferta
+    assert "exame: Seção 2.4A" not in oferta
+    secao_5b = V7.split("#### 5.B Exame Particular", 1)[1].split("####", 1)[0]
+    assert "`SETOR RESPONSÁVEL`" in secao_5b
+
+
 def test_mensagem_de_fora_do_horario_nunca_antecipa_a_escalada():
     # diagnóstico da v159, proposta 2: C13-1 pedia o nome e já escalava pelo fora de horário
     assert "nunca antecipa uma escalada" in V7
