@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Achar o cadastro do paciente",
   "contato": "TESTE BANCADA ANA C13-1",
-  "conversa_id": 731,
-  "inicio": "2026-11-16T04:32:49+00:00",
+  "conversa_id": 934,
+  "inicio": "2026-11-16T08:35:21+00:00",
   "turnos": [
     {
       "n": 1,
@@ -17,7 +17,6 @@
       "ferramentas": [
         "kanban_move_card",
         "consultar_precos_consultas",
-        "set_custom_attribute",
         "set_labels"
       ],
       "nos": [
@@ -45,7 +44,9 @@
       ],
       "ferramentas": [
         "set_custom_attribute",
-        "set_labels"
+        "set_custom_attribute",
+        "set_custom_attribute",
+        "set_custom_attribute"
       ],
       "nos": [
         "P7",
@@ -59,13 +60,14 @@
       "n": 3,
       "paciente": "meu nome é Teste Bancada Ana, CPF ***.***.***-**",
       "ana": [
-        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você.\n\nNossa equipe de atendimento funciona de segunda a sexta, das 7h às 18h.\n\nRegistrei sua solicitação e nosso time vai te contatar assim que iniciar o próximo expediente."
+        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você."
       ],
       "ferramentas": [
         "set_custom_attribute",
         "set_custom_attribute",
-        "buscar_paciente_por_cpf",
+        "set_custom_attribute",
         "consultar_especialidades_agenda",
+        "buscar_paciente_por_cpf",
         "consultar_convenios_agenda",
         "set_labels",
         "kanban_move_card",
@@ -94,14 +96,16 @@
           "veio": [
             "kanban_move_card",
             "consultar_precos_consultas",
-            "set_custom_attribute",
-            "set_labels",
-            "set_custom_attribute",
             "set_labels",
             "set_custom_attribute",
             "set_custom_attribute",
-            "buscar_paciente_por_cpf",
+            "set_custom_attribute",
+            "set_custom_attribute",
+            "set_custom_attribute",
+            "set_custom_attribute",
+            "set_custom_attribute",
             "consultar_especialidades_agenda",
+            "buscar_paciente_por_cpf",
             "consultar_convenios_agenda",
             "set_labels",
             "kanban_move_card",
@@ -133,7 +137,7 @@
           "turno": 3,
           "tipo": "raia",
           "esperado": "FILA COMERCIAL",
-          "veio": "trace: kanban_move_card para FILA COMERCIAL ou FILA OUVIDORIA",
+          "veio": "Fila Comercial",
           "ok": true
         },
         {
@@ -149,14 +153,16 @@
   "tools": [
     "kanban_move_card",
     "consultar_precos_consultas",
-    "set_custom_attribute",
-    "set_labels",
-    "set_custom_attribute",
     "set_labels",
     "set_custom_attribute",
     "set_custom_attribute",
-    "buscar_paciente_por_cpf",
+    "set_custom_attribute",
+    "set_custom_attribute",
+    "set_custom_attribute",
+    "set_custom_attribute",
+    "set_custom_attribute",
     "consultar_especialidades_agenda",
+    "buscar_paciente_por_cpf",
     "consultar_convenios_agenda",
     "set_labels",
     "kanban_move_card",
@@ -167,22 +173,19 @@
       "particular-aquecido",
       "agendamento-particular"
     ],
-    "raia": null,
-    "raia_pelo_trace": [
-      "FILA COMERCIAL",
-      "FILA OUVIDORIA"
-    ],
+    "raia": "Fila Comercial",
+    "raia_pelo_trace": null,
     "status": "open",
     "handoff": true
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 197157,
-    "cache": 842823,
-    "cache_criacao": 196959,
-    "saida": 4825,
-    "chamadas": 50,
+    "entrada": 40558,
+    "cache": 257056,
+    "cache_criacao": 40195,
+    "saida": 1316,
+    "chamadas": 18,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -190,8 +193,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 3,
-    "openai_usd": 0.030556,
+    "openai_usd": 0.007284,
     "meta_brl": 0.105
   },
-  "rodou_em": "2026-11-16T04:35:25+00:00"
+  "rodou_em": "2026-11-16T08:37:56+00:00"
 }

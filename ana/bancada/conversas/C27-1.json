@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Dúvidas gerais",
   "contato": "TESTE BANCADA ANA C27-1",
-  "conversa_id": 689,
-  "inicio": "2026-11-16T03:42:46+00:00",
+  "conversa_id": 942,
+  "inicio": "2026-11-16T08:47:15+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "qual o endereço de vocês?",
       "ana": [
-        "Ficamos na Rua Silva Cardoso, 689, em Bangu, Rio de Janeiro. Mapa: https://maps.app.goo.gl/T95BxBrVPiRKLtHq8"
+        "O Hospital São Matheus fica na Rua Silva Cardoso, 689, Bangu, Rio de Janeiro/RJ. https://maps.app.goo.gl/T95BxBrVPiRKLtHq8"
       ],
       "ferramentas": [
         "search_knowledge"
@@ -50,19 +50,19 @@
   ],
   "fim": {
     "etiquetas": [],
-    "raia": null,
-    "raia_pelo_trace": [],
+    "raia": "Novo Contato",
+    "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 23978,
-    "cache": 22982,
-    "cache_criacao": 23972,
-    "saida": 79,
-    "chamadas": 2,
+    "entrada": 20833,
+    "cache": 21679,
+    "cache_criacao": 20824,
+    "saida": 161,
+    "chamadas": 3,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -70,8 +70,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002667,
+    "openai_usd": 0.002381,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T03:43:19+00:00"
+  "rodou_em": "2026-11-16T08:47:51+00:00"
 }

@@ -5,19 +5,18 @@
   "familia": null,
   "titulo": "Prontuário médico",
   "contato": "TESTE BANCADA ANA C26-1",
-  "conversa_id": 688,
-  "inicio": "2026-11-16T03:41:34+00:00",
+  "conversa_id": 941,
+  "inicio": "2026-11-16T08:46:02+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "preciso pegar meu prontuário médico",
       "ana": [
-        "Claro. Para solicitar seu prontuário, envie a documentação necessária para prontuario@hospitalsaomatheus.com.br. A equipe vai orientar sobre os documentos obrigatórios e iniciar o processo quando receber tudo completo."
+        "Claro, posso te orientar. Para qual finalidade você precisa do prontuário: uso pessoal ou continuidade do tratamento, seguro ou INSS, processo judicial, ou solicitação por um familiar?"
       ],
       "ferramentas": [
-        "set_labels",
-        "set_labels",
-        "search_knowledge"
+        "kanban_move_card",
+        "set_labels"
       ],
       "nos": [
         "E1",
@@ -35,12 +34,10 @@
       "n": 2,
       "paciente": "é para uso pessoal",
       "ana": [
-        "Entendi, é para uso pessoal. Envie a documentação necessária para prontuario@hospitalsaomatheus.com.br. A equipe vai orientar sobre os documentos obrigatórios e iniciar o processo após receber tudo completo."
+        "Para solicitar seu prontuário para uso pessoal, envie a documentação necessária para prontuario@hospitalsaomatheus.com.br. A equipe vai orientar sobre os documentos obrigatórios e iniciar o processo quando receber tudo."
       ],
       "ferramentas": [
-        "search_knowledge",
-        "set_labels",
-        "set_labels"
+        "search_knowledge"
       ],
       "nos": [
         "A3",
@@ -89,12 +86,9 @@
           "tipo": "ferramenta proibida",
           "esperado": "handoff_to_human",
           "veio": [
+            "kanban_move_card",
             "set_labels",
-            "set_labels",
-            "search_knowledge",
-            "search_knowledge",
-            "set_labels",
-            "set_labels"
+            "search_knowledge"
           ],
           "ok": true
         },
@@ -103,8 +97,7 @@
           "tipo": "etiqueta",
           "esperado": "prontuario",
           "veio": [
-            "prontuario",
-            "fora-horario"
+            "prontuario"
           ],
           "ok": true
         },
@@ -119,31 +112,27 @@
     }
   ],
   "tools": [
+    "kanban_move_card",
     "set_labels",
-    "set_labels",
-    "search_knowledge",
-    "search_knowledge",
-    "set_labels",
-    "set_labels"
+    "search_knowledge"
   ],
   "fim": {
     "etiquetas": [
-      "prontuario",
-      "fora-horario"
+      "prontuario"
     ],
-    "raia": null,
-    "raia_pelo_trace": [],
+    "raia": "Em Atendimento — Ana",
+    "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 49056,
-    "cache": 95068,
-    "cache_criacao": 49038,
-    "saida": 214,
-    "chamadas": 6,
+    "entrada": 40769,
+    "cache": 62351,
+    "cache_criacao": 40435,
+    "saida": 785,
+    "chamadas": 8,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -151,8 +140,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 2,
-    "openai_usd": 0.005963,
+    "openai_usd": 0.005093,
     "meta_brl": 0.07
   },
-  "rodou_em": "2026-11-16T03:42:43+00:00"
+  "rodou_em": "2026-11-16T08:47:12+00:00"
 }

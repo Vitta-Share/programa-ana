@@ -5,8 +5,8 @@
   "familia": null,
   "titulo": "Paciente volta citando o protocolo",
   "contato": "TESTE BANCADA ANA C24-1",
-  "conversa_id": 687,
-  "inicio": "2026-11-16T03:40:51+00:00",
+  "conversa_id": 940,
+  "inicio": "2026-11-16T08:45:22+00:00",
   "turnos": [
     {
       "n": 1,
@@ -16,8 +16,8 @@
       ],
       "ferramentas": [
         "set_labels",
-        "set_labels",
         "consultar_protocolo_ouvidoria",
+        "set_custom_attribute",
         "kanban_move_card",
         "handoff_to_human"
       ],
@@ -52,8 +52,8 @@
           "esperado": "consultar_protocolo_ouvidoria",
           "veio": [
             "set_labels",
-            "set_labels",
             "consultar_protocolo_ouvidoria",
+            "set_custom_attribute",
             "kanban_move_card",
             "handoff_to_human"
           ],
@@ -72,7 +72,7 @@
           "turno": 1,
           "tipo": "raia",
           "esperado": "FILA OUVIDORIA",
-          "veio": "trace: kanban_move_card para FILA COMERCIAL ou FILA OUVIDORIA",
+          "veio": "Fila Ouvidoria",
           "ok": true
         },
         {
@@ -87,8 +87,8 @@
   ],
   "tools": [
     "set_labels",
-    "set_labels",
     "consultar_protocolo_ouvidoria",
+    "set_custom_attribute",
     "kanban_move_card",
     "handoff_to_human"
   ],
@@ -96,22 +96,19 @@
     "etiquetas": [
       "ouvidoria"
     ],
-    "raia": null,
-    "raia_pelo_trace": [
-      "FILA COMERCIAL",
-      "FILA OUVIDORIA"
-    ],
+    "raia": "Fila Ouvidoria",
+    "raia_pelo_trace": null,
     "status": "open",
     "handoff": true
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 23461,
-    "cache": 92538,
-    "cache_criacao": 23446,
-    "saida": 217,
-    "chamadas": 5,
+    "entrada": 19580,
+    "cache": 94632,
+    "cache_criacao": 19266,
+    "saida": 328,
+    "chamadas": 7,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -119,8 +116,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.00338,
+    "openai_usd": 0.003068,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T03:41:31+00:00"
+  "rodou_em": "2026-11-16T08:45:58+00:00"
 }

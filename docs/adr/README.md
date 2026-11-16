@@ -26,6 +26,7 @@ Só `status: accepted` vale como decisão; `superseded` é histórico. Supersess
 | [0013](0013-modelo-universal-luna.md) | accepted | gpt-5.6-luna é o modelo padrão do tenant, trocado direto e sem gate |
 | [0014](0014-cadastro-sai-do-bot.md) | accepted | Cadastro de paciente sai do bot: nome + CPF é o único bloco cadastral da conversa |
 | [0024](0024-a-versao-do-chatwoot-e-decisao-do-programa.md) | accepted | A versão do Chatwoot é decisão do programa, não detalhe de infra |
+| [0037](0037-prompt-v71-a-v70-comprimida.md) | accepted | Prompt v7.1: a v7.0 comprimida, sem travessão |
 
 ## Base de dados e ouvidoria
 

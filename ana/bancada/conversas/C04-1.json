@@ -5,16 +5,18 @@
   "familia": null,
   "titulo": "Responder se é robô",
   "contato": "TESTE BANCADA ANA C04-1",
-  "conversa_id": 666,
-  "inicio": "2026-11-16T03:21:23+00:00",
+  "conversa_id": 919,
+  "inicio": "2026-11-16T08:23:49+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "você é um robô?",
       "ana": [
-        "Sou a Ana, assistente virtual do Hospital São Matheus!\n\nResolvo a maior parte das coisas por aqui mesmo, a qualquer hora do dia. E quando o assunto precisa de alguém da equipe, eu encaminho na hora.\n\nEm que posso te ajudar? (No explicit escalation needed; it's just an identity response.)Sou a Ana, assistente virtual do Hospital São Matheus!\n\nResolvo a maior parte das coisas por aqui mesmo, a qualquer hora do dia. E quando o assunto precisa de alguém da equipe, eu encaminho na hora.\n\nEm que posso te ajudar?"
+        "Sou a Ana, assistente virtual do Hospital São Matheus! Estou aqui para ajudar a qualquer hora e, quando o assunto precisar de alguém da equipe, encaminho para ela.\n\nEm que posso te ajudar?"
       ],
-      "ferramentas": [],
+      "ferramentas": [
+        "get_current_time"
+      ],
       "nos": [
         "E1",
         "E2",
@@ -61,22 +63,24 @@
       ]
     }
   ],
-  "tools": [],
+  "tools": [
+    "get_current_time"
+  ],
   "fim": {
     "etiquetas": [],
-    "raia": null,
-    "raia_pelo_trace": [],
+    "raia": "Novo Contato",
+    "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 22985,
-    "cache": 0,
-    "cache_criacao": 22982,
-    "saida": 127,
-    "chamadas": 1,
+    "entrada": 18969,
+    "cache": 21679,
+    "cache_criacao": 18960,
+    "saida": 840,
+    "chamadas": 3,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -84,8 +88,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002362,
+    "openai_usd": 0.002534,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T03:21:54+00:00"
+  "rodou_em": "2026-11-16T08:24:32+00:00"
 }

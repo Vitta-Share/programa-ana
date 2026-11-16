@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Dúvidas gerais",
   "contato": "TESTE BANCADA ANA C27-2",
-  "conversa_id": 690,
-  "inicio": "2026-11-16T03:43:23+00:00",
+  "conversa_id": 943,
+  "inicio": "2026-11-16T08:47:55+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quais convênios vocês atendem?",
       "ana": [
-        "Atendemos Porto Seguro, Postal Saúde (Correios), SAMOC, Sul América, Unimed do Brasil, Veritas, Assim Saúde, Allianz, Amacor (MH Vida), Amil, Blue Saúde, Bradesco Saúde, Bradesco Operadora, Brasil Assistência (Mapfre), Caberj, Cape Saúde, CAURJ, CNEN, CVRD/PASA, Castelo Branco, Eletros-Saúde, Telos-Amap, Furnas (Real Grandeza), Gama Saúde, HSMED Saúde, Health Med, Intermédica/NotreDame, Klini Saúde, Leve Saúde, Mediservice, AMEP, SV Saúde, AWP Brasil (Mondial), Nova Saúde, Oplan, Saúde Petrobras, Integral, CEMERU, Onix, Select e LLAK Medicina Neonatal.\n\nA cobertura pode variar conforme o plano e a especialidade ou exame."
+        "O Hospital São Matheus atende, entre outros: Amil, Assim Saúde, Bradesco Saúde, SulAmérica, Unimed do Brasil, Porto Seguro, Allianz, Intermédica/NotreDame, Caberj, Cemeru, Klini Saúde, Leve Saúde, Mediservice, Saúde Petrobras e Veritas.\n\nA cobertura pode variar conforme o plano e o serviço. Se você me disser qual convênio e especialidade ou exame precisa, verifico essa cobertura para você."
       ],
       "ferramentas": [
         "search_knowledge"
@@ -52,19 +52,19 @@
   ],
   "fim": {
     "etiquetas": [],
-    "raia": null,
-    "raia_pelo_trace": [],
+    "raia": "Novo Contato",
+    "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 24027,
-    "cache": 22984,
-    "cache_criacao": 24021,
-    "saida": 238,
-    "chamadas": 2,
+    "entrada": 21217,
+    "cache": 21681,
+    "cache_criacao": 21208,
+    "saida": 447,
+    "chamadas": 3,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -72,8 +72,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002752,
+    "openai_usd": 0.002562,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T03:43:56+00:00"
+  "rodou_em": "2026-11-16T08:48:34+00:00"
 }

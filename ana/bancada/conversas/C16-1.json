@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Levar o caso para a equipe com resumo",
   "contato": "TESTE BANCADA ANA C16-1",
-  "conversa_id": 737,
-  "inicio": "2026-11-16T04:35:29+00:00",
+  "conversa_id": 937,
+  "inicio": "2026-11-16T08:41:13+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quero marcar uma consulta de cardiologia particular",
       "ana": [
-        "A consulta de cardiologia é R$ 380. Quer que eu veja os horários disponíveis para você?"
+        "A consulta particular de cardiologia é R$ 380. Quer que eu veja os horários disponíveis para você?"
       ],
       "ferramentas": [
         "kanban_move_card",
@@ -40,7 +40,7 @@
       "n": 2,
       "paciente": "pode ser, quero marcar sim",
       "ana": [
-        "Ótimo! Me passa seu nome completo e CPF, por favor? Assim já deixo tudo pronto para o agendamento."
+        "Ótimo! Me passa seu CPF, por favor? Assim já deixo tudo pronto para o agendamento."
       ],
       "ferramentas": [
         "set_custom_attribute",
@@ -58,7 +58,7 @@
       "n": 3,
       "paciente": "meu nome é Teste Bancada Ana, CPF ***.***.***-**",
       "ana": [
-        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você. Nossa equipe de atendimento funciona de segunda a sexta, das 7h às 18h. Registrei sua solicitação e nosso time vai te contatar assim que iniciar o próximo expediente."
+        "Prontinho, Teste! A agenda online não me retornou horários agora, então nossa equipe vai entrar em contato para confirmar o melhor horário com você."
       ],
       "ferramentas": [
         "set_custom_attribute",
@@ -69,8 +69,7 @@
         "set_labels",
         "kanban_move_card",
         "handoff_to_human",
-        "get_current_time",
-        "set_labels"
+        "update_kanban_task"
       ],
       "nos": [
         "S1",
@@ -120,8 +119,7 @@
           "esperado": "agendamento-particular",
           "veio": [
             "particular-aquecido",
-            "agendamento-particular",
-            "fora-horario"
+            "agendamento-particular"
           ],
           "ok": true
         },
@@ -129,7 +127,7 @@
           "turno": 3,
           "tipo": "raia",
           "esperado": "FILA COMERCIAL",
-          "veio": "trace: kanban_move_card para FILA COMERCIAL ou FILA OUVIDORIA",
+          "veio": "Fila Comercial",
           "ok": true
         },
         {
@@ -156,31 +154,26 @@
     "set_labels",
     "kanban_move_card",
     "handoff_to_human",
-    "get_current_time",
-    "set_labels"
+    "update_kanban_task"
   ],
   "fim": {
     "etiquetas": [
       "particular-aquecido",
-      "agendamento-particular",
-      "fora-horario"
+      "agendamento-particular"
     ],
-    "raia": null,
-    "raia_pelo_trace": [
-      "FILA COMERCIAL",
-      "FILA OUVIDORIA"
-    ],
+    "raia": "Fila Comercial",
+    "raia_pelo_trace": null,
     "status": "open",
     "handoff": true
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 165978,
-    "cache": 1123312,
-    "cache_criacao": 165250,
-    "saida": 3873,
-    "chamadas": 61,
+    "entrada": 60206,
+    "cache": 276955,
+    "cache_criacao": 59297,
+    "saida": 1114,
+    "chamadas": 22,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -188,8 +181,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 3,
-    "openai_usd": 0.029767,
+    "openai_usd": 0.009347,
     "meta_brl": 0.105
   },
-  "rodou_em": "2026-11-16T04:37:55+00:00"
+  "rodou_em": "2026-11-16T08:43:38+00:00"
 }

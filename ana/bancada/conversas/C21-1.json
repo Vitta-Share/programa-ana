@@ -5,19 +5,17 @@
   "familia": null,
   "titulo": "Acolher e coletar a manifestação",
   "contato": "TESTE BANCADA ANA C21-1",
-  "conversa_id": 826,
-  "inicio": "2026-11-16T06:24:56+00:00",
+  "conversa_id": 939,
+  "inicio": "2026-11-16T08:44:36+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "quero fazer uma reclamação, esperei três horas na recepção ontem",
       "ana": [
-        "Entendo, ficar aguardando por tanto tempo pode ser muito frustrante. Vou registrar sua manifestação com cuidado para que seja apurada pelos setores responsáveis.\n\nPara registrar direitinho, me passa seu nome completo e CPF? E me diz também: aconteceu com você ou com outra pessoa?"
+        "Sinto muito pela espera. Obrigada por nos contar.\n\nVou registrar seu relato com todo o cuidado para que seja apurado pelos setores responsáveis.\n\nMe conta o que aconteceu, estou aqui para ouvir com atenção."
       ],
       "ferramentas": [
         "set_labels",
-        "set_custom_attribute",
-        "set_custom_attribute",
         "kanban_move_card"
       ],
       "nos": [
@@ -74,29 +72,25 @@
   ],
   "tools": [
     "set_labels",
-    "set_custom_attribute",
-    "set_custom_attribute",
     "kanban_move_card"
   ],
   "fim": {
     "etiquetas": [
       "ouvidoria"
     ],
-    "raia": null,
-    "raia_pelo_trace": [
-      "EM ATENDIMENTO — ANA"
-    ],
+    "raia": "Em Atendimento — Ana",
+    "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 23541,
-    "cache": 95293,
-    "cache_criacao": 23523,
-    "saida": 575,
-    "chamadas": 6,
+    "entrada": 19335,
+    "cache": 40473,
+    "cache_criacao": 19045,
+    "saida": 778,
+    "chamadas": 5,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -104,8 +98,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.003595,
+    "openai_usd": 0.002727,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T06:25:42+00:00"
+  "rodou_em": "2026-11-16T08:45:19+00:00"
 }

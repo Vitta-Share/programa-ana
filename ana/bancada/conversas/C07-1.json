@@ -5,14 +5,14 @@
   "familia": null,
   "titulo": "Preparo de exame, sem perder passo clínico",
   "contato": "TESTE BANCADA ANA C07-1",
-  "conversa_id": 673,
-  "inicio": "2026-11-16T03:25:53+00:00",
+  "conversa_id": 926,
+  "inicio": "2026-11-16T08:28:38+00:00",
   "turnos": [
     {
       "n": 1,
       "paciente": "qual o preparo da colonoscopia?",
       "ana": [
-        "Para a colonoscopia, é necessário fazer dieta sem resíduos 2 dias antes e usar o laxativo prescrito pelo médico. Também é preciso jejum absoluto de 8 horas antes do exame e ir com um acompanhante, pois o procedimento é feito com sedação."
+        "Para a colonoscopia, é necessário fazer uma dieta sem resíduos por 2 dias antes e usar o laxante prescrito pelo médico. Também é preciso jejum absoluto de 8 horas antes do exame. Como é feito com sedação, você precisa ir acompanhado(a)."
       ],
       "ferramentas": [
         "consultar_exames"
@@ -53,19 +53,19 @@
   ],
   "fim": {
     "etiquetas": [],
-    "raia": null,
-    "raia_pelo_trace": [],
+    "raia": "Novo Contato",
+    "raia_pelo_trace": null,
     "status": "pending",
     "handoff": false
   },
   "veredito": "passou",
   "falhas": [],
   "uso": {
-    "entrada": 23274,
-    "cache": 22984,
-    "cache_criacao": 23268,
-    "saida": 81,
-    "chamadas": 2,
+    "entrada": 19840,
+    "cache": 21681,
+    "cache_criacao": 19420,
+    "saida": 265,
+    "chamadas": 4,
     "modelos": [
       "gpt-6-luna"
     ]
@@ -73,8 +73,8 @@
   "custo": {
     "modelo": "gpt-6-luna",
     "mensagens_ana": 1,
-    "openai_usd": 0.002598,
+    "openai_usd": 0.002333,
     "meta_brl": 0.035
   },
-  "rodou_em": "2026-11-16T03:26:26+00:00"
+  "rodou_em": "2026-11-16T08:29:14+00:00"
 }
