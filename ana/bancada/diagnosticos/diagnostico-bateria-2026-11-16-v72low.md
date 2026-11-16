@@ -12,7 +12,7 @@ O `low` acertou onde o `none` tropeçava: o C10-2 (a Ana encaminha antes do sim)
 
 | Momento (UTC) | O que mudou | Prova |
 |---|---|---|
-| 17:08 | Export da Ana 1 em `ana/plataforma/export-ana-pre-reasoning-low.json`. Prompt no ar conferido: sha `5331eb0a977b`, `updatedAt` 16:21:25Z. | `GET /api/v1/agents/1` |
+| 17:08 | Export da Ana 1 em `ana/plataforma/export-ana-pre-reasoning-low.json` (o prompt literal é o `export-prompt-v72.md`, mesmo sha). Prompt no ar conferido: sha `5331eb0a977b`, `updatedAt` 16:21:25Z. | `GET /api/v1/agents/1` |
 | 17:08 | `agent_clone` da Ana 1 (dry_run antes): agente 2, "Ana clone reasoning low (#19)". Prompt, settings e grants iguais aos da Ana 1 (conferido campo a campo; os grants só mudam de ordem). | `agent_get`, `agent_tools_get` |
 | 17:09 | `agent_update` do clone (dry_run antes): `reasoningEffort` de `none` para `low`, `enabled` e `mode: test`. Fumaça no playground com ferramenta: sem 400. | diff do dry_run |
 | 17:09 | `inbox_bind` da inbox "Ana E2E (API)" no clone (dry_run antes). A Ana 1 ficou só com a inbox do Telegram de teste; a configuração dela não foi tocada. | `inbox_list` |
