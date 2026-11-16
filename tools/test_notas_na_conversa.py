@@ -109,3 +109,17 @@ def test_o_que_o_paciente_disse_na_conversa_de_teste_nao_pode_aparecer_na_nota()
         "Ferramentas: buscar_paciente (TESTE GOLF HOTEL)", proibidos=["Teste Golf Hotel"]
     )
     assert achados == ["dado da conversa: Teste Golf Hotel"]
+
+
+def test_a_conferencia_le_so_as_notas_que_a_plataforma_marcou():
+    mensagens = [
+        {"id": 1, "private": False, "content": "/teste", "content_attributes": {}},
+        {"id": 2, "private": False, "content": "Olá! Sou a Ana.", "content_attributes": {}},
+        {"id": 3, "private": True, "content": NOTA_FERRAMENTAS,
+         "content_attributes": {"fazer_ai_activity": "tools"}},
+        {"id": 4, "private": True, "content": "nota de um humano", "content_attributes": {}},
+        {"id": 5, "private": False, "content": "automação", "content_attributes": {"fazer_ai_activity": "tools"}},
+        {"id": 6, "private": True, "content": NOTA_ERROS,
+         "content_attributes": {"fazer_ai_activity": "errors"}},
+    ]
+    assert [m["id"] for m in nc.notas_do_agente(mensagens)] == [3, 6]
