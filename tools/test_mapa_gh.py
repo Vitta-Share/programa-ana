@@ -216,3 +216,67 @@ def test_historico_nasce_com_as_tres_execucoes_de_semente_marcadas_como_registro
     assert agendar["ultimo_estado"]["cor"] == "vermelho"
     assert agendar["ultimo_estado"]["registro_de_sessao"] is True
     assert agendar["ultimo_estado"]["data"].startswith("2026-11-16")
+
+
+@pytest.fixture
+def gh():
+    falsa = GHFalsa(rotas_cheias())
+    yield falsa
+    falsa.fechar()
+
+
+# Critério 2: testar
+
+
+def test_testar_uma_leitura_cheia_devolve_status_tempo_contagem_e_nomes(gh, historico):
+    r = rodar("testar", "especialidades", base=gh.base, historico=historico)
+    assert r.returncode == 0, r.stderr
+    res = saida(r)
+    assert res["capacidade"] == "especialidades"
+    assert res["estado"] == "ok" and res["cor"] == "verde"
+    assert res["status"] == 200
+    assert isinstance(res["tempo_ms"], int)
+    assert res["contagem"] == 1
+    assert res["nomes"] == ["Consulta Cardiologica"]
+    assert res["faltou"] is None
+    assert gh.pedidos[0][3] == TOKEN_FALSO
+
+
+def test_testar_mostra_no_maximo_cinco_nomes(gh, historico):
+    gh.rotas["GET /consultas"] = (200, lista(*[{"id": i, "nome": f"Consulta {i}", "bloqueado": False, "ordem": i}
+                                                for i in range(1, 8)]), 0)
+    res = saida(rodar("testar", "especialidades", base=gh.base, historico=historico))
+    assert res["contagem"] == 7
+    assert res["nomes"] == ["Consulta 1", "Consulta 2", "Consulta 3", "Consulta 4", "Consulta 5"]
+
+
+def test_testar_uma_lista_vazia_diz_o_que_faltou(gh, historico):
+    res = saida(rodar("testar", "exames", base=gh.base, historico=historico))
+    assert res["estado"] == "vazio" and res["cor"] == "amarelo"
+    assert res["status"] == 200 and res["contagem"] == 0 and res["nomes"] == []
+    assert res["faltou"]
+
+
+def test_testar_um_500_vem_vermelho_com_a_mensagem_da_global_health(gh, historico):
+    res = saida(rodar("testar", "instrucoes_horario", base=gh.base, historico=historico))
+    assert res["estado"] == "erro" and res["cor"] == "vermelho"
+    assert res["status"] == 500
+    assert res["faltou"] == "Erro interno"
+
+
+def test_testar_um_417_vem_vermelho_com_a_regra_de_negocio(gh, historico):
+    gh.rotas["GET /carteiras"] = (417, {"mensagens": [{"tipo": "ERROR", "texto": "Regra de negócio recusou"}]}, 0)
+    res = saida(rodar("testar", "carteiras", base=gh.base, historico=historico))
+    assert res["estado"] == "erro" and res["status"] == 417
+    assert res["faltou"] == "Regra de negócio recusou"
+
+
+def test_testar_uma_escrita_recusa_sem_chamar_e_devolve_o_ultimo_registro(gh, historico):
+    r = rodar("testar", "agendar", base=gh.base, historico=historico)
+    assert r.returncode == 0, r.stderr
+    res = saida(r)
+    assert res["recusado"] is True
+    assert res["ultimo_registro"]["status"] == 417
+    assert res["ultimo_registro"]["data"].startswith("2026-11-16")
+    assert res["ultimo_registro"]["registro_de_sessao"] is True
+    assert gh.pedidos == []
