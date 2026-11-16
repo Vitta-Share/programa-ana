@@ -1,6 +1,6 @@
 # Regras da v6.9 conferidas na v7 (issue #25)
 
-Checklist de "nada se perdeu". A fonte é o prompt que estava no ar em 16/nov/2026: a v7.0 (a v6.9 mais a regra do prontuário da #19), com `assign_label` trocado por `set_labels` pela plataforma 1.59. O texto inteiro está em `ana/plataforma/export-prompt-v70.md` (63.657 caracteres, sha `fdfadc07ff6e`). A v7.1 é a compressão desta issue, em `ana/prompt/` (43.907 caracteres compilados).
+Checklist de "nada se perdeu". A fonte é o prompt que estava no ar em 16/nov/2026: a v7.0 (a v6.9 mais a regra do prontuário da #19), com `assign_label` trocado por `set_labels` pela plataforma 1.59. O texto inteiro está em `ana/plataforma/export-prompt-v70.md` (63.657 caracteres, sha `fdfadc07ff6e`). A v7.1 é a compressão desta issue, em `ana/prompt/` (44.243 caracteres compilados).
 
 Uma linha por regra, template ou trava. "Origem" é a seção da v7.0; "Na v7.1" é onde a regra mora agora, e o que foi fundido com o quê.
 
@@ -131,7 +131,7 @@ Uma linha por regra, template ou trava. "Origem" é a seção da v7.0; "Na v7.1"
 | 96 | Caso 2: template e a oferta do particular; recusa vai a ENCERRADO | 3.2 | 3.2, Caso 2 |
 | 97 | Caso 3: `search_knowledge`, etiqueta e AGUARDANDO antes da mensagem, nessa ordem; não trocar o portal por "posso encaminhar" | 3.2 | 3.2, Caso 3 |
 | 98 | Template do portal do Caso 3 | 3.2 | Igual |
-| 99 | Proibido narrar a verificação ou citar termos internos | 3.2 | Identidade e Tom, "Poucas mensagens" |
+| 99 | Proibido narrar a verificação ou citar termos internos | 3.2 | 3.2, "Proibido em todos os casos" (saiu na primeira compressão, a rodada 1 da v71 pegou no C09-1 e no C10-3 e a regra voltou), e Identidade e Tom |
 | 100 | Caso 3 sem handoff; AGUARDANDO nunca resolve; AGENDADO quando confirmar; dificuldade escala | 3.2 | 3.2, parágrafo depois do template |
 | 101 | Convênio fora da base: oferecer particular ou despedida e ENCERRADO | 3.2 | 3.2, último bloco |
 | 102 | Template de confirmação de consulta e a escalada por dificuldade | 4 | 4 |

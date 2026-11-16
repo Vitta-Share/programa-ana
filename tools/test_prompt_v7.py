@@ -47,6 +47,9 @@ def test_publicar_manda_so_o_prompt_e_vale_sobre_o_estado_lido():
 def test_prompt_mudado_por_outra_sessao_desde_o_export_para_a_publicacao():
     assert pp.prompt_mudou(sha("prompt vivo"), agente("prompt vivo")) is False
     assert pp.prompt_mudou(sha("prompt vivo"), agente("prompt vivo com uma regra a mais")) is True
+    # a revisão publicada por cima confere pelo começo do hash, como sai no log
+    assert pp.prompt_mudou(sha("prompt vivo")[:12], agente("prompt vivo")) is False
+    assert pp.prompt_mudou(sha("prompt vivo")[:12], agente("outro prompt")) is True
 
 
 def test_prompt_com_travessao_fora_das_colunas_nao_sobe():
@@ -148,3 +151,9 @@ def test_toda_regra_da_v69_tem_endereco_na_v7():
     celulas = [[c.strip() for c in l.strip()[1:-1].split("|")] for l in linhas]
     sem_endereco = [c for c in celulas if len(c) != 4 or not all(c)]
     assert sem_endereco == []
+
+
+def test_caso_3_do_convenio_manda_o_portal_sem_narrar_a_verificacao():
+    # bateria v71, rodada 1: C09-1 e C10-3 disseram "não consegui confirmar" e "agenda online"
+    assert "não pôde ser confirmada, e sem citar a agenda" in V7
+    assert "Proibido em todos os casos: narrar a verificação" in V7

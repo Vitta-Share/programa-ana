@@ -8,6 +8,7 @@ desde o export, que é o que o `prompt_set` do console não confere.
     python3 ana/plataforma/scripts/publicar-prompt.py exportar    # guarda o prompt vivo e o hash
     python3 ana/plataforma/scripts/publicar-prompt.py conferir    # o vivo ainda é o do export?
     python3 ana/plataforma/scripts/publicar-prompt.py publicar    # sobe ana/prompt/prompt-compilado.md
+    python3 ana/plataforma/scripts/publicar-prompt.py publicar --sobre <sha>   # revisão por cima da que subiu
     python3 ana/plataforma/scripts/publicar-prompt.py voltar      # devolve o prompt do export
 """
 
@@ -44,9 +45,12 @@ def _sha(texto: str) -> str:
     return hashlib.sha256(texto.encode()).hexdigest()
 
 
-def prompt_mudou(sha_do_export: str, agente: dict) -> bool:
-    """O prompt vivo é outro que não o do export? Então outra sessão publicou no meio."""
-    return _sha(agente.get("systemPrompt", "")) != sha_do_export
+def prompt_mudou(sha_esperado: str, agente: dict) -> bool:
+    """O prompt vivo é outro que não o esperado? Então outra sessão publicou no meio.
+
+    `sha_esperado` pode ser o hash inteiro ou o começo dele (os 12 do log).
+    """
+    return not _sha(agente.get("systemPrompt", "")).startswith(sha_esperado)
 
 
 def travessoes_fora_das_colunas(prompt: str) -> list[str]:
@@ -108,7 +112,9 @@ def _subir(prompt: str, sha_esperado_no_ar: str) -> int:
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("cmd", choices=["exportar", "conferir", "publicar", "voltar"])
-    cmd = p.parse_args().cmd
+    p.add_argument("--sobre", help="publicar por cima deste prompt vivo (sha ou começo dele), e não do export")
+    args = p.parse_args()
+    cmd = args.cmd
     if cmd == "exportar":
         a = _pedir()
         prompt = a.pop("systemPrompt", "")
@@ -129,7 +135,7 @@ def main() -> int:
         if sujas:
             print("PARADO: travessão fora dos nomes das colunas:\n" + "\n".join(sujas))
             return 1
-        return _subir(prompt, sha_export)
+        return _subir(prompt, args.sobre or sha_export)
     return _subir(EXPORT_PROMPT.read_text(encoding="utf-8"), _sha(COMPILADO.read_text(encoding="utf-8")))
 
 
