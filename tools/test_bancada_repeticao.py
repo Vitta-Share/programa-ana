@@ -63,3 +63,44 @@ def test_linhas_de_etapa_e_de_resumo_de_falha_nao_sao_chamadas():
     assert [tool for _, tool, _, _ in chamadas] == [
         "buscar_paciente_por_cpf", "consultar_especialidades_agenda",
         "consultar_convenios_agenda", "set_labels", "kanban_move_card", "handoff_to_human"]
+
+
+def test_turno_da_fumaca_com_a_gh_fora_nao_acusa_ferramenta_de_dado_repetida():
+    _, pior, _ = e2e.resumir_trace(e2e.chamadas_do_log(log_da_plataforma(*TURNO_3_C13), 597))
+    assert pior == 1
+
+
+def test_duas_etiquetas_no_mesmo_turno_nao_sao_repeticao_de_dado():
+    # C13-1 da rodada 1 da v159 (conversa 626): set_labels uma vez por etiqueta
+    turno = [
+        chamada("5476", "buscar_paciente_por_cpf", {"cpf": "string(11)"}, "2026-11-16T02:35:32.416Z"),
+        linha("5479", "set_labels", {"phase": "labels"}, "2026-11-16T02:36:06.797Z"),
+        chamada("5480", "set_labels", {"add": "array(1)"}, "2026-11-16T02:36:06.811Z"),
+        linha("5481", "set_labels", {"phase": "labels"}, "2026-11-16T02:36:08.084Z"),
+        chamada("5482", "set_labels", {"add": "array(1)"}, "2026-11-16T02:36:08.086Z"),
+    ]
+    _, pior, _ = e2e.resumir_trace(e2e.chamadas_do_log(log_da_plataforma(*turno), 597))
+    assert pior == 1
+
+
+def test_ferramenta_de_dado_chamada_duas_vezes_de_verdade_segue_acusada():
+    # C10-2 da v159 (conversa 642): consultar_exames sem filtro e depois com o exame
+    turno = [
+        chamada("5604", "consultar_exames", {}, "2026-11-16T02:49:37.489Z", thread="1:1:642"),
+        chamada("5605", "consultar_exames", {"exame": "string(26)"}, "2026-11-16T02:49:38.982Z",
+                thread="1:1:642"),
+    ]
+    _, pior, _ = e2e.resumir_trace(e2e.chamadas_do_log(log_da_plataforma(*turno), 642))
+    assert pior == 2
+
+
+def test_aviso_de_repeticao_nao_aponta_o_truncamento_como_causa():
+    aviso = e2e.aviso_de_repeticao(2)
+    assert "repetida 2x" in aviso
+    assert "truncamento" not in aviso and "4.000" not in aviso
+    assert "trace do turno" in aviso
+
+
+def test_sem_repeticao_nao_ha_aviso():
+    assert e2e.aviso_de_repeticao(1) is None
+    assert e2e.aviso_de_repeticao(None) is None

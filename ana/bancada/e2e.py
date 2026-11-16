@@ -72,9 +72,11 @@ PAUSA_ENTRE_CENARIOS_S = 3
 
 # ferramentas de escrituracao da propria plataforma: repetir estas num turno e normal
 # (o fluxo da ouvidoria, por exemplo, chama private_note duas vezes de proposito).
-# A repeticao que interessa e a de tool HTTP de dado, sintoma do teto de 4.000 chars.
+# A repeticao que interessa e a de tool HTTP de dado; a causa se le no trace do turno
+# (issue #55). A 1.59 trocou assign_label por set_labels; o nome velho fica para
+# ler as baterias antigas.
 TOOLS_DE_ESCRITURACAO = {
-    "private_note", "assign_label", "kanban_move_card", "set_custom_attribute",
+    "private_note", "assign_label", "set_labels", "kanban_move_card", "set_custom_attribute",
     "get_current_time", "handoff_to_human", "skip_reply", "search_knowledge",
 }
 
@@ -384,6 +386,16 @@ def resumir_trace(chamadas):
     return nomes, pior, por_turno
 
 
+def aviso_de_repeticao(pior):
+    """A linha de ATENCAO quando uma tool de dado repetiu no turno; None se nao repetiu.
+    Nao aponta causa: resposta cortada, GH lenta, nova tentativa e o proprio modelo
+    deixam a mesma marca, e so o trace do turno separa (issue #55)."""
+    if not pior or pior < 2:
+        return None
+    return (f"ATENCAO: uma tool de dado foi repetida {pior}x no mesmo turno "
+            f"(a causa se le no trace do turno: outputCut, tempo da resposta ou o modelo)")
+
+
 # As etapas do kanban, com o nome exato que a Ana passa ao kanban_move_card (o prompt
 # manda usar o nome exato; duas trazem um travessao, escrito aqui como —).
 ETAPAS = ["NOVO CONTATO", "EM ATENDIMENTO — ANA", "AGUARDANDO CONFIRMAÇÃO",
@@ -600,9 +612,9 @@ def rodar_cenario(canal, trace, cenario, arquivo):
     else:
         emitir("trace", id=cid, tools=tools, pior=pior, por_turno=por_turno)
         print(f"\n  trace: {len(tools)} chamada(s) -> {', '.join(tools) if tools else 'nenhuma'}")
-        if pior and pior > 1:
-            print(f"  ATENCAO: uma tool de dado foi repetida {pior}x no mesmo turno "
-                  f"(assinatura do truncamento de 4.000 chars)")
+        aviso = aviso_de_repeticao(pior)
+        if aviso:
+            print(f"  {aviso}")
 
     # tokens e custo (issue #24): a janela vai do inicio da conversa ate agora
     uso = trace.uso(resultado["inicio"])
