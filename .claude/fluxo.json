@@ -8,6 +8,28 @@
   "humano": "Pedro",
   "ask": "ask-ana",
   "designado_tira_da_fila": false,
+  "pessoas": [
+    {
+      "login": "pedrorezendefig",
+      "nome": "Pedro",
+      "papel": "socio"
+    },
+    {
+      "login": "pedroribbe",
+      "nome": "Ribbe",
+      "papel": "socio"
+    },
+    {
+      "login": "lucassampaioc1",
+      "nome": "Lucas",
+      "papel": "socio"
+    },
+    {
+      "login": "felipemalafaia",
+      "nome": "Felipe",
+      "papel": "diretor"
+    }
+  ],
   "dado_sensivel": "dado de paciente (nome, CPF, telefone, carteirinha, prontuário)",
   "migrations": null,
   "testes": "ferramenta: `uv run --no-project --python \">=3.12\" --with pytest --with pyyaml python -m pytest tools/ -q` e, se tocou uma skill, `python3 tools/lint_skills.py --dir .claude/skills`; app (algo em `ana/`): `python3 ana/prompt/compilar.py` se mexeu no prompt, e a bancada (Skill tool com `bancada`) quando a issue pede prova de comportamento da Ana. Script que fala com o Oracle ou com a Global Health roda só contra a base TST e a homologação",

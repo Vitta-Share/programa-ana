@@ -1,0 +1,72 @@
+# PR do diretor (ADR 0113 do Hospital, decisão 2). Cópia do check do Hospital
+# (pedrorezendefig/hospital-reunioes, issue #2269): o diretor é colaborador da Ana também.
+#
+# O diretor é colaborador do repositório para receber e fechar card, mas não pode
+# mergear. Este check é uma das duas travas: o PR aberto por um login da variável
+# DIRETOR_LOGINS (lista separada por vírgula) reprova enquanto não tem a label
+# `assumido`, que um Desenvolvedor põe quando assume o protótipo (decisão 3). A outra
+# trava é o /setup-diretor, que nega o merge no Claude dele. O check é obrigatório
+# no ruleset da main da Ana desde 26/11/2026.
+#
+# A label só vale se quem a pôs não é diretor: como colaborador, ele também consegue
+# pôr label, e a liberação é da Vitta. O check lê no histórico da issue quem pôs a
+# última `assumido`; posta por um login de DIRETOR_LOGINS, ou sem registro, reprova.
+#
+# Roda de novo quando a label entra ou sai e a cada push. O PR vem do fork, por isso
+# o gatilho é pull_request_target (o evento do fork não recebe a variável e espera
+# aprovação para rodar): o job decide só pelo login do autor, pelas labels do evento
+# e pelo histórico de labels da issue, sem checkout, com o token só lendo issues e
+# sem ler título nem corpo do PR.
+name: PR do diretor
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, labeled, unlabeled]
+
+permissions:
+  issues: read
+
+jobs:
+  assumido:
+    name: PR do diretor assumido
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reprovar o PR do diretor sem a label assumido
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          DIRETOR_LOGINS: ${{ vars.DIRETOR_LOGINS }}
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const autor = pr.user.login.toLowerCase();
+            const diretores = (process.env.DIRETOR_LOGINS || '').split(',')
+              .map((l) => l.trim().toLowerCase())
+              .filter(Boolean);
+            if (!diretores.includes(autor)) {
+              core.info(`#${pr.number}: ${autor} não está em DIRETOR_LOGINS`);
+              return;
+            }
+            if (pr.labels.some((l) => l.name === 'assumido')) {
+              const eventos = await github.paginate(github.rest.issues.listEvents, {
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: pr.number, per_page: 100,
+              });
+              const postas = eventos.filter(
+                (e) => e.event === 'labeled' && e.label && e.label.name === 'assumido',
+              );
+              const ultima = postas[postas.length - 1];
+              const quem = ultima && ultima.actor ? ultima.actor.login.toLowerCase() : '';
+              if (quem && !diretores.includes(quem)) {
+                core.info(`#${pr.number}: PR do diretor assumido por ${quem}`);
+                return;
+              }
+              core.setFailed(
+                `#${pr.number}: a label assumido foi posta por ${quem || 'ninguém registrado'}. ` +
+                'Só um Desenvolvedor da Vitta libera o PR do diretor (ADR 0113).',
+              );
+              return;
+            }
+            core.setFailed(
+              `#${pr.number}: PR do diretor sem a label assumido. ` +
+              'Um Desenvolvedor assume, continua na mesma branch e põe a label (ADR 0113).',
+            );
