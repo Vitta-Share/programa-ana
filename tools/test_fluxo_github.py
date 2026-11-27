@@ -90,7 +90,7 @@ const github = {
   graphql: async () => ({ repository: { issue: { parent: null } } }),
 };
 const context = {
-  repo: { owner: 'pedrorezendefig', repo: 'programa-ana' },
+  repo: { owner: 'Vitta-Share', repo: 'programa-ana' },
   payload: { issue: { number: 7, labels: [{ name: 'in-progress' }, { name: 'fatia:M' }] } },
 };
 const core = { info: () => {} };

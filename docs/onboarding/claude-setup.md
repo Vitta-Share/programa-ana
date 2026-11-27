@@ -38,11 +38,11 @@ uv --version
 
 ## 2. Acesso ao repo
 
-O repo `pedrorezendefig/programa-ana` é privado. Peça ao Pedro para adicionar você como colaborador e aceite o convite que chega por e-mail. Depois:
+O repo `Vitta-Share/programa-ana` é privado. Peça ao Pedro para adicionar você como colaborador e aceite o convite que chega por e-mail. Depois:
 
 ```bash
 gh auth login          # GitHub.com, HTTPS, Login with browser
-gh repo view pedrorezendefig/programa-ana --json viewerPermission --jq .viewerPermission
+gh repo view Vitta-Share/programa-ana --json viewerPermission --jq .viewerPermission
 # esperado: WRITE ou ADMIN
 ```
 

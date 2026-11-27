@@ -1,5 +1,5 @@
 # PR do diretor (ADR 0113 do Hospital, decisão 2). Cópia do check do Hospital
-# (pedrorezendefig/hospital-reunioes, issue #2269): o diretor é colaborador da Ana também.
+# (Vitta-Share/hospital-reunioes, issue #2269): o diretor é colaborador da Ana também.
 #
 # O diretor é colaborador do repositório para receber e fechar card, mas não pode
 # mergear. Este check é uma das duas travas: o PR aberto por um login da variável

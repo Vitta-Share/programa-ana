@@ -20,7 +20,7 @@ RAIZ = Path(__file__).resolve().parent.parent
 SKILL = RAIZ / ".claude" / "skills" / "pegar-issue" / "SKILL.md"
 SCRIPT = RAIZ / ".claude" / "skills" / "pegar-issue" / "scripts" / "arquivo_em_comum.py"
 
-REPO = "pedrorezendefig/programa-ana"
+REPO = "Vitta-Share/programa-ana"
 
 
 def rodar(tmp_path: Path, resposta: dict, *args: str) -> subprocess.CompletedProcess:

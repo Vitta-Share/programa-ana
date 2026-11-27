@@ -6,7 +6,7 @@
     "description": "Programa Ana do Hospital São Matheus: agente de atendimento por WhatsApp na plataforma fazer.ai agents. Sem deploy pelo repositório."
   },
   "git": {
-    "repo": "pedrorezendefig/programa-ana",
+    "repo": "Vitta-Share/programa-ana",
     "branch": "main",
     "root_relative": "ana"
   },

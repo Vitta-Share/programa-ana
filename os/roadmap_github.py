@@ -29,7 +29,7 @@ import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
 
-REPO = "pedrorezendefig/programa-ana"
+REPO = "Vitta-Share/programa-ana"
 GH_TIMEOUT = 40
 CACHE_S = 60
 _CACHE = {"em": 0.0, "resposta": None}

@@ -13,7 +13,7 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[1]
 
-# As labels do fluxo no repo pedrorezendefig/programa-ana depois da migração das
+# As labels do fluxo no repo Vitta-Share/programa-ana depois da migração das
 # antigas (`canal:*` e `radar` viram papéis de triage, ver triage-labels.md).
 # Label nova no GitHub entra aqui e em docs/agents/triage-labels.md juntas.
 LABELS_DO_REPO = {
@@ -41,7 +41,7 @@ def test_triage_labels_lista_as_labels_do_fluxo_com_as_areas_da_ana() -> None:
 def test_onboarding_dev_leva_do_clone_ao_ask_ana_passando_pelo_hook() -> None:
     texto = (RAIZ / "docs/onboarding/dev.md").read_text(encoding="utf-8")
     passos = [
-        "gh repo clone pedrorezendefig/programa-ana",
+        "gh repo clone Vitta-Share/programa-ana",
         "git config core.hooksPath .githooks",
         "/setup-maquina",
         "/ask-ana",
