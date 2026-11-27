@@ -213,7 +213,7 @@ _Avoid_: pôr na camada o que o Retrato já mostra; texto de manual explicando o
 
 **Roadmap do OS**:
 A estrutura do roadmap dentro do Ana OS: **Estágio atual** (tarefas Vn, disciplinadas, espelho do TODO.md), **Pendente** (dívidas conscientes, uma linha cada), a faixa de **Ideias** e a camada de [[propostas]]. Desde 31/jul/2026 (ADR-0008) é renderizado também como [[grafo-de-execucao]] em página própria; segue sem trilho da receita, sem criticidade derivada, com métricas sempre funcionais. Os dados vivem em arquivo JSON versionado (não em HTML); o `/check` reconcilia TODO.md com esse arquivo, preservando propostas e prompts (que não têm espelho narrativo).
-Desde 09/out/2026 (ADR-0031) o roadmap **mora nas Issues do GitHub** (`pedrorezendefig/programa-ana`): o `roadmap.json` morreu, o TODO.md ficou só narrativa, Pendente e Propostas acabaram (o GitHub só tem aberta ou fechada), o estágio é o milestone. Ver [[issue-do-roadmap]], [[area-label]] e [[canal-de-acao]].
+Desde 09/out/2026 (ADR-0031) o roadmap **mora nas Issues do GitHub** (`Vitta-Share/programa-ana`): o `roadmap.json` morreu, o TODO.md ficou só narrativa, Pendente e Propostas acabaram (o GitHub só tem aberta ou fechada), o estágio é o milestone. Ver [[issue-do-roadmap]], [[area-label]] e [[canal-de-acao]].
 _Avoid_: "vista Foco"; trilho da receita, alavanca do dia, esforço P/M/G e criticidade (conceitos do mapa arquivado); reintroduzir mensalidade/KPI; card do n8n no painel; kanban de colunas.
 
 **Grafo de execução**:
@@ -234,7 +234,7 @@ Desde 09/out/2026 (ADR-0031) o canal é a **label `canal:dispare` / `canal:comig
 _Avoid_: canal em item concluído; quarto canal; "aguardando" para o que ninguém pediu ainda (exceção deliberada: a P3 aguarda a VPN, cujo pedido é o card P2).
 
 **Issue do roadmap**:
-Desde 09/out/2026 (ADR-0031), um card do roadmap é uma Issue do repo privado `pedrorezendefig/programa-ana`: aberta é a fazer, fechada é feita; título em linguagem de ação; labels [[area-label]] e [[canal-de-acao]] (mais `radar` ou `in-progress`); corpo com as seções fixas `## Destrava`, `## Gesto`, `## Pronto quando`, `## Prompt`, `## Bloqueada por` (uma linha `#N` por dependência) e `## Nota`, e `Antes: <ID antigo>` na primeira linha das migradas; a ficha de conclusão (Fez, Mudou, Valor) é o comentário `## Ficha` do fechamento; o milestone é o estágio. O ID é o número da issue. O termômetro do estágio é fechadas sobre o total, sem `radar`.
+Desde 09/out/2026 (ADR-0031), um card do roadmap é uma Issue do repo privado `Vitta-Share/programa-ana`: aberta é a fazer, fechada é feita; título em linguagem de ação; labels [[area-label]] e [[canal-de-acao]] (mais `radar` ou `in-progress`); corpo com as seções fixas `## Destrava`, `## Gesto`, `## Pronto quando`, `## Prompt`, `## Bloqueada por` (uma linha `#N` por dependência) e `## Nota`, e `Antes: <ID antigo>` na primeira linha das migradas; a ficha de conclusão (Fez, Mudou, Valor) é o comentário `## Ficha` do fechamento; o milestone é o estágio. O ID é o número da issue. O termômetro do estágio é fechadas sobre o total, sem `radar`.
 _Avoid_: espelho em arquivo (TODO.md, JSON); "bloqueada" escrita à mão (deriva de `## Bloqueada por`); issue aberta sem `canal:`, sem Gesto ou sem Prompt (defeito visível); mudar o estado pela tela do OS.
 
 **Área (label)**:

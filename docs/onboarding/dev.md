@@ -28,7 +28,7 @@ Antes de começar, tenha `git`, `gh`, `jq`, `python3` e o Claude Code instalados
 2. **Clone o repo:**
 
    ```bash
-   gh repo clone pedrorezendefig/programa-ana ~/PedroDev/Ana
+   gh repo clone Vitta-Share/programa-ana ~/PedroDev/Ana
    cd ~/PedroDev/Ana
    ```
 

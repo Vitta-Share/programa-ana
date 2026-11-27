@@ -88,4 +88,4 @@ Criou, renomeou ou apagou skill do pipeline? Atualize este arquivo no mesmo comm
 
 Skill do Matt Pocock (`mattpocock-skills`) entra no pipeline **forkada** em `.claude/skills/`, em pt-BR, apontando `CONTEXT.md` (o upstream renomeou o glossário para `GLOSSARY.md` na v1.3; aqui o nome não muda) e com as fontes e destinos da Ana escritos. O plugin fica como referência de leitura, não como skill ativa do fluxo; o fork sombreia o nome. Instrução operativa que manda rodar outra skill diz "chame a Skill tool com `nome`", nunca `/nome` em prosa (convenção do upstream: o `/nome` solto é o que mais falha em disparar); `/nome` fica só onde um humano escolhe, como neste router.
 
-As ADRs citadas pelo número nas skills do fluxo (0068, 0071 e afins) são do Hospital, de onde o fluxo veio pelo IAE: estão em `pedrorezendefig/hospital-reunioes`, `docs/adr/`. As ADRs da Ana, em `docs/adr/` deste repositório, têm numeração própria.
+As ADRs citadas pelo número nas skills do fluxo (0068, 0071 e afins) são do Hospital, de onde o fluxo veio pelo IAE: estão em `Vitta-Share/hospital-reunioes`, `docs/adr/`. As ADRs da Ana, em `docs/adr/` deste repositório, têm numeração própria.

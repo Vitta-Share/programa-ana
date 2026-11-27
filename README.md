@@ -8,7 +8,7 @@ Repositório de trabalho da VITTA TECH para os agentes de IA do Hospital São Ma
 - As tabelas de negócio (preços de consultas, exames, estimativas de cirurgia, cobertura de convênios) vivem no **NocoDB** e são lidas ao vivo pela Ana via tools HTTP.
 - O estágio de **testes de viabilidade foi concluído em 06/ago/2026**: os 10 cenários principais do Roteiro de cenários passaram (`roadmap/roteiro-cenarios.md`).
 - A integração com o sistema MV do hospital (API Global Health) é o próximo horizonte, ainda em desenho (pendência GH1 no roadmap).
-- O estado vivo do programa mora nas Issues do GitHub (`pedrorezendefig/programa-ana`, ADR-0031); `roadmap/TODO.md` guarda a narrativa (estado e log).
+- O estado vivo do programa mora nas Issues do GitHub (`Vitta-Share/programa-ana`, ADR-0031); `roadmap/TODO.md` guarda a narrativa (estado e log).
 
 ## Como entrar no projeto (passo a passo para sócios)
 
@@ -42,7 +42,7 @@ Siga na ordem. Os passos 1 a 3 não dependem de ninguém; do passo 4 em diante v
 **2. Clonar o repositório**
 
 ```bash
-git clone git@github.com:pedrorezendefig/programa-ana.git
+git clone git@github.com:Vitta-Share/programa-ana.git
 cd programa-ana
 ```
 
